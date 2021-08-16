@@ -183,6 +183,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Option",
+                    "type": "Button",
+                    "id": "a45f0ba6-d731-443f-b786-12ad9dc31023",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -337,6 +345,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d9ff533e-a8fc-4210-b5e9-587a8e891ddb",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GamePad",
+                    "action": "Option",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
