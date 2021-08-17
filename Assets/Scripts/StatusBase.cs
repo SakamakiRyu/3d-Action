@@ -10,13 +10,10 @@ public abstract class StatusBase : MonoBehaviour
     /// <summary>攻撃力</summary>
     [SerializeField] protected int m_atkPower = default;
 
-    /// <summary>
-    /// 攻撃メソッド
-    /// </summary>
-    /// <param name="target"></param>
+    /// <summary>攻撃メソッド</summary>
+    /// <param name="target">攻撃対象</param>
     public virtual void Attack(StatusBase target)
     {
-        Debug.Log("攻撃");
         BattleManager.Instance.DamageCalculator(target, this);
     }
 
@@ -28,10 +25,9 @@ public abstract class StatusBase : MonoBehaviour
         return totalAtkPower;
     }
 
-    /// <summary>ダメージを受けた際の処理</summary>
-    /// <param name="damage"></param>
+    /// <summary>ダメージを受ける</summary>
     public virtual void Damaged(int damage)
     {
-        Debug.Log("ダメージを受ける");
+        m_hp -= damage;
     }
 }

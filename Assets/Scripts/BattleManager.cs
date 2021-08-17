@@ -10,22 +10,23 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
-        if (m_instance == null)
-        {
-            m_instance = this;
-        }
+        m_instance = this;
+    }
+
+    public void Battle(StatusBase target, StatusBase attacker)
+    {
+        DamageCalculator(target, attacker);
     }
 
     /// <summary>
     /// ダメージ計算をし、ダメージ結果を攻撃対象に渡す
     /// </summary>
-    /// <param name="targetStatus">攻撃対象のステータス</param>
-    /// <param name="attacker">攻撃者のステータス</param>
-    /// <returns>計算されたダメージ量</returns>
-    public int DamageCalculator(StatusBase targetStatus, StatusBase attacker)
+    /// <param name="target">攻撃対象</param>
+    /// <param name="attacker">攻撃者</param>
+    public void DamageCalculator(StatusBase target, StatusBase attacker)
     {
         int totalDamage = 0;
         totalDamage += attacker.SendMyAttackPower();
-        return totalDamage;
+        target.Damaged(totalDamage);
     }
 }
