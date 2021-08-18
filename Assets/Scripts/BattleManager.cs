@@ -13,20 +13,21 @@ public class BattleManager : MonoBehaviour
         m_instance = this;
     }
 
-    public void Battle(StatusBase target, StatusBase attacker)
+    /// <summary>戦闘の処理</summary>
+    /// <param name="target">攻撃対象</param>
+    /// <param name="attackpower">攻撃者</param>
+    public void Battle(CharactorBase target, CharactorBase attackpower)
     {
-        DamageCalculator(target, attacker);
+        DamageCalculator(target, attackpower);
     }
 
-    /// <summary>
-    /// ダメージ計算をし、ダメージ結果を攻撃対象に渡す
-    /// </summary>
+    /// <summary>ダメージ計算をし、ダメージ結果を攻撃対象に渡す</summary>
     /// <param name="target">攻撃対象</param>
     /// <param name="attacker">攻撃者</param>
-    public void DamageCalculator(StatusBase target, StatusBase attacker)
+    public void DamageCalculator(CharactorBase target, CharactorBase attacker)
     {
         int totalDamage = 0;
-        totalDamage += attacker.SendMyAttackPower();
+        totalDamage += attacker.SendAtkPow();
         target.Damaged(totalDamage);
     }
 }

@@ -1,39 +1,49 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody), typeof(PlayerInput))]
-public partial class PlayerStateMachine : MonoBehaviour
+/// <summary>Playerクラス</summary>
+[RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]
+public class Player : CharactorBase
 {
-    [SerializeField, Header("移動速度")]
-    int m_moveSpeed = default;
-    [SerializeField, Header("振り向く速度")]
-    int m_turnSpeed = default;
-    [SerializeField, Header("ジャンプ力")]
-    int m_jumpPower = default;
-    [SerializeField, Header("自身の中央(Pivot)から、真下に線を伸ばしオブジェクトが当たっていたら接地しているとみなす。その際に使用する線の長さ")]
+    /// <summary>
+    /// ジャンプ力
+    /// </summary>
+    [SerializeField]
+    float m_jumpPow = default;
+
+    /// <summary>
+    /// 振り向く速度
+    /// </summary>
+    [SerializeField]
+    float m_turnSpeed = default;
+
+    /// <summary>
+    /// 自身の中央(Pivot)から、真下に線を伸ばしオブジェクトが当たったら接地しているとみなす。その際に使用する線の長さ
+    /// </summary>
+    [SerializeField, Tooltip("自身の中央(Pivot)から、真下に線を伸ばしオブジェクトが当たったら接地しているとみなす。その際に使用する線の長さ")]
     float m_lineLength = default;
 
-    InputAction m_move,m_jump;
     Rigidbody m_rb;
-
+    InputAction m_move, m_jump;
+   
     void Start()
     {
         m_rb = GetComponent<Rigidbody>();
         m_move = GetComponent<PlayerInput>().currentActionMap["Move"];
         m_jump = GetComponent<PlayerInput>().currentActionMap["Jump"];
-        OnStart();
     }
 
     void Update()
     {
-        Move();
-        OnUpdate();
+        OnMove();
+        Jump();
     }
 
-    void Move()
+    public override void OnMove()
     {
         Vector2 v2 = m_move.ReadValue<Vector2>();
-        Vector3 dir = Vector3.right * v2.x + Vector3.forward * v2.y;
+        Vector3 dir = Vector3.forward * v2.y + Vector3.right * v2.x;
+
         if (dir == Vector3.zero)
         {
             if (IsGrounded() == true)
@@ -47,8 +57,9 @@ public partial class PlayerStateMachine : MonoBehaviour
         }
         else
         {
-            if (IsGrounded())
+            if (IsGrounded() == true)
             {
+                //  カメラを基準に移動する
                 dir = Camera.main.transform.TransformDirection(dir);
                 dir.y = 0;
 
@@ -60,6 +71,27 @@ public partial class PlayerStateMachine : MonoBehaviour
                 velo.y = m_rb.velocity.y;
                 m_rb.velocity = velo;
             }
+        }
+    }
+
+    public override void Damaged(int damage)
+    {
+        base.Damaged(damage);
+    }
+
+    public override int SendAtkPow()
+    {
+        int atkPower = 0;
+        atkPower += m_atk;
+        return atkPower;
+    }
+
+    /// <summary>飛ぶ</summary>
+    void Jump()
+    {
+        if (m_jump.triggered && IsGrounded())
+        {
+            m_rb.AddForce(Vector3.up * m_jumpPow, ForceMode.Impulse);
         }
     }
 
