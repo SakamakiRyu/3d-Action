@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// 敵クラス
-/// </summary>
+/// <summary>敵クラス</summary>
 public class Enemy : CharactorBase
 {
     /// <summary>系統</summary>

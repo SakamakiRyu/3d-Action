@@ -25,6 +25,7 @@ public class PlayerInspector : Editor
         m_moveSpeedProp = serializedObject.FindProperty("m_moveSpeed");
 
         m_jumpPower = new GUIContent("ジャンプ力");
+        m_jumpPowerProp = serializedObject.FindProperty("m_jumpPower");
 
         m_atkLabel = new GUIContent("攻撃力");
         m_atkProp = serializedObject.FindProperty("m_atk");
@@ -35,8 +36,12 @@ public class PlayerInspector : Editor
         var player = target as Player;
 
         serializedObject.Update();
+
         EditorGUILayout.PropertyField(m_maxHpProp, m_maxHpLabel);
         EditorGUILayout.PropertyField(m_moveSpeedProp, m_moveSpeedLabel);
+        EditorGUILayout.PropertyField(m_jumpPowerProp, m_jumpPower);
         EditorGUILayout.PropertyField(m_atkProp, m_atkLabel);
+
+        serializedObject.ApplyModifiedProperties();
     }
 }

@@ -5,27 +5,38 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]
 public class Player : CharactorBase
 {
-    /// <summary>
-    /// ジャンプ力
-    /// </summary>
-    [SerializeField]
-    float m_jumpPow = default;
+    /// <summary>このクラスのインスタンスがあるかのフラグ</summary>
+    static bool m_isInstance = false;
 
-    /// <summary>
-    /// 振り向く速度
-    /// </summary>
+    /// <summary>ジャンプ力</summary>
+    [SerializeField]
+    float m_jumpPower = default;
+
+    /// <summary>振り向く速度</summary>
     [SerializeField]
     float m_turnSpeed = default;
 
-    /// <summary>
-    /// 自身の中央(Pivot)から、真下に線を伸ばしオブジェクトが当たったら接地しているとみなす。その際に使用する線の長さ
-    /// </summary>
+    /// <summary>自身の中央(Pivot)から、真下に線を伸ばしオブジェクトが当たったら接地しているとみなす。その際に使用する線の長さ</summary>
     [SerializeField, Tooltip("自身の中央(Pivot)から、真下に線を伸ばしオブジェクトが当たったら接地しているとみなす。その際に使用する線の長さ")]
     float m_lineLength = default;
 
     Rigidbody m_rb;
     InputAction m_move, m_jump;
-   
+
+    private void Awake()
+    {
+        if (m_isInstance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            m_isInstance = true;
+            CurrentHp = m_maxHp;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     void Start()
     {
         m_rb = GetComponent<Rigidbody>();
@@ -37,6 +48,7 @@ public class Player : CharactorBase
     {
         OnMove();
         Jump();
+        Debug.Log(CurrentHp);
     }
 
     public override void OnMove()
@@ -79,7 +91,7 @@ public class Player : CharactorBase
         base.Damaged(damage);
     }
 
-    public override int SendAtkPow()
+    public override int SendAtkPower()
     {
         int atkPower = 0;
         atkPower += m_atk;
@@ -91,7 +103,7 @@ public class Player : CharactorBase
     {
         if (m_jump.triggered && IsGrounded())
         {
-            m_rb.AddForce(Vector3.up * m_jumpPow, ForceMode.Impulse);
+            m_rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
         }
     }
 
