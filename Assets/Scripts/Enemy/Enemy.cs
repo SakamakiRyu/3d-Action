@@ -9,7 +9,7 @@ public class Enemy : CharactorBase
     public Breed Breed => m_breed;
     [SerializeField] Breed m_breed = null;
 
-    public override void OnMove()
+    public override void Move()
     {
         throw new System.NotImplementedException();
     }

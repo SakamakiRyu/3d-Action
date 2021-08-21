@@ -200,7 +200,7 @@
                     "path": "<Gamepad>/dpad",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;GamePad",
+                    "groups": "GamePad",
                     "action": "UISelect",
                     "isComposite": false,
                     "isPartOfComposite": false

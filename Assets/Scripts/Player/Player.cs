@@ -46,19 +46,19 @@ public class Player : CharactorBase
 
     void Update()
     {
-        OnMove();
+        Move();
         Jump();
-        Debug.Log(CurrentHp);
     }
 
-    public override void OnMove()
+    public override void Move()
     {
         Vector2 v2 = m_move.ReadValue<Vector2>();
         Vector3 dir = Vector3.forward * v2.y + Vector3.right * v2.x;
+        Debug.Log(v2);
 
         if (dir == Vector3.zero)
         {
-            if (IsGrounded() == true)
+            if (IsGrounded())
             {
                 m_rb.velocity = new Vector3(0f, m_rb.velocity.y, 0f);
             }

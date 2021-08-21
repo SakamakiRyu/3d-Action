@@ -3,14 +3,10 @@
 [CreateAssetMenu(menuName = "ScriptableObject/Breed")]
 public class Breed : ScriptableObject
 {
-    /// <summary>
-    /// 親系統
-    /// </summary>
+    /// <summary>親系統</summary>
     [SerializeField] Breed m_parent = null;
 
-    /// <summary>
-    /// 系統名
-    /// </summary>
+    /// <summary>系統名</summary>
     public string Name
     {
         get
@@ -25,9 +21,7 @@ public class Breed : ScriptableObject
 
     [SerializeField] string m_name = "";
 
-    /// <summary>
-    /// 弱点属性
-    /// </summary>
+    /// <summary>弱点属性</summary>
     public AttributeType Weaknesses
     {
         get
@@ -39,6 +33,7 @@ public class Breed : ScriptableObject
             return m_parent.Weaknesses;
         }
     }
+
     [SerializeField] bool m_overrideWeaknesses = false;
     [SerializeField] AttributeType m_weaknesses = AttributeType.None;
 
