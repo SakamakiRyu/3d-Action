@@ -24,7 +24,11 @@ public class BattleManager
     /// <returns>最終ダメージ</returns>
     public int DamageCalculator(int targetDefPower, int atkPower)
     {
-        int totalDamage = 0;
+        int totalDamage = atkPower - targetDefPower;
+        if (totalDamage < 1)
+        {
+            totalDamage = 1;
+        }
         return totalDamage;
     }
 }

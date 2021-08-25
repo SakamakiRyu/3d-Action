@@ -8,23 +8,33 @@ public class Player : CharactorBase
     /// <summary>このクラスのインスタンスがあるかのフラグ</summary>
     static bool m_isInstance = false;
 
-    /// <summary>ジャンプ力</summary>
-    [SerializeField]
+    [SerializeField, Tooltip("ジャンプ力 (float)")]
     float m_jumpPower = default;
 
-    /// <summary>振り向く速度</summary>
-    [SerializeField]
+    [SerializeField, Tooltip("振り向く速さ (float)")]
     float m_turnSpeed = default;
 
+    [Header("　　　　能力値パラメータ")]
+
+    [SerializeField, Tooltip("HPの上限値 (int)")]
+    int m_maxHp = 100;
+    public int MaxHP => m_maxHp;
+
+    [SerializeField, Tooltip("EPの上限値 (int)")]
+    int m_maxEp = 100;
+    public int MaxEP => m_maxEp;
+
+    [SerializeField, Tooltip("攻撃力 (int)")]
+    int m_atk = default;
+
+    [Header("　　　　UI")]
+    [SerializeField]
+    DisplayHp m_disp = null;
+
     /// <summary>現在のEP</summary>
-    [SerializeField]
-    int m_currentMp = default;
+    public int CurrentEP { get; private set; }
 
-    /// <summary>最大EP</summary>
-    [SerializeField]
-    int m_maxMp = 100;
-
-    /// <summary>地面と接地しているか</summary>
+    /// <summary>接地しているか否か</summary>
     bool m_isGrounded = true;
 
     Rigidbody m_rb;
@@ -39,7 +49,8 @@ public class Player : CharactorBase
         else
         {
             m_isInstance = true;
-            CurrentHp = m_maxHp;
+            CurrentHP = m_maxHp;
+            CurrentEP = m_maxEp;
             DontDestroyOnLoad(gameObject);
         }
     }
@@ -94,7 +105,12 @@ public class Player : CharactorBase
 
     public override void Damaged(int damage)
     {
-        base.Damaged(damage);
+        CurrentHP -= damage;
+        // IsAlive();
+        if (m_disp)
+        {
+            m_disp.OnReflect();
+        }
     }
 
     public override int SendAtkPower()
@@ -113,7 +129,7 @@ public class Player : CharactorBase
         }
     }
 
-    #region 接地判定
+    #region 接地判定 {自分以外の何かに接触していたら接地しているとみなす(仮)}
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject != gameObject)

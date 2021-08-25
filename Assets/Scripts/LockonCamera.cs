@@ -6,16 +6,18 @@ using Cinemachine;
 public class LockonCamera : MonoBehaviour
 {
     /// <summary>VirtualCamera</summary>
-    [SerializeField]
+    [SerializeField, Header("Virtual Camera")]
     CinemachineVirtualCamera m_virtualCam;
 
     /// <summary>FreeLookCam</summary>
-    [SerializeField]
+    [SerializeField, Header("FreeLookCamera")]
     CinemachineFreeLook m_freeCam;
+    [Space]
 
     /// <summary>CameraのFollow対象</summary>
-    [SerializeField]
+    [SerializeField, Tooltip("CameraのFollow対象")]
     Transform m_followTrasform;
+    [Space]
 
     /// <summary>ロックオン対象</summary>
     [SerializeField, Tooltip("ロックオン対象")]
@@ -42,7 +44,6 @@ public class LockonCamera : MonoBehaviour
             m_followTrasform.LookAt(m_lockonTarget);
             if (m_chenge.triggered)
             {
-                Debug.Log("A");
                 ChengeCamera();
             }
         }
