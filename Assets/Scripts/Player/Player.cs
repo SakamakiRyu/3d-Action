@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 /// <summary>Playerクラス</summary>
 [RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]
@@ -27,15 +28,12 @@ public class Player : CharactorBase
     [SerializeField, Tooltip("攻撃力 (int)")]
     int m_atk = default;
 
-    [Header("　　　　UI")]
-    [SerializeField]
-    DisplayHp m_disp = null;
-
     /// <summary>現在のEP</summary>
     public int CurrentEP { get; private set; }
-
     /// <summary>接地しているか否か</summary>
     bool m_isGrounded = true;
+    /// <summary>ダメージを受けた際に起こすEvent</summary>
+    public Action m_damaged;
 
     Rigidbody m_rb;
     InputAction m_move, m_jump;
@@ -49,8 +47,6 @@ public class Player : CharactorBase
         else
         {
             m_isInstance = true;
-            CurrentHP = m_maxHp;
-            CurrentEP = m_maxEp;
             DontDestroyOnLoad(gameObject);
         }
     }
@@ -60,6 +56,8 @@ public class Player : CharactorBase
         m_rb = GetComponent<Rigidbody>();
         m_move = GetComponent<PlayerInput>().currentActionMap["Move"];
         m_jump = GetComponent<PlayerInput>().currentActionMap["Jump"];
+        CurrentHp = m_maxHp;
+        CurrentEP = m_maxEp;
     }
 
     void Update()
@@ -105,12 +103,8 @@ public class Player : CharactorBase
 
     public override void Damaged(int damage)
     {
-        CurrentHP -= damage;
-        // IsAlive();
-        if (m_disp)
-        {
-            m_disp.OnReflect();
-        }
+        CurrentHp -= damage;
+        m_damaged?.Invoke();
     }
 
     public override int SendAtkPower()
@@ -118,6 +112,12 @@ public class Player : CharactorBase
         int atkPower = 0;
         atkPower += m_atk;
         return atkPower;
+    }
+
+    public void SetDate(int hp, int ep)
+    {
+        CurrentHp = hp;
+        CurrentEP = ep;
     }
 
     /// <summary>飛ぶ</summary>

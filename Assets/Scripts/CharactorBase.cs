@@ -4,20 +4,12 @@ using UnityEngine;
 
 public abstract class CharactorBase : MonoBehaviour
 {
-    /// <summary>最大HP</summary>
-    [SerializeField]
-    protected int m_maxHp;
-
     /// <summary>現在のHP</summary>
     public int CurrentHp { get; protected set; }
 
     /// <summary>移動速度</summary>
     [SerializeField]
     protected int m_moveSpeed = default;
-
-    /// <summary>攻撃力</summary>
-    [SerializeField]
-    protected int m_atk = default;
 
     ///<summary>動く</summary>
     public abstract void Move();

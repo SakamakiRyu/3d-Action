@@ -6,6 +6,7 @@ public class Breed : ScriptableObject
     /// <summary>親系統</summary>
     [SerializeField] Breed m_parent = null;
 
+    [SerializeField] string m_name = "";
     /// <summary>系統名</summary>
     public string Name
     {
@@ -19,14 +20,14 @@ public class Breed : ScriptableObject
         }
     }
 
-    [SerializeField] string m_name = "";
+    [SerializeField] AttributeType m_weaknesses = AttributeType.None;
 
     /// <summary>弱点属性</summary>
     public AttributeType Weaknesses
     {
         get
         {
-            if (m_overrideWeaknesses || !m_parent)
+            if (m_IsOverrideWeaknesses || !m_parent)
             {
                 return m_weaknesses;
             }
@@ -34,8 +35,12 @@ public class Breed : ScriptableObject
         }
     }
 
-    [SerializeField] bool m_overrideWeaknesses = false;
-    [SerializeField] AttributeType m_weaknesses = AttributeType.None;
+    [SerializeField] bool m_IsOverrideWeaknesses = false;
+   
+    [SerializeField] public int m_maxHp = 0;
+    public int MaxHp => m_maxHp;
+
+    [SerializeField] bool m_IsOverrideMaxHp = false;
 
 #if UNITY_EDITOR
     private void OnValidate()

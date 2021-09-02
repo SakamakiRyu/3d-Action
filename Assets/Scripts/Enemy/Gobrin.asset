@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 0}
   m_name: "\u30B4\u30D6\u30EA\u30F3"
-  m_overrideWeaknesses: 0
   m_weaknesses: 1
+  m_IsOverrideWeaknesses: 0
+  m_maxHp: 50
+  m_IsOverrideMaxHp: 0

@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_parent: {fileID: 11400000, guid: 90306f002b8f75d4195625934217c448, type: 2}
   m_name: 
-  m_overrideWeaknesses: 0
-  m_weaknesses: 0
+  m_weaknesses: 2
+  m_IsOverrideWeaknesses: 1
+  m_maxHp: 70
+  m_IsOverrideMaxHp: 1
