@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class CharactorBase : MonoBehaviour
 {
     /// <summary>現在のHP</summary>
-    public int CurrentHp { get; protected set; }
+    public int CurrentHP { get; protected set; }
 
     /// <summary>移動速度</summary>
     [SerializeField]
@@ -17,7 +17,7 @@ public abstract class CharactorBase : MonoBehaviour
     /// <summary>ダメージを受ける</summary>
     public virtual void Damaged(int damage)
     {
-        CurrentHp -= damage;
+        CurrentHP -= damage;
         if (IsArive()) { };
     }
 
@@ -39,7 +39,7 @@ public abstract class CharactorBase : MonoBehaviour
     /// <returns>判定結果 true == 生、false == 死 </returns>
     bool IsArive()
     {
-        if (CurrentHp <= 0)
+        if (CurrentHP <= 0)
         {
             return false;
         }

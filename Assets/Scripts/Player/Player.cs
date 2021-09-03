@@ -7,7 +7,7 @@ using System;
 public class Player : CharactorBase
 {
     /// <summary>このクラスのインスタンスがあるかのフラグ</summary>
-    static bool m_isInstance = false;
+    static bool m_IsInstance = false;
 
     [SerializeField, Tooltip("ジャンプ力 (float)")]
     float m_jumpPower = default;
@@ -31,7 +31,7 @@ public class Player : CharactorBase
     /// <summary>現在のEP</summary>
     public int CurrentEP { get; private set; }
     /// <summary>接地しているか否か</summary>
-    bool m_isGrounded = true;
+    bool m_IsGrounded = true;
     /// <summary>ダメージを受けた際に起こすEvent</summary>
     public Action m_damaged;
 
@@ -40,13 +40,13 @@ public class Player : CharactorBase
 
     private void Awake()
     {
-        if (m_isInstance)
+        if (m_IsInstance)
         {
             Destroy(gameObject);
         }
         else
         {
-            m_isInstance = true;
+            m_IsInstance = true;
             DontDestroyOnLoad(gameObject);
         }
     }
@@ -56,7 +56,7 @@ public class Player : CharactorBase
         m_rb = GetComponent<Rigidbody>();
         m_move = GetComponent<PlayerInput>().currentActionMap["Move"];
         m_jump = GetComponent<PlayerInput>().currentActionMap["Jump"];
-        CurrentHp = m_maxHp;
+        CurrentHP = m_maxHp;
         CurrentEP = m_maxEp;
     }
 
@@ -73,7 +73,7 @@ public class Player : CharactorBase
 
         if (dir == Vector3.zero)
         {
-            if (m_isGrounded)
+            if (m_IsGrounded)
             {
                 m_rb.velocity = new Vector3(0f, m_rb.velocity.y, 0f);
             }
@@ -84,7 +84,7 @@ public class Player : CharactorBase
         }
         else
         {
-            if (m_isGrounded)
+            if (m_IsGrounded)
             {
                 //  カメラを基準に移動する
                 dir = Camera.main.transform.TransformDirection(dir);
@@ -103,7 +103,7 @@ public class Player : CharactorBase
 
     public override void Damaged(int damage)
     {
-        CurrentHp -= damage;
+        CurrentHP -= damage;
         m_damaged?.Invoke();
     }
 
@@ -116,14 +116,14 @@ public class Player : CharactorBase
 
     public void SetDate(int hp, int ep)
     {
-        CurrentHp = hp;
+        CurrentHP = hp;
         CurrentEP = ep;
     }
 
     /// <summary>飛ぶ</summary>
     void Jump()
     {
-        if (m_jump.triggered && m_isGrounded)
+        if (m_jump.triggered && m_IsGrounded)
         {
             m_rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
         }
@@ -134,7 +134,7 @@ public class Player : CharactorBase
     {
         if (other.gameObject != gameObject)
         {
-            m_isGrounded = true;
+            m_IsGrounded = true;
             Debug.Log("接地");
         }
     }
@@ -143,7 +143,7 @@ public class Player : CharactorBase
     {
         if (other.gameObject != gameObject)
         {
-            m_isGrounded = false;
+            m_IsGrounded = false;
             Debug.Log("離地");
         }
     }
