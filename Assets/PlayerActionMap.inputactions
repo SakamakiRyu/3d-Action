@@ -240,52 +240,6 @@
                     "isPartOfComposite": false
                 }
             ]
-        },
-        {
-            "name": "UI",
-            "id": "9aebe2a6-7c26-43f0-818c-fbe48cd94e05",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "061a32a8-9a1e-43ff-ac75-e1a87d3d703b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Option",
-                    "type": "Button",
-                    "id": "e1819628-5045-457e-aef4-3344ffda8edf",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "4457429a-8b89-491b-9192-4acf9195d81f",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b34ee486-7ead-4ceb-bed3-fd2ea915aa6d",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "GamePad",
-                    "action": "Option",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
         }
     ],
     "controlSchemes": [
