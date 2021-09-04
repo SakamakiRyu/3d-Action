@@ -32,11 +32,14 @@ public class Player : CharactorBase
     public int CurrentEP { get; private set; }
     /// <summary>接地しているか否か</summary>
     bool m_IsGrounded = true;
+    /// <summary>モーション中か否か</summary>
+    bool m_IsPlayerMotion = false;
     /// <summary>ダメージを受けた際に起こすEvent</summary>
     public Action m_damaged;
 
     Rigidbody m_rb;
-    InputAction m_move, m_jump;
+    InputAction m_move, m_jump, m_attack;
+    Animator m_anim;
 
     private void Awake()
     {
@@ -56,14 +59,26 @@ public class Player : CharactorBase
         m_rb = GetComponent<Rigidbody>();
         m_move = GetComponent<PlayerInput>().currentActionMap["Move"];
         m_jump = GetComponent<PlayerInput>().currentActionMap["Jump"];
-        CurrentHP = m_maxHp;
-        CurrentEP = m_maxEp;
+        m_attack = GetComponent<PlayerInput>().currentActionMap["Attack"];
+        m_anim = GetComponent<Animator>();
+        CurrentHP = m_maxHp; // 後に削除し、ロードする
+        CurrentEP = m_maxEp; // 
     }
 
     void Update()
     {
         Move();
         Jump();
+        Attack();
+    }
+
+    private void LateUpdate()
+    {
+        Vector3 v3 = m_rb.velocity;
+        v3.y = 0;
+        m_anim.SetFloat("Speed", v3.magnitude);
+        m_anim.SetBool("IsGrounded", m_IsGrounded);
+        m_anim.SetBool("IsPlayMotion", m_IsPlayerMotion);
     }
 
     public override void Move()
@@ -84,7 +99,7 @@ public class Player : CharactorBase
         }
         else
         {
-            if (m_IsGrounded)
+            if (m_IsGrounded && !m_IsPlayerMotion) // 地上にいるかつ、モーション中じゃなければ移動する
             {
                 //  カメラを基準に移動する
                 dir = Camera.main.transform.TransformDirection(dir);
@@ -98,6 +113,19 @@ public class Player : CharactorBase
                 velo.y = m_rb.velocity.y;
                 m_rb.velocity = velo;
             }
+        }
+    }
+
+    public override void StateChenger()
+    {
+        if (!m_IsPlayerMotion)
+        {
+            m_IsPlayerMotion = true;
+            m_rb.velocity = Vector3.zero;
+        }
+        else
+        {
+            m_IsPlayerMotion = false;
         }
     }
 
@@ -120,12 +148,20 @@ public class Player : CharactorBase
         CurrentEP = ep;
     }
 
-    /// <summary>飛ぶ</summary>
     void Jump()
     {
         if (m_jump.triggered && m_IsGrounded)
         {
             m_rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
+            m_anim.SetTrigger("Jump");
+        }
+    }
+
+    void Attack()
+    {
+        if (m_attack.triggered && m_IsGrounded)
+        {
+            m_anim.SetTrigger("Attack");
         }
     }
 

@@ -35,6 +35,8 @@ public abstract class CharactorBase : MonoBehaviour
         return totalDefPower;
     }
 
+    public virtual void StateChenger(){}
+
     /// <summary>現在のHP(CurrentHp)で生死判定をする</summary>
     /// <returns>判定結果 true == 生、false == 死 </returns>
     bool IsArive()
