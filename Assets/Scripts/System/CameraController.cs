@@ -29,14 +29,13 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        // PlayerのPlayerInputを参照
-        if (m_pInput)
+        if (!m_pInput)
         {
-            m_chenge = m_pInput.currentActionMap["ChengeCamera"];
+            Debug.LogError($"{gameObject.name}にPlayerInputがアサインされていません");
         }
         else
         {
-            Debug.LogWarning("PlayerInputがアサインされていません");
+            m_chenge = m_pInput.currentActionMap["ChengeCamera"];
         }
     }
 

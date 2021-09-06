@@ -34,11 +34,12 @@ public class Player : CharactorBase
     bool m_IsGrounded = true;
     /// <summary>モーション中か否か</summary>
     bool m_IsPlayerMotion = false;
-    /// <summary>ダメージを受けた際に起こすEvent</summary>
-    public Action m_damaged;
+    /// <summary>Event</summary>
+    public Action m_damaged, m_useSkill;
 
+    Vector2 v2;
     Rigidbody m_rb;
-    InputAction m_move, m_jump, m_attack;
+    InputAction m_move, m_jump, m_dive, m_attack, m_skill;
     Animator m_anim;
 
     private void Awake()
@@ -56,10 +57,7 @@ public class Player : CharactorBase
 
     void Start()
     {
-        m_rb = GetComponent<Rigidbody>();
-        m_move = GetComponent<PlayerInput>().currentActionMap["Move"];
-        m_jump = GetComponent<PlayerInput>().currentActionMap["Jump"];
-        m_attack = GetComponent<PlayerInput>().currentActionMap["Attack"];
+        LoadInputSystem();
         m_anim = GetComponent<Animator>();
         CurrentHP = m_maxHp; // 後に削除し、ロードする
         CurrentEP = m_maxEp; // 
@@ -79,11 +77,24 @@ public class Player : CharactorBase
         m_anim.SetFloat("Speed", v3.magnitude);
         m_anim.SetBool("IsGrounded", m_IsGrounded);
         m_anim.SetBool("IsPlayMotion", m_IsPlayerMotion);
+        m_anim.SetFloat("PlayWalkSpeed", v2.magnitude);
     }
 
+    /// <summary>InputSystemの読み込み</summary>
+    void LoadInputSystem()
+    {
+        m_rb = GetComponent<Rigidbody>();
+        m_move = GetComponent<PlayerInput>().currentActionMap["Move"];
+        m_jump = GetComponent<PlayerInput>().currentActionMap["Jump"];
+        m_dive = GetComponent<PlayerInput>().currentActionMap["Dive"];
+        m_attack = GetComponent<PlayerInput>().currentActionMap["Attack"];
+        m_skill = GetComponent<PlayerInput>().currentActionMap["Skill"];
+    }
+
+    /// <summary>Playerの移動</summary>
     public override void Move()
     {
-        Vector2 v2 = m_move.ReadValue<Vector2>();
+        v2 = m_move.ReadValue<Vector2>();
         Vector3 dir = Vector3.forward * v2.y + Vector3.right * v2.x;
 
         if (dir == Vector3.zero)
@@ -116,7 +127,8 @@ public class Player : CharactorBase
         }
     }
 
-    public override void StateChenger()
+    /// <summary>アクションフラグを切り替える</summary>
+    public void StateChenger()
     {
         if (!m_IsPlayerMotion)
         {
@@ -129,6 +141,14 @@ public class Player : CharactorBase
         }
     }
 
+    /// <summary>足音を鳴らす(AnimationEventで呼ぶ)</summary>
+    public void PlayFootSound()
+    {
+        Debug.Log("Sound");
+    }
+
+    /// <summary>ダメージを受ける</summary>
+    /// <param name="damage">ダメージ量</param>
     public override void Damaged(int damage)
     {
         CurrentHP -= damage;
@@ -153,19 +173,27 @@ public class Player : CharactorBase
         if (m_jump.triggered && m_IsGrounded)
         {
             m_rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
-            m_anim.SetTrigger("Jump");
         }
     }
 
+    /// <summary>攻撃</summary>
     void Attack()
     {
+        if (m_skill.triggered && m_IsGrounded && CurrentEP > 20)
+        {
+            // EPを減らす処理(Slider)
+            CurrentEP -= 20;
+            m_anim.SetTrigger("Skill");
+            return;
+        }
+       
         if (m_attack.triggered && m_IsGrounded)
         {
             m_anim.SetTrigger("Attack");
         }
     }
 
-    #region 接地判定 {自分以外の何かに接触していたら接地しているとみなす(仮)}
+    #region 接地判定 {自分以外の何かしらに接触していたら接地しているとみなす(仮)}
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject != gameObject)
