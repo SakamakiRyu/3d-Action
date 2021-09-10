@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System;
 using Cinemachine;
 
 /// <summary>ロックオンカメラ機能</summary>
@@ -26,7 +27,9 @@ public class CameraController : MonoBehaviour
     CameraType m_currentCamType = CameraType.FreeLookCamera;
 
     [SerializeField, Header("ロックオン可能な敵")]
-    public List<GameObject> m_enemieList = new List<GameObject>();
+    public List<Enemy> m_enemieList = new List<Enemy>();
+
+    public Action AddEnemy;
 
     private void Start()
     {
@@ -61,7 +64,7 @@ public class CameraController : MonoBehaviour
         {
             ChengeCamera();
         }
-       
+
     }
 
     /// <summary>カメラを切り替える</summary>
@@ -96,17 +99,32 @@ public class CameraController : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            GameObject go = other.gameObject;
-            m_enemieList.Add(go);
+            var go = other.GetComponent<Enemy>();
+            AddEnemyList(go);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            GameObject go = other.gameObject;
-            m_enemieList.Remove(go);
+            var go = other.GetComponent<Enemy>();
+            RemoveEnemyList(go);
         }
+    }
+
+    /// <summary>敵のリストの追加処理</summary>
+    void AddEnemyList(Enemy enemy)
+    {
+        m_enemieList.Add(enemy);
+        AddEnemy?.Invoke();
+    }
+
+    /// <summary>敵のリストの削除処理</summary>
+    void RemoveEnemyList(Enemy enemy)
+    {
+        m_enemieList.Remove(enemy);
+        AddEnemy?.Invoke();
     }
 
     /// <summary>カメラタイプ</summary>

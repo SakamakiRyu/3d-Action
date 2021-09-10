@@ -11,7 +11,7 @@ public static class BattleHelper
         int def = target.SendDefPower();
         int atk = attacker.SendAtkPower();
         int totalDamage = DamageCalculator(def, atk);
-        target.Damaged(totalDamage);
+        target.GetDamage(totalDamage);
     }
 
     /// <summary>ダメージ計算をし、ダメージ結果を攻撃対象に渡す</summary>

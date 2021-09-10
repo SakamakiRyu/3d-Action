@@ -15,7 +15,7 @@ public abstract class CharactorBase : MonoBehaviour
     public abstract void Move();
 
     /// <summary>ダメージを受ける</summary>
-    public virtual void Damaged(int damage)
+    public virtual void GetDamage(int damage)
     {
         CurrentHP -= damage;
         if (IsArive()) { };
