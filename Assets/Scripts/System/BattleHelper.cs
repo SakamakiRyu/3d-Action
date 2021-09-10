@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// 戦闘を管理するクラス
+/// 戦闘の計算をするクラス
 /// </summary>
 public static class BattleHelper
 {

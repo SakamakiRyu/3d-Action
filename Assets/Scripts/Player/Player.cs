@@ -6,6 +6,7 @@ using System;
 [RequireComponent(typeof(PlayerInput), typeof(Rigidbody))]
 public class Player : CharactorBase
 {
+    #region メンバー変数
     /// <summary>このクラスのインスタンスがあるかのフラグ</summary>
     static bool m_IsInstance = false;
 
@@ -33,14 +34,16 @@ public class Player : CharactorBase
     /// <summary>接地しているか否か</summary>
     bool m_IsGrounded = true;
     /// <summary>モーション中か否か</summary>
-    bool m_IsPlayerMotion = false;
+    bool m_IsPlayMotion = false;
     /// <summary>Event</summary>
     public Action m_damaged, m_useSkill;
 
     Vector2 v2;
     Rigidbody m_rb;
-    InputAction m_move, m_jump, m_dive, m_attack, m_skill;
+    InputAction m_move, m_jump, m_attack, m_skill;
     Animator m_anim;
+
+    #endregion
 
     private void Awake()
     {
@@ -74,10 +77,13 @@ public class Player : CharactorBase
     {
         Vector3 v3 = m_rb.velocity;
         v3.y = 0;
-        m_anim.SetFloat("Speed", v3.magnitude);
-        m_anim.SetBool("IsGrounded", m_IsGrounded);
-        m_anim.SetBool("IsPlayMotion", m_IsPlayerMotion);
-        m_anim.SetFloat("PlayWalkSpeed", v2.magnitude);
+        if (m_anim)
+        {
+            m_anim.SetFloat("Speed", v3.magnitude);
+            m_anim.SetBool("IsGrounded", m_IsGrounded);
+            m_anim.SetBool("IsPlayMotion", m_IsPlayMotion);
+            m_anim.SetFloat("PlayWalkSpeed", v2.magnitude);
+        }
     }
 
     /// <summary>InputSystemの読み込み</summary>
@@ -86,7 +92,6 @@ public class Player : CharactorBase
         m_rb = GetComponent<Rigidbody>();
         m_move = GetComponent<PlayerInput>().currentActionMap["Move"];
         m_jump = GetComponent<PlayerInput>().currentActionMap["Jump"];
-        m_dive = GetComponent<PlayerInput>().currentActionMap["Dive"];
         m_attack = GetComponent<PlayerInput>().currentActionMap["Attack"];
         m_skill = GetComponent<PlayerInput>().currentActionMap["Skill"];
     }
@@ -110,7 +115,7 @@ public class Player : CharactorBase
         }
         else
         {
-            if (m_IsGrounded && !m_IsPlayerMotion) // 地上にいるかつ、モーション中じゃなければ移動する
+            if (m_IsGrounded && !m_IsPlayMotion) // 地上にいるかつ、モーション中じゃなければ移動する
             {
                 //  カメラを基準に移動する
                 dir = Camera.main.transform.TransformDirection(dir);
@@ -127,22 +132,24 @@ public class Player : CharactorBase
         }
     }
 
+    public enum IsMotion { True, False }
+
     /// <summary>アクションフラグを切り替える</summary>
-    public void StateChenger()
+    public void OnStateChenger(IsMotion isMotion)
     {
-        if (!m_IsPlayerMotion)
+        if (isMotion == IsMotion.True)
         {
-            m_IsPlayerMotion = true;
+            m_IsPlayMotion = true;
             m_rb.velocity = Vector3.zero;
         }
         else
         {
-            m_IsPlayerMotion = false;
+            m_IsPlayMotion = false;
         }
     }
 
     /// <summary>足音を鳴らす(AnimationEventで呼ぶ)</summary>
-    public void PlayFootSound()
+    public void OnPlayFootSound()
     {
         Debug.Log("Sound");
     }
@@ -170,7 +177,7 @@ public class Player : CharactorBase
 
     void Jump()
     {
-        if (m_jump.triggered && m_IsGrounded)
+        if (m_jump.triggered && m_IsGrounded && !m_IsPlayMotion)
         {
             m_rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
         }
@@ -179,24 +186,27 @@ public class Player : CharactorBase
     /// <summary>攻撃</summary>
     void Attack()
     {
-        if (m_skill.triggered && m_IsGrounded && CurrentEP > 20)
+        // 地上に接地しているかつ、静止モーション中じゃない場合にスキルか攻撃が可能になる
+        if (m_IsGrounded && !m_IsPlayMotion)
         {
-            // EPを減らす処理(Slider)
-            CurrentEP -= 20;
-            m_anim.SetTrigger("Skill");
-            return;
-        }
-       
-        if (m_attack.triggered && m_IsGrounded)
-        {
-            m_anim.SetTrigger("Attack");
+            if (m_skill.triggered && CurrentEP > 20)
+            {
+                CurrentEP -= 20;
+                m_anim.SetTrigger("Skill");
+                m_useSkill?.Invoke();
+                return;
+            }
+            if (m_attack.triggered)
+            {
+                m_anim.SetTrigger("Attack1");
+            }
         }
     }
 
     #region 接地判定 {自分以外の何かしらに接触していたら接地しているとみなす(仮)}
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject != gameObject)
+        if (other.gameObject != this.gameObject)
         {
             m_IsGrounded = true;
             Debug.Log("接地");
@@ -205,7 +215,7 @@ public class Player : CharactorBase
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject != gameObject)
+        if (other.gameObject != this.gameObject)
         {
             m_IsGrounded = false;
             Debug.Log("離地");

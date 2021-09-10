@@ -25,7 +25,8 @@ public class CameraController : MonoBehaviour
 
     CameraType m_currentCamType = CameraType.FreeLookCamera;
 
-    List<GameObject> m_enemieList = new List<GameObject>();
+    [SerializeField, Header("ロックオン可能な敵")]
+    public List<GameObject> m_enemieList = new List<GameObject>();
 
     private void Start()
     {
@@ -47,14 +48,20 @@ public class CameraController : MonoBehaviour
 
     void LookAtTarget()
     {
-        if (!m_lockonTarget) return;
+        // ロックオンカメラ有効中に、ロックオン対象が居なくなった場合には、強制敵にFreeLookにする
+        if (m_currentCamType.Equals(CameraType.LockonCamera) && m_enemieList.Count == 0)
+        {
+            ChengeCamera();
+        }
+        if (m_enemieList.Count == 0) return;
+
         // 近くにターゲットがいる場合は、ロックオンカメラを使用可能にする
-        m_lockonCam.LookAt = m_lockonTarget;
         m_followTransform.LookAt(m_lockonTarget);
         if (m_chenge.triggered)
         {
             ChengeCamera();
         }
+       
     }
 
     /// <summary>カメラを切り替える</summary>
@@ -100,7 +107,6 @@ public class CameraController : MonoBehaviour
             GameObject go = other.gameObject;
             m_enemieList.Remove(go);
         }
-        Debug.Log(m_enemieList.Count);
     }
 
     /// <summary>カメラタイプ</summary>
