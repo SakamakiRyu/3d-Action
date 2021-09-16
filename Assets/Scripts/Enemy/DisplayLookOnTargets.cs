@@ -29,7 +29,7 @@ public class DisplayLookOnTargets : MonoBehaviour
     /// <summary>敵のアイコンを設定</summary>
     void ImageSetting()
     {
-        if (m_camController.m_enemieList.Count == 0)
+        if (m_camController.m_targetList.Count == 0)
         {
             foreach (var item in m_images)
             {
@@ -38,9 +38,9 @@ public class DisplayLookOnTargets : MonoBehaviour
             ChengeState();
             return;
         }
-        for (int i = 0; i < m_camController.m_enemieList.Count; i++)
+        for (int i = 0; i < m_camController.m_targetList.Count; i++)
         {
-            m_images[i].sprite = m_camController.m_enemieList[i].Sprite;
+            m_images[i].sprite = m_camController.m_targetList[i].Sprite;
         }
         ChengeState();
     }

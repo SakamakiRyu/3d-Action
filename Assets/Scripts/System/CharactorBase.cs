@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class CharactorBase : MonoBehaviour
 {
@@ -18,7 +16,10 @@ public abstract class CharactorBase : MonoBehaviour
     public virtual void GetDamage(int damage)
     {
         CurrentHP -= damage;
-        if (IsArive()) { };
+        if (IsArive()) 
+        { 
+            Debug.Log("Dead"); 
+        }
     }
 
     /// <summary>自身の攻撃力を送る</summary>

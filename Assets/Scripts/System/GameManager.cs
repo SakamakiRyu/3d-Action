@@ -12,11 +12,8 @@ public class GameManager : Singleton<GameManager>
         Game,
     }
 
-    private void Update()
+    public void LoadScene(string sceneName)
     {
-        if (m_state == GameState.Title)
-        {
-            SceneManager.LoadScene("Game");
-        }
+        SceneManager.LoadScene(sceneName.ToString());
     }
 }

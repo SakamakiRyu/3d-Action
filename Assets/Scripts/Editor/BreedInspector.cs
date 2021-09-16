@@ -7,8 +7,14 @@ public class BreedInspector : Editor
     GUIContent parentLabel;
     SerializedProperty parentProp;
 
+    GUIContent imageLabel;
+    SerializedProperty imageProp;
+
     GUIContent maxHpLabel;
     SerializedProperty maxHpProp;
+
+    GUIContent atkPowerLabel;
+    SerializedProperty atkPowerProp;
 
     GUIContent overrideMaxHpLabel;
     SerializedProperty overrideMaxHpProp;
@@ -27,9 +33,14 @@ public class BreedInspector : Editor
         parentLabel = new GUIContent("親系統");
         parentProp = serializedObject.FindProperty("m_parent");
 
+        imageLabel = new GUIContent("アイコン画像");
+        imageProp = serializedObject.FindProperty("m_sprite");
 
         maxHpLabel = new GUIContent("最大HP");
         maxHpProp = serializedObject.FindProperty("m_maxHp");
+
+        atkPowerLabel = new GUIContent("攻撃力");
+        atkPowerProp = serializedObject.FindProperty("m_atkPower");
 
         overrideMaxHpLabel = new GUIContent("最大HPを上書き");
         overrideMaxHpProp = serializedObject.FindProperty("m_IsOverrideMaxHp");
@@ -64,6 +75,9 @@ public class BreedInspector : Editor
             }
         }
 
+        EditorGUILayout.PropertyField(imageProp, imageLabel);
+        EditorGUILayout.PropertyField(atkPowerProp, atkPowerLabel);
+
         Breed parent = parentProp.objectReferenceValue as Breed;
         if (!parent)
         {
@@ -76,7 +90,6 @@ public class BreedInspector : Editor
         {
             // 親系統の系統名を表示する
             EditorGUILayout.LabelField($"{nameLabel.text} : {parent.Name}");
-
             EditorGUILayout.Space();
 
             // 弱点武器を上書きするか

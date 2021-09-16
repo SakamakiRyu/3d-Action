@@ -7,8 +7,15 @@ using System;
 public class Player : CharactorBase
 {
     #region メンバー変数
-    /// <summary>このクラスのインスタンスがあるかのフラグ</summary>
-    static bool m_IsInstance = false;
+    [Header("接地判定")]
+
+    [SerializeField, Tooltip("接地判定に使う球を配置する場所")]
+    Transform m_isGroundedTrasnform = default;
+
+    [SerializeField, Tooltip("接地判定に使う球の大きさ")]
+    float m_isGroundedBoxSize = default;
+
+    [Header("内部データ")]
 
     [SerializeField, Tooltip("ジャンプ力 (float)")]
     float m_jumpPower = default;
@@ -31,32 +38,17 @@ public class Player : CharactorBase
 
     /// <summary>現在のEP</summary>
     public int CurrentEP { get; private set; }
-    /// <summary>接地しているか否か</summary>
-    bool m_IsGrounded = true;
     /// <summary>モーション中か否か</summary>
     bool m_IsPlayMotion = false;
     /// <summary>Event</summary>
-    public Action m_damaged, m_useSkill;
+    public Action Damaged, UseSkill;
 
     Vector2 v2;
     Rigidbody m_rb;
-    InputAction m_move, m_jump, m_attack, m_skill;
+    InputAction m_move, m_jump, m_attack1, m_attack2, m_skill;
     Animator m_anim;
 
     #endregion
-
-    private void Awake()
-    {
-        if (m_IsInstance)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            m_IsInstance = true;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
 
     void Start()
     {
@@ -71,6 +63,7 @@ public class Player : CharactorBase
         Move();
         Jump();
         Attack();
+        IsGrounded();
     }
 
     private void LateUpdate()
@@ -80,8 +73,7 @@ public class Player : CharactorBase
         if (m_anim)
         {
             m_anim.SetFloat("Speed", v3.magnitude);
-            m_anim.SetBool("IsGrounded", m_IsGrounded);
-            m_anim.SetBool("IsPlayMotion", m_IsPlayMotion);
+            m_anim.SetBool("IsGrounded", !IsGrounded());
             m_anim.SetFloat("PlayWalkSpeed", v2.magnitude);
         }
     }
@@ -92,7 +84,8 @@ public class Player : CharactorBase
         m_rb = GetComponent<Rigidbody>();
         m_move = GetComponent<PlayerInput>().currentActionMap["Move"];
         m_jump = GetComponent<PlayerInput>().currentActionMap["Jump"];
-        m_attack = GetComponent<PlayerInput>().currentActionMap["Attack"];
+        m_attack1 = GetComponent<PlayerInput>().currentActionMap["Attack1"];
+        m_attack2 = GetComponent<PlayerInput>().currentActionMap["Attack2"];
         m_skill = GetComponent<PlayerInput>().currentActionMap["Skill"];
     }
 
@@ -104,18 +97,11 @@ public class Player : CharactorBase
 
         if (dir == Vector3.zero)
         {
-            if (m_IsGrounded)
-            {
-                m_rb.velocity = new Vector3(0f, m_rb.velocity.y, 0f);
-            }
-            else
-            {
-                m_rb.velocity = new Vector3(m_rb.velocity.x, m_rb.velocity.y, m_rb.velocity.z);
-            }
+            m_rb.velocity = !IsGrounded() ? new Vector3(0f, m_rb.velocity.y, 0f) : m_rb.velocity = new Vector3(m_rb.velocity.x, m_rb.velocity.y, m_rb.velocity.z);
         }
         else
         {
-            if (m_IsGrounded && !m_IsPlayMotion) // 地上にいるかつ、モーション中じゃなければ移動する
+            if (!IsGrounded() && !m_IsPlayMotion) // 地上にいるかつ、モーション中じゃなければ移動する
             {
                 //  カメラを基準に移動する
                 dir = Camera.main.transform.TransformDirection(dir);
@@ -151,15 +137,14 @@ public class Player : CharactorBase
     /// <summary>足音を鳴らす(AnimationEventで呼ぶ)</summary>
     public void OnPlayFootSound()
     {
-        Debug.Log("Sound");
+
     }
 
     /// <summary>ダメージを受ける</summary>
-    /// <param name="damage">ダメージ量</param>
-    public override void Damaged(int damage)
+    public override void GetDamage(int damage)
     {
         CurrentHP -= damage;
-        m_damaged?.Invoke();
+        Damaged?.Invoke();
     }
 
     public override int SendAtkPower()
@@ -169,57 +154,52 @@ public class Player : CharactorBase
         return atkPower;
     }
 
-    public void SetDate(int hp, int ep)
-    {
-        CurrentHP = hp;
-        CurrentEP = ep;
-    }
-
     void Jump()
     {
-        if (m_jump.triggered && m_IsGrounded && !m_IsPlayMotion)
+        if (m_jump.triggered && !IsGrounded() && !m_IsPlayMotion)
         {
             m_rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
         }
     }
 
-    /// <summary>攻撃</summary>
     void Attack()
     {
         // 地上に接地しているかつ、静止モーション中じゃない場合にスキルか攻撃が可能になる
-        if (m_IsGrounded && !m_IsPlayMotion)
+        if (!IsGrounded())
         {
-            if (m_skill.triggered && CurrentEP > 20)
+            if (m_skill.triggered && CurrentEP > 20 && !m_IsPlayMotion)
             {
                 CurrentEP -= 20;
                 m_anim.SetTrigger("Skill");
-                m_useSkill?.Invoke();
+                UseSkill?.Invoke();
                 return;
             }
-            if (m_attack.triggered)
+            if (m_attack1.triggered)
             {
                 m_anim.SetTrigger("Attack1");
             }
+            if (m_attack2.triggered)
+            {
+                m_anim.SetTrigger("Attack2");
+            }
         }
     }
 
-    #region 接地判定 {自分以外の何かしらに接触していたら接地しているとみなす(仮)}
-    private void OnTriggerStay(Collider other)
+    bool IsGrounded()
     {
-        if (other.gameObject != this.gameObject)
-        {
-            m_IsGrounded = true;
-            Debug.Log("接地");
-        }
+        bool isGrounded = Physics.BoxCast(m_isGroundedTrasnform.position, Vector3.one * m_isGroundedBoxSize, Vector3.down);
+        return isGrounded;
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnDrawGizmos()
     {
-        if (other.gameObject != this.gameObject)
-        {
-            m_IsGrounded = false;
-            Debug.Log("離地");
-        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(m_isGroundedTrasnform.position, Vector3.one * m_isGroundedBoxSize);
     }
-    #endregion
+
+    public void SetDate(int hp, int ep)
+    {
+        CurrentHP = hp;
+        CurrentEP = ep;
+    }
 }

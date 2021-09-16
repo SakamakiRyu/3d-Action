@@ -6,6 +6,11 @@ public class Breed : ScriptableObject
     /// <summary>親系統</summary>
     [SerializeField] Breed m_parent = null;
 
+    /// <summary>敵のアイコン</summary>
+    [SerializeField] Sprite m_sprite = default;
+
+    public Sprite Sprite => m_sprite;
+
     [SerializeField] string m_name = "";
     /// <summary>系統名</summary>
     public string Name
@@ -36,9 +41,12 @@ public class Breed : ScriptableObject
     }
 
     [SerializeField] bool m_IsOverrideWeaknesses = false;
-   
-    [SerializeField] public int m_maxHp = 0;
+
+    [SerializeField] int m_maxHp = default;
     public int MaxHp => m_maxHp;
+
+    [SerializeField] int m_atkPower = default;
+    public int AtkPower => m_atkPower;
 
     [SerializeField] bool m_IsOverrideMaxHp = false;
 
