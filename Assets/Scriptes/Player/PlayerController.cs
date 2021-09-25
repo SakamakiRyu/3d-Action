@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 /// <summary>InputSystemの入力でHumanoidModelを動かすコンポーネント</summary>
 /// 移動はカメラを基準にの相対的な移動をする。(常にカメラ前方が正面になる)
 [RequireComponent(typeof(Rigidbody), typeof(AudioSource))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IGameEnd
 {
     PlayerController() { }
 
@@ -14,30 +14,42 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform m_isGroundedTrasnform = default;
     [SerializeField] Collider m_attackCollider = default;
     [SerializeField] TrailRenderer m_trail = default;
+    [SerializeField] int m_maxHP = default;
     [SerializeField] float m_moveSpeed = default;
     [SerializeField] float m_turnSpeed = default;
     [SerializeField] float m_jumpPower = default;
 
-    bool IsGrounded = default;
+    int m_currentHP = default;
+    bool m_isGrounded = default;
+    bool m_isGameEnd = false;
+    public bool IsArive => m_currentHP > 0;
+
+    readonly int m_hashDamaged = Animator.StringToHash("Damaged");
 
     InputAction m_move, m_attack, m_jump;
     Rigidbody m_rb;
-    Animator m_anim;
+    Animator m_animator;
     AudioSource m_source;
     Vector2 m_v2;
 
     #endregion 
 
+    private void Awake()
+    {
+        m_currentHP = m_maxHP;
+    }
+
     void Start()
     {
         m_rb = GetComponent<Rigidbody>();
-        m_anim = GetComponent<Animator>();
+        m_animator = GetComponent<Animator>();
         m_source = GetComponent<AudioSource>();
         SetInput();
     }
 
     void Update()
     {
+        if (!IsArive || m_isGameEnd) return;
         Move();
         Jump();
         Attack();
@@ -47,16 +59,16 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 v3 = m_rb.velocity;
         v3.y = 0;
-        m_anim.SetFloat("Speed", v3.magnitude);
-        m_anim.SetFloat("AnimationSpeed", m_v2.magnitude);
-        m_anim.SetBool("IsGrounded", IsGrounded);
+        m_animator.SetFloat("Speed", v3.magnitude);
+        m_animator.SetFloat("AnimationSpeed", m_v2.magnitude);
+        m_animator.SetBool("IsGrounded", m_isGrounded);
     }
 
     void Attack()
     {
         if (m_attack.triggered)
         {
-            m_anim.SetTrigger("Attack1");
+            m_animator.SetTrigger("Attack1");
         }
     }
 
@@ -94,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
         if (dir == Vector3.zero)
         {
-            if (IsGrounded)
+            if (m_isGrounded)
             {
                 m_rb.velocity = new Vector3(0f, m_rb.velocity.y, 0f);
             }
@@ -106,7 +118,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             // 地面と接地していれば移動可能
-            if (IsGrounded)
+            if (m_isGrounded)
             {
                 //  カメラを基準に移動する
                 dir = Camera.main.transform.TransformDirection(dir);
@@ -126,7 +138,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>ジャンプ</summary>
     void Jump()
     {
-        if (IsGrounded && m_jump.triggered)
+        if (m_isGrounded && m_jump.triggered)
         {
             m_rb.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
         }
@@ -136,8 +148,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!other.CompareTag("Player") && !other.CompareTag("MainCamera"))
         {
-            IsGrounded = true;
-            Debug.Log($"{other.name}と接地");
+            m_isGrounded = true;
         }
     }
 
@@ -145,8 +156,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!other.CompareTag("Player") && !other.CompareTag("MainCamera"))
         {
-            IsGrounded = false;
-            Debug.Log("離地");
+            m_isGrounded = false;
         }
     }
 
@@ -162,7 +172,18 @@ public class PlayerController : MonoBehaviour
 
     public void GetDamage()
     {
+        // Animationをさせない為
+        if (!IsArive) return;
 
+        m_currentHP--;
+        if (!IsArive)
+        {
+            m_animator.SetTrigger("Die");
+            m_rb.isKinematic = true;
+            QuestManager.Instance.IsGameover = true;
+            return;
+        }
+        m_animator.Play(m_hashDamaged);
     }
 
 #if UNITY_EDITOR
@@ -174,6 +195,16 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
 
+    }
+
+    public void Register()
+    {
+        QuestManager.Instance.GameEnd += OnEnd;
+    }
+
+    public void OnEnd()
+    {
+        m_isGameEnd = true;
     }
 #endif
 }

@@ -2,7 +2,8 @@
 using UnityEngine.AI;
 
 // 短気制作かつ、個人製作の為オブジェクト指向は考慮していない
-public class EnemyController : MonoBehaviour, IGameClear
+[RequireComponent(typeof(AudioSource))]
+public class EnemyController : MonoBehaviour, IGameEnd
 {
     EnemyController() { }
     /// <summary>追跡対象</summary>
@@ -14,6 +15,7 @@ public class EnemyController : MonoBehaviour, IGameClear
     /// <summary>攻撃の当たり判定</summary>
     [SerializeField] Collider m_attackCollider = default;
 
+    public bool IsGameEnd { get; private set; } = false;
     public bool IsDead => m_currentHP < 1;
 
     int m_currentHP = default;
@@ -22,6 +24,7 @@ public class EnemyController : MonoBehaviour, IGameClear
     readonly int m_hashDizzy = Animator.StringToHash("Dizzy");
     readonly int m_hashDie = Animator.StringToHash("Die");
 
+    AudioSource m_source;
     Animator m_animator;
     NavMeshAgent m_nav;
 
@@ -33,12 +36,15 @@ public class EnemyController : MonoBehaviour, IGameClear
     private void Start()
     {
         Register();
+        m_source = GetComponent<AudioSource>();
         m_animator = GetComponent<Animator>();
         m_nav = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
+        if (IsGameEnd) return;
+
         m_distance = Vector3.Distance(this.transform.position, m_targetTransform.position);
         // 死んでいたら何もしない
         if (IsDead) return;
@@ -54,6 +60,11 @@ public class EnemyController : MonoBehaviour, IGameClear
 
     private void LateUpdate()
     {
+        if (IsGameEnd)
+        {
+            m_animator.SetFloat("Distance", 100);
+            return;
+        }
         m_animator.SetFloat("Speed", m_nav.velocity.magnitude);
         m_animator.SetFloat("Distance", m_distance);
     }
@@ -82,6 +93,11 @@ public class EnemyController : MonoBehaviour, IGameClear
         m_animator.Play(m_hashDizzy);
     }
 
+    public void OnPlaySound(AudioClip clip)
+    {
+        m_source.PlayOneShot(clip);
+    }
+
     public void BeginAttack()
     {
         m_attackCollider.enabled = true;
@@ -97,19 +113,20 @@ public class EnemyController : MonoBehaviour, IGameClear
         Destroy(this.gameObject);
     }
 
+    public void Register()
+    {
+        QuestManager.Instance.GameEnd += OnEnd;
+    }
+
     private void OnDestroy()
     {
-        QuestManager.Instance.GameClear -= OnClear;
+        QuestManager.Instance.GameEnd -= OnEnd;
         QuestManager.Instance.GameUpdate();
     }
 
-    public void Register()
-    {
-        QuestManager.Instance.GameClear += OnClear;
-    }
-
-    public void OnClear()
+    public void OnEnd()
     {
         m_nav.isStopped = true;
+        IsGameEnd = true;
     }
 }

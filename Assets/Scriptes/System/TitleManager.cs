@@ -6,13 +6,14 @@ using System.Linq;
 
 public class TitleManager : MonoBehaviour
 {
-    [SerializeField]
-    float m_derayTime = default;
-
+    [SerializeField] float m_derayTime = default;
+    [SerializeField] AudioClip m_pressSE = default;
     Image[] m_images = default;
+    AudioSource m_source = default;
 
     private void Start()
     {
+        m_source = GetComponent<AudioSource>();
         var images = GameObject.FindGameObjectsWithTag("SlimeSprites");
         m_images = new Image[images.Length];
         int index = 0;
@@ -26,6 +27,7 @@ public class TitleManager : MonoBehaviour
 
     public void GameStart(string sceneName)
     {
+        m_source.PlayOneShot(m_pressSE);
         StartCoroutine(Fade(m_images, sceneName));
     }
 

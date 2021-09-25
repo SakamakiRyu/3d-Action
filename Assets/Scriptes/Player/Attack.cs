@@ -16,12 +16,19 @@ public class Attack : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            m_hitEffect.Play();
+            if (m_hitEffect)
+            {
+                m_hitEffect.Play();
+            }
             m_source.PlayOneShot(m_hitSE);
             other.GetComponent<EnemyController>().GetDamage();
         }
         if (other.CompareTag("Player"))
         {
+            if (m_hitEffect)
+            {
+                m_hitEffect.Play();
+            }
             m_source.PlayOneShot(m_hitSE);
             other.GetComponent<PlayerController>().GetDamage();
         }

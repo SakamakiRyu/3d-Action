@@ -1,7 +1,7 @@
 ﻿using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera m_lockonCam;
     [SerializeField] CinemachineFreeLook m_freeCam;
     [SerializeField] Transform m_followTransform;
-    /// <summary>ターゲットする範囲の半径</summary>
+    [SerializeField] Image m_crosshairImage = default;
     [SerializeField] float m_radius = default;
     SphereCollider m_coll;
     InputAction m_chenge, m_chengeUP, m_chengeDown;
@@ -51,6 +51,7 @@ public class CameraController : MonoBehaviour
         switch (m_currentCamType)
         {
             case CameraType.FreeLookCamera:
+                m_crosshairImage.enabled = true;
                 m_lockonCam.Priority = m_freeCam.Priority + 1;
                 m_freeCam.Priority = 0;
                 m_lockonCam.Priority = 1;
@@ -59,6 +60,7 @@ public class CameraController : MonoBehaviour
                 m_currentCamType = CameraType.LockonCamera;
                 break;
             case CameraType.LockonCamera:
+                m_crosshairImage.enabled = false;
                 m_targetIndex = 0;
                 m_targetID = 0;
                 SortingTarget();
