@@ -86,7 +86,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7292f2c0b384d58489dd8cc9367548b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_player: {fileID: 0}
   m_hitEffect: {fileID: 7678316565614318182}
+  m_hitSE: {fileID: 0}
 --- !u!1 &3563456030146120386
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,9 +205,11 @@ MonoBehaviour:
   m_isGroundedTrasnform: {fileID: 5870652895823776220}
   m_attackCollider: {fileID: 6036819723879020069}
   m_trail: {fileID: 7404498230644595269}
+  m_maxHP: 0
   m_moveSpeed: 5
   m_turnSpeed: 10
   m_jumpPower: 5
+  m_stopTime: 0
 --- !u!95 &3563456030136613038
 Animator:
   serializedVersion: 3
@@ -2078,19 +2082,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fc9c3be43ccf0d04da42bfe4759dfbb0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.66666764
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fc9c3be43ccf0d04da42bfe4759dfbb0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.005944976
+      value: -0.009
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fc9c3be43ccf0d04da42bfe4759dfbb0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0013741008
+      value: -0.002
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fc9c3be43ccf0d04da42bfe4759dfbb0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0010828405
+      value: 0.052
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fc9c3be43ccf0d04da42bfe4759dfbb0, type: 3}
       propertyPath: m_LocalRotation.w

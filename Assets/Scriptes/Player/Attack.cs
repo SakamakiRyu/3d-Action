@@ -3,6 +3,7 @@
 [RequireComponent(typeof(AudioSource))]
 public class Attack : MonoBehaviour
 {
+    [SerializeField] PlayerController m_player;
     [SerializeField] ParticleSystem m_hitEffect = default;
     [SerializeField] AudioClip m_hitSE = default;
     AudioSource m_source;

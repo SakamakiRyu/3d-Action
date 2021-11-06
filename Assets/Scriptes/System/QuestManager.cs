@@ -35,6 +35,7 @@ public class QuestManager : MonoBehaviour
 
     public bool IsGameover { get; set; } = false;
     bool m_isColorChenge = false;
+ 
 
     private void Awake()
     {
@@ -47,7 +48,7 @@ public class QuestManager : MonoBehaviour
         {
             GameEnd?.Invoke();
             m_contollerImage.enabled = false;
-            StartCoroutine(TItleLoad());
+            StartCoroutine(TitleLoad());
             return;
         }
 
@@ -59,7 +60,7 @@ public class QuestManager : MonoBehaviour
             {
                 m_clearBackGroundImage.DOColor(new Color(1, 1, 1, 1), 4f);
             }
-            StartCoroutine(TItleLoad());
+            StartCoroutine(TitleLoad());
             m_isColorChenge = true;
             GameEnd?.Invoke();
         }
@@ -70,7 +71,7 @@ public class QuestManager : MonoBehaviour
         m_currentDefeatCount++;
     }
 
-    IEnumerator TItleLoad()
+    IEnumerator TitleLoad()
     {
         yield return new WaitForSeconds(5f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
