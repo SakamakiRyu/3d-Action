@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-// 短気制作かつ、個人製作の為オブジェクト指向は考慮していない
+/// <summary>
+/// 敵クラス。経路探索はNavmeshで行う
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
 public class EnemyController : MonoBehaviour, IGameEnd
 {
