@@ -2,17 +2,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// InputSystemの入力でHumanoidModelを動かすコンポーネント
-/// 移動はカメラを基準にの相対的な移動をする。(常にカメラ前方が正面になる)
+/// Playerの制御を行うクラス
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerBehaviour : MonoBehaviour
+public class PlayerBehaviour : MonoBehaviour, IDamageable
 {
     #region Define
     public enum State
     {
         None,
-        Move,
+        InGame,
         Death
     }
     #endregion
@@ -22,10 +21,10 @@ public class PlayerBehaviour : MonoBehaviour
     private PlayerInput _Input;
 
     [SerializeField]
-    private Rigidbody _Rigidbody;
+    private Animator _Animator;
 
     [SerializeField]
-    private Animator _Animator;
+    private Rigidbody _Rigidbody;
 
     [SerializeField]
     private float _MoveSpeed;
@@ -37,18 +36,27 @@ public class PlayerBehaviour : MonoBehaviour
     private float _TurnSpeed;
 
     [SerializeField]
+    private Transform _LineStart;
+
+    [SerializeField]
     private float _LineLength;
 
+    [SerializeField]
+    private int _MaxHP;
     #endregion
 
     #region Private Field
     /// <summary>現在のステート</summary>
     private State _CurrentState;
+    /// <summary>現在のHP</summary>
+    private int _CurrentHP;
     #endregion
 
     #region Property
     /// <summary>現在のステートを取得</summary>
     public State GetCurrentState => _CurrentState;
+    /// <summary>現在のHPを取得</summary>
+    public int GetCurrentHP => _CurrentHP;
     #endregion
 
     #region Input Action
@@ -58,22 +66,35 @@ public class PlayerBehaviour : MonoBehaviour
     #region Unity Function
     private void Awake()
     {
+        GetInputActions();
         ChengeState(State.None);
     }
 
     private void Start()
     {
-        GetInputActions();
-        ChengeState(State.Move);
+        ChengeState(State.InGame);
     }
 
     private void Update()
     {
-        StateUpdate();
+        UpdateState();
+    }
+
+    private void LateUpdate()
+    {
+        SendToParametarsForAnimator();
     }
     #endregion
 
     #region Public Function
+    public void AddDamage(int damage)
+    {
+        var after = _CurrentHP - damage;
+
+        if (after <= 0) { ChengeState(State.Death); }
+
+        _CurrentHP = after;
+    }
     #endregion
 
     #region Private Function
@@ -85,12 +106,13 @@ public class PlayerBehaviour : MonoBehaviour
     {
         var prev = _CurrentState;
 
+        // ステートの変更時にしたい処理
         switch (next)
         {
             case State.None:
                 { }
                 break;
-            case State.Move:
+            case State.InGame:
                 { }
                 break;
             case State.Death:
@@ -104,14 +126,14 @@ public class PlayerBehaviour : MonoBehaviour
     /// <summary>
     /// ステート毎に毎フレーム呼ばれる処理
     /// </summary>
-    private void StateUpdate()
+    private void UpdateState()
     {
         switch (_CurrentState)
         {
             case State.None:
                 { }
                 break;
-            case State.Move:
+            case State.InGame:
                 {
                     Move();
                     Jump();
@@ -128,7 +150,7 @@ public class PlayerBehaviour : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if (!_Rigidbody) return;
+        if (_Rigidbody is null) return;
 
         // 移動の入力を取得
         var v2 = _Move.ReadValue<Vector2>();
@@ -152,16 +174,17 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (checkGround)
             {
-                // 入力をカメラを基準に補正する
+                // 移動の入力をカメラを基準に補正する
                 dir = Camera.main.transform.TransformDirection(dir);
                 dir.y = 0;
 
                 // 入力方向にObjectの正面を滑らかに回転させる
                 var targetRotation = Quaternion.LookRotation(dir);
-                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, _TurnSpeed);
+                this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, Time.deltaTime * _TurnSpeed);
 
                 // 速度ベクトルを生成し設定
-                velo = dir * _MoveSpeed;
+                velo = dir.normalized * _MoveSpeed;
+                velo.y = _Rigidbody.velocity.y;
                 _Rigidbody.velocity = velo;
             }
         }
@@ -172,13 +195,13 @@ public class PlayerBehaviour : MonoBehaviour
     /// </summary>
     private void Jump()
     {
-        if (!_Rigidbody) return;
+        if (_Rigidbody is null) return;
 
         if (_Jump.triggered)
         {
             // 速度ベクトルを取得
             var velo = _Rigidbody.velocity;
-            // y方向のベクトルを変更(ジャンプ)
+            // y軸方向のベクトルを変更(ジャンプ)
             velo.y = _JumpPower;
             // ベクトルの設定
             _Rigidbody.velocity = velo;
@@ -191,21 +214,44 @@ public class PlayerBehaviour : MonoBehaviour
     /// <returns>判定結果</returns>
     private bool CheckGround()
     {
+        // 衝突判定を取るレイヤーを指定
         var layer = LayerMask.GetMask("Ground");
-
-        var check = Physics.Raycast(this.transform.position, Vector3.down, _LineLength, layer);
+        // 判定に使うRayの始点
+        var start = _LineStart.position;
+        // 判定に使うRayの終点
+        var end = start + Vector3.down * _LineLength;
+        // layerに指定したObjectとRayが衝突したら、接地しているとみなす。(当たってない場合はFalseが返ってくる)
+        var check = Physics.Linecast(start, end, layer);
 
         if (check) return true;
         return false;
     }
 
     /// <summary>
-    /// インプットアクションでの入力を取得
+    /// インプットアクションの入力を紐づける
     /// </summary>
     private void GetInputActions()
     {
         _Move = _Input.currentActionMap["Move"];
         _Jump = _Input.currentActionMap["Jump"];
+    }
+
+    /// <summary>
+    /// アニメーターの行動制御に使う情報を送る
+    /// </summary>
+    private void SendToParametarsForAnimator()
+    {
+        if (_Animator is null) return;
+        if (_Rigidbody is null) return;
+
+        // 移動速度(y軸の速度は無視する)
+        var moveSpeed = _Rigidbody.velocity;
+        moveSpeed.y = 0;
+        _Animator.SetFloat("MoveSpeed", moveSpeed.magnitude);
+
+        // 接地しているかの情報
+        var check = CheckGround();
+        _Animator.SetBool("IsGrounded", check);
     }
     #endregion
 
