@@ -10,7 +10,7 @@ public class AnimationControl : MonoBehaviour
 
     private void Start()
     {
-        if (_Animator is null) Debug.Log("Animator is null !");
+        if (_Animator is null) Debug.LogError("Animator is null !");
     }
 
     /// <summary>

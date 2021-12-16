@@ -8,6 +8,9 @@
 /// </summary>
 public class Attack : MonoBehaviour
 {
+    [SerializeField]
+    private int _AttackPower;
+
     private void OnTriggerEnter(Collider other)
     {
         var go = other as IDamageable;
@@ -15,7 +18,7 @@ public class Attack : MonoBehaviour
         if (go != null)
         {
             // 後ほど攻撃力を設定
-            go.AddDamage(1);
+            go.AddDamage(_AttackPower);
         }
     }
 }

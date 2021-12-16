@@ -10,7 +10,11 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
     #region Define
     public enum State
     {
-        None
+        None,
+        Idle,
+        Chasing,
+        Attack,
+        Death
     }
     #endregion
 
@@ -25,13 +29,13 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
     private NavMeshAgent _NavAgent;
 
     [SerializeField]
+    private Collider _AttackCollider = default;
+
+    [SerializeField]
     private float _DistanceToBeginAChase = default;
 
     [SerializeField]
     private int _MaxHP = default;
-
-    [SerializeField]
-    private Collider _AttackCollider = default;
     #endregion
 
     #region Property
@@ -56,26 +60,13 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
         _CurrentHP = _MaxHP;
     }
 
-    private void Start()
-    {
-    }
+    private void Start() { }
 
-    private void Update()
-    {
+    private void Update() { }
 
-        _DistanceWithThePlayer = Vector3.Distance(this.transform.position, _Player.transform.position);
-        // 死んでいたら何もしない
+    private void LateUpdate() { }
 
-        // ナビメッシュに目的地を設定する
-        if (_DistanceWithThePlayer < _DistanceToBeginAChase)
-        {
-            return;
-        }
-    }
-
-    private void LateUpdate()
-    {
-    }
+    private void FixedUpdate() { }
     #endregion
 
     #region Public Function
@@ -83,12 +74,54 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
     {
         var after = _CurrentHP - damage;
         // Hpが0以下になった時の処理
-
+        if (after <= 0)
+        {
+            ChengeState(State.Death);
+            return;
+        }
 
         _CurrentHP = after;
     }
     #endregion
 
     #region Private Function
+    /// <summary>
+    /// ステートの変更をする
+    /// </summary>
+    /// <param name="next">次のステート</param>
+    private void ChengeState(State next)
+    {
+        var prev = _CurrentState;
+
+        // ステートの変更時にする処理
+        switch (next)
+        {
+            case State.None:
+                { }
+                break;
+            case State.Idle:
+                { }
+                break;
+            case State.Chasing:
+                { }
+                break;
+            case State.Attack:
+                { }
+                break;
+            case State.Death:
+                { }
+                break;
+        }
+
+        _CurrentState = next;
+    }
+
+    /// <summary>
+    /// プレイヤーの追跡をする
+    /// </summary>
+    private void CheseToPlayer()
+    {
+
+    }
     #endregion
 }
