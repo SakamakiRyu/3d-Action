@@ -5,15 +5,9 @@ using UnityEngine.InputSystem;
 /// Playerの制御を行うクラス
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerBehaviour : MonoBehaviour, IDamageable
+public class PlayerBehaviour : MonoBehaviour
 {
     #region Define
-    public enum State
-    {
-        None,
-        InGame,
-        Death
-    }
     #endregion
 
     #region Serialize Field
@@ -21,7 +15,13 @@ public class PlayerBehaviour : MonoBehaviour, IDamageable
     private PlayerInput _Input;
 
     [SerializeField]
-    private Animator _Animator;
+    private AnimationControl _AnimationControl;
+
+    [SerializeField]
+    private Parameter _Parameter;
+
+    [SerializeField]
+    private Transform _LineStart;
 
     [SerializeField]
     private Rigidbody _Rigidbody;
@@ -36,27 +36,13 @@ public class PlayerBehaviour : MonoBehaviour, IDamageable
     private float _TurnSpeed;
 
     [SerializeField]
-    private Transform _LineStart;
-
-    [SerializeField]
     private float _LineLength;
-
-    [SerializeField]
-    private int _MaxHP;
     #endregion
 
     #region Private Field
-    /// <summary>現在のステート</summary>
-    private State _CurrentState;
-    /// <summary>現在のHP</summary>
-    private int _CurrentHP;
     #endregion
 
     #region Property
-    /// <summary>現在のステートを取得</summary>
-    public State GetCurrentState => _CurrentState;
-    /// <summary>現在のHPを取得</summary>
-    public int GetCurrentHP => _CurrentHP;
     #endregion
 
     #region Input Action
@@ -67,12 +53,6 @@ public class PlayerBehaviour : MonoBehaviour, IDamageable
     private void Awake()
     {
         GetInputActions();
-        ChengeState(State.None);
-    }
-
-    private void Start()
-    {
-        ChengeState(State.InGame);
     }
 
     private void Update()
@@ -87,59 +67,26 @@ public class PlayerBehaviour : MonoBehaviour, IDamageable
     #endregion
 
     #region Public Function
-    public void AddDamage(int damage)
-    {
-        var after = _CurrentHP - damage;
-
-        if (after <= 0) { ChengeState(State.Death); }
-
-        _CurrentHP = after;
-    }
     #endregion
 
     #region Private Function
-    /// <summary>
-    /// ステートの変更をする
-    /// </summary>
-    /// <param name="next"></param>
-    private void ChengeState(State next)
-    {
-        var prev = _CurrentState;
-
-        // ステートの変更時にしたい処理
-        switch (next)
-        {
-            case State.None:
-                { }
-                break;
-            case State.InGame:
-                { }
-                break;
-            case State.Death:
-                { }
-                break;
-        }
-
-        _CurrentState = next;
-    }
-
     /// <summary>
     /// ステート毎に毎フレーム呼ばれる処理
     /// </summary>
     private void UpdateState()
     {
-        switch (_CurrentState)
+        switch (_Parameter.GetCurrentState)
         {
-            case State.None:
+            case Parameter.State.None:
                 { }
                 break;
-            case State.InGame:
+            case Parameter.State.Arive:
                 {
                     Move();
                     Jump();
                 }
                 break;
-            case State.Death:
+            case Parameter.State.Death:
                 { }
                 break;
         }
@@ -161,18 +108,15 @@ public class PlayerBehaviour : MonoBehaviour, IDamageable
         // 速度ベクトルを取得
         var velo = _Rigidbody.velocity;
 
-        if (dir == Vector3.zero)
+        if (checkGround)
         {
-            if (checkGround)
+            if (dir == Vector3.zero)
             {
                 // 入力が無い、かつ地面と接地している時はy座標だけ保持する。(その場でのジャンプを想定)
                 velo.x = 0f; velo.z = 0f;
                 _Rigidbody.velocity = velo;
             }
-        }
-        else
-        {
-            if (checkGround)
+            else
             {
                 // 移動の入力をカメラを基準に補正する
                 dir = Camera.main.transform.TransformDirection(dir);
@@ -241,17 +185,17 @@ public class PlayerBehaviour : MonoBehaviour, IDamageable
     /// </summary>
     private void SendToParametarsForAnimator()
     {
-        if (_Animator is null) return;
         if (_Rigidbody is null) return;
 
         // 移動速度(y軸の速度は無視する)
         var moveSpeed = _Rigidbody.velocity;
         moveSpeed.y = 0;
-        _Animator.SetFloat("MoveSpeed", moveSpeed.magnitude);
+        var sendParam = moveSpeed.magnitude;
+        _AnimationControl.SetParameter("MoveSpeed", sendParam);
 
         // 接地しているかの情報
         var check = CheckGround();
-        _Animator.SetBool("IsGrounded", check);
+        _AnimationControl.SetParameter("IsGrounded", check);
     }
     #endregion
 

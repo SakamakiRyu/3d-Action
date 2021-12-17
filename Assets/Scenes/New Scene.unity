@@ -176,7 +176,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7797203, y: 1}
+    m_SensorSize: {x: 1.7761627, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -192,7 +192,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121778514}
-  m_LocalRotation: {x: 0.18485029, y: 0.000000018713255, z: -0.0000000035198087, w: 0.9827667}
+  m_LocalRotation: {x: 0.1848503, y: -0.000000032745795, z: 0.000000006159214, w: 0.9827667}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -253,7 +253,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7797203, y: 1}
+    m_SensorSize: {x: 1.7761627, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -513,7 +513,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7797203, y: 1}
+    m_SensorSize: {x: 1.7761627, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1153,7 +1153,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7797203, y: 1}
+    m_SensorSize: {x: 1.7761627, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1334,9 +1334,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3203429528308206883, guid: da667befd4ca141458bc364ee45c03c5,
         type: 3}
+      propertyPath: _Parameter
+      value: 
+      objectReference: {fileID: 3203429528314667628}
+    - target: {fileID: 3203429528308206883, guid: da667befd4ca141458bc364ee45c03c5,
+        type: 3}
+      propertyPath: _AnimationControl
+      value: 
+      objectReference: {fileID: 3203429528314667626}
+    - target: {fileID: 3203429528308206883, guid: da667befd4ca141458bc364ee45c03c5,
+        type: 3}
       propertyPath: _Move.m_SingletonActionBindings.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7773884156742625395, guid: da667befd4ca141458bc364ee45c03c5,
+        type: 3}
+      propertyPath: _Animator
+      value: 
+      objectReference: {fileID: 3203429528314667627}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da667befd4ca141458bc364ee45c03c5, type: 3}
 --- !u!1 &3203429528314667625 stripped
@@ -1345,19 +1360,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3203429528314667624}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3203429528314667626
+--- !u!114 &3203429528314667626 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 7773884156742625395, guid: da667befd4ca141458bc364ee45c03c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3203429528314667624}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3203429528314667625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 918a58ef607e5b642b07d64762a01ff4, type: 3}
+  m_Script: {fileID: 11500000, guid: a5c7db0ccb896214185ca02b9802aa53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MaxHP: 0
 --- !u!95 &3203429528314667627
 Animator:
   serializedVersion: 3
@@ -1377,3 +1391,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3203429528314667628 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7934286049552305593, guid: da667befd4ca141458bc364ee45c03c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3203429528314667624}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3203429528314667625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 918a58ef607e5b642b07d64762a01ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

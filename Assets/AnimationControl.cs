@@ -35,4 +35,35 @@ public class AnimationControl : MonoBehaviour
 
         _Animator.speed = time;
     }
+
+    /// <summary>
+    /// アニメーションの
+    /// </summary>
+    /// <returns></returns>
+    public float GetAnimationTime()
+    {
+        // return _Animator.
+    }
+
+    /// <summary>
+    /// アニメーターにパラメーターを設定する
+    /// </summary>
+    /// <param name="paramName">設定するパラメーター名</param>
+    public void SetParameter(string paramName, bool value)
+    {
+        if (_Animator is null) return;
+
+        _Animator.SetBool(paramName, value);
+    }
+
+    /// <summary>
+    /// アニメーターにパラメーターを設定する
+    /// </summary>
+    /// <param name="paramName">設定するパラメーター名</param>
+    public void SetParameter(string paramName, float value)
+    {
+        if (_Animator is null) return;
+
+        _Animator.SetFloat(paramName, value);
+    }
 }

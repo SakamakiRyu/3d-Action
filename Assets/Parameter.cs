@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// パラメーター管理クラス
+/// パラメーター付与クラス
 /// </summary>
 public class Parameter : MonoBehaviour, IDamageable
 {
@@ -23,12 +23,12 @@ public class Parameter : MonoBehaviour, IDamageable
     /// <summary>現在のHPを取得</summary>
     public int GetCurrentHP => _CurrentHP;
     /// <summary>現在のステートを取得</summary>
-    public State CurrentState => _CurrentState;
+    public State GetCurrentState => _CurrentState;
 
     private void Awake()
     {
         _CurrentHP = _MaxHP;
-        ChengeState(State.Death);
+        ChengeState(State.Arive);
     }
 
     public void AddDamage(int damage)
