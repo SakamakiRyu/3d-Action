@@ -18,7 +18,7 @@ public class PlayerBehaviour : MonoBehaviour
     private AnimationControl _AnimationControl;
 
     [SerializeField]
-    private Parameter _Parameter;
+    private PlayerParameter _Parameter;
 
     [SerializeField]
     private Transform _LineStart;
@@ -57,7 +57,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Update()
     {
-        UpdateState();
+        StateUpdate();
     }
 
     private void LateUpdate()
@@ -73,20 +73,20 @@ public class PlayerBehaviour : MonoBehaviour
     /// <summary>
     /// ステート毎に毎フレーム呼ばれる処理
     /// </summary>
-    private void UpdateState()
+    private void StateUpdate()
     {
         switch (_Parameter.GetCurrentState)
         {
-            case Parameter.State.None:
+            case PlayerParameter.State.None:
                 { }
                 break;
-            case Parameter.State.Arive:
+            case PlayerParameter.State.Arive:
                 {
                     Move();
                     Jump();
                 }
                 break;
-            case Parameter.State.Death:
+            case PlayerParameter.State.Death:
                 { }
                 break;
         }

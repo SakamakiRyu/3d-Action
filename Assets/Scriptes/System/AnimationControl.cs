@@ -42,7 +42,7 @@ public class AnimationControl : MonoBehaviour
     /// <returns></returns>
     public float GetAnimationTime()
     {
-        // return _Animator.
+        return 0;
     }
 
     /// <summary>

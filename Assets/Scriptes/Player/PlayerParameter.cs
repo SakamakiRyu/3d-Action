@@ -1,9 +1,9 @@
 using UnityEngine;
 
 /// <summary>
-/// パラメーター付与クラス
+/// プレイヤーにパラメーターを付与するクラス
 /// </summary>
-public class Parameter : MonoBehaviour, IDamageable
+public class PlayerParameter : MonoBehaviour, IDamageable
 {
     public enum State
     {

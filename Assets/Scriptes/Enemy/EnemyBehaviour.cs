@@ -23,19 +23,19 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
     private PlayerBehaviour _Player;
 
     [SerializeField]
-    private Animator _Animator;
+    private EnemyParameter _EnemyParameter;
+
+    [SerializeField]
+    private AnimationControl _AnimationControl;
 
     [SerializeField]
     private NavMeshAgent _NavAgent;
 
     [SerializeField]
-    private Collider _AttackCollider = default;
+    private Collider _AttackCollider;
 
     [SerializeField]
-    private float _DistanceToBeginAChase = default;
-
-    [SerializeField]
-    private int _MaxHP = default;
+    private float _BeginChaseDistance;
     #endregion
 
     #region Property
@@ -47,9 +47,9 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
 
     #region Private Field
     /// <summary>現在のHP</summary>
-    private int _CurrentHP = default;
+    private int _CurrentHP;
     /// <summary>プレイヤーとの距離</summary>
-    private float _DistanceWithThePlayer = default;
+    private float _DistanceThePlayer;
     /// <summary>現在のステート</summary>
     private State _CurrentState;
     #endregion
@@ -57,12 +57,15 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
     #region Unity Function
     private void Awake()
     {
-        _CurrentHP = _MaxHP;
+        _CurrentHP = _EnemyParameter.MaxHP;
     }
 
     private void Start() { }
 
-    private void Update() { }
+    private void Update()
+    {
+        StateUpdate();
+    }
 
     private void LateUpdate() { }
 
@@ -114,6 +117,28 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
         }
 
         _CurrentState = next;
+    }
+
+    private void StateUpdate()
+    {
+        switch (_CurrentState)
+        {
+            case State.None:
+                { }
+                break;
+            case State.Idle:
+                { }
+                break;
+            case State.Chasing:
+                { }
+                break;
+            case State.Attack:
+                { }
+                break;
+            case State.Death:
+                { }
+                break;
+        }
     }
 
     /// <summary>
