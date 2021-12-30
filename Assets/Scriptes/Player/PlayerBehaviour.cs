@@ -18,6 +18,9 @@ public class PlayerBehaviour : MonoBehaviour
     private AnimationControl _AnimationControl;
 
     [SerializeField]
+    private AttackBehaviour _Attack;
+
+    [SerializeField]
     private PlayerParameter _Parameter;
 
     [SerializeField]
@@ -186,6 +189,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void SendToParametarsForAnimator()
     {
         if (_Rigidbody is null) return;
+        if (_AnimationControl is null) return;
 
         // ˆÚ“®‘¬“x(yŽ²‚Ì‘¬“x‚Í–³Ž‹‚·‚é)
         var moveSpeed = _Rigidbody.velocity;

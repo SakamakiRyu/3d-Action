@@ -28,10 +28,8 @@ static class CinemachineExtensions
 
         // それぞれの座標をカメラの高さに合わせる.
         float cameraHeight = camera.transform.position.y;
-        Vector3 followPosition =
-            new Vector3(camera.Follow.position.x, cameraHeight, camera.Follow.position.z);
-        Vector3 targetPosition =
-            new Vector3(target.x, cameraHeight, target.z);
+        Vector3 followPosition = new Vector3(camera.Follow.position.x, cameraHeight, camera.Follow.position.z);
+        Vector3 targetPosition = new Vector3(target.x, cameraHeight, target.z);
 
         // それぞれのベクトルを計算.
         Vector3 followToTarget = targetPosition - followPosition;
