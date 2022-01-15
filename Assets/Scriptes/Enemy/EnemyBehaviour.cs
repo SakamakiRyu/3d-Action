@@ -119,6 +119,9 @@ public class EnemyBehaviour : MonoBehaviour, IDamageable
         _CurrentState = next;
     }
 
+    /// <summary>
+    /// ステート毎に毎フレーム呼ばれる処理
+    /// </summary>
     private void StateUpdate()
     {
         switch (_CurrentState)

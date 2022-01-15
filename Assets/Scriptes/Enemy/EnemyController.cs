@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 /// <summary>
 /// 敵クラス。経路探索はNavmeshで行う
 /// </summary>
 [RequireComponent(typeof(AudioSource))]
-public class EnemyController : MonoBehaviour, IGameEnd
+public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
 {
     EnemyController() { }
     /// <summary>追跡対象</summary>
@@ -84,14 +85,16 @@ public class EnemyController : MonoBehaviour, IGameEnd
         }
     }
 
-    public void GetDamage()
+    public void AddDamage(int damage)
     {
         m_currentHP--;
+
         if (IsDead)
         {
             m_animator.Play(m_hashDie);
             return;
         }
+        StartCoroutine(HitStopAcync());
         m_animator.Play(m_hashDizzy);
     }
 
@@ -124,6 +127,21 @@ public class EnemyController : MonoBehaviour, IGameEnd
     {
         QuestManager.Instance.GameEnd -= OnEnd;
         QuestManager.Instance.GameUpdate();
+    }
+
+    float _Timer = 0f;
+
+    IEnumerator HitStopAcync()
+    {
+        _Timer = 0f;
+        Time.timeScale = 0;
+        while (_Timer < 0.2f)
+        {
+            _Timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = 1.0f;
+        yield return null;
     }
 
     public void OnEnd()

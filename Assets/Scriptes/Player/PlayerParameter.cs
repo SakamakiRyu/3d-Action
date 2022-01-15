@@ -28,6 +28,10 @@ public class PlayerParameter : MonoBehaviour, IDamageable
     private void Awake()
     {
         _CurrentHP = _MaxHP;
+    }
+
+    private void Start()
+    {
         ChengeState(State.Arive);
     }
 

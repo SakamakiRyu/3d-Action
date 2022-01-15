@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [RequireComponent(typeof(SphereCollider))]
-public class CameraController : MonoBehaviour
+public class CameraControl : MonoBehaviour
 {
     [SerializeField] PlayerInput m_pInput;
     [SerializeField] CinemachineVirtualCamera m_lockonCam;

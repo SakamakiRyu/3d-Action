@@ -13,8 +13,7 @@ public class AttackBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        IDamageable go;
-        other.TryGetComponent<IDamageable>(out go);
+        other.TryGetComponent(out IDamageable go);
 
         if (go is not null)
         {
