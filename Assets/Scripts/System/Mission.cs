@@ -11,11 +11,11 @@ interface IGameEnd
     void OnEnd();
 }
 
-public class QuestManager : MonoBehaviour
+public class Mission : MonoBehaviour
 {
-    public static QuestManager Instance => m_instance;
-    static QuestManager m_instance;
-    private QuestManager() { }
+    public static Mission Instance => m_instance;
+    static Mission m_instance;
+    private Mission() { }
 
     [Header("ゲームクリアに必要な敵の討伐数")]
     [SerializeField] int m_needDefeatCount = default;

@@ -9,35 +9,16 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     #region Serialize Field
-    [SerializeField]
-    PlayerInput m_pInput = default;
-
-    [SerializeField]
-    Rigidbody m_rigidBody = default;
-
-    [SerializeField]
-    Animator m_animator = default;
-
-    [SerializeField]
-    Transform m_groundCheckTrasnform = default;
-
-    [SerializeField]
-    Collider m_attackCollider = default;
-
-    [SerializeField]
-    TrailRenderer m_trail = default;
-
-    [SerializeField]
-    int m_maxHP = default;
-
-    [SerializeField]
-    float m_moveSpeed = default;
-
-    [SerializeField]
-    float m_turnSpeed = default;
-
-    [SerializeField]
-    float m_jumpPower = default;
+    [SerializeField] PlayerInput m_pInput = default;
+    [SerializeField] Rigidbody m_rigidBody = default;
+    [SerializeField] Animator m_animator = default;
+    [SerializeField] Transform m_groundCheckTrasnform = default;
+    [SerializeField] Collider m_attackCollider = default;
+    [SerializeField] TrailRenderer m_trail = default;
+    [SerializeField] int m_maxHP = default;
+    [SerializeField] float m_moveSpeed = default;
+    [SerializeField] float m_turnSpeed = default;
+    [SerializeField] float m_jumpPower = default;
     #endregion
 
     #region Private Field
@@ -49,7 +30,6 @@ public class PlayerController : MonoBehaviour
 
     // アニメーターのハッシュ
     readonly int m_hashDamaged = Animator.StringToHash("Damaged");
-
     // インプットシステムのアクションの取得
     InputAction m_move, m_attack, m_jump;
 
@@ -152,7 +132,7 @@ public class PlayerController : MonoBehaviour
         {
             m_animator.SetTrigger("Die");
             m_rigidBody.isKinematic = true;
-            QuestManager.Instance.IsGameover = true;
+            Mission.Instance.IsGameover = true;
             return;
         }
         m_animator.Play(m_hashDamaged);
@@ -160,7 +140,7 @@ public class PlayerController : MonoBehaviour
 
     public void Register()
     {
-        QuestManager.Instance.GameEnd += OnEnd;
+        Mission.Instance.GameEnd += OnEnd;
     }
 
     public void OnEnd()

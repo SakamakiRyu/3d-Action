@@ -8,15 +8,28 @@ using System.Linq;
 [RequireComponent(typeof(SphereCollider))]
 public class CameraControl : MonoBehaviour
 {
-    [SerializeField] PlayerInput m_pInput;
-    [SerializeField] CinemachineVirtualCamera m_lockonCam;
-    [SerializeField] CinemachineFreeLook m_freeCam;
-    [SerializeField] Transform m_followTransform;
-    [SerializeField] Image m_crosshairImage = default;
-    [SerializeField] float m_radius = default;
+    [SerializeField] 
+    PlayerInput m_pInput;
+
+    [SerializeField] 
+    CinemachineVirtualCamera m_lockonCam;
+
+    [SerializeField] 
+    CinemachineFreeLook m_freeCam;
+
+    [SerializeField] 
+    Transform m_followTransform;
+
+    [SerializeField] 
+    Image m_crosshairImage = default;
+
+    [SerializeField] 
+    float m_radius = default;
+
     SphereCollider m_coll;
     InputAction m_chenge, m_chengeUP, m_chengeDown;
     List<EnemyController> m_targetList = new List<EnemyController>();
+
     /// <summary>現在のカメラタイプ</summary>
     CameraType m_currentCamType = CameraType.FreeLookCamera;
     /// <summary>ロックオンしているm_targetListの要素番号</summary>
@@ -42,7 +55,7 @@ public class CameraControl : MonoBehaviour
     {
         //　カメラコントローラーの座標をFollowと同期する
         this.transform.position = m_followTransform.position;
-        ControlCameta();
+        ControlCamera();
     }
 
     /// <summary>カメラを切り替える</summary>
@@ -79,7 +92,7 @@ public class CameraControl : MonoBehaviour
     }
 
     /// <summary>カメラの機能制御</summary>
-    void ControlCameta()
+    void ControlCamera()
     {
         switch (m_currentCamType)
         {
@@ -99,8 +112,11 @@ public class CameraControl : MonoBehaviour
                     ChengeCamera();
                 }
 
-                // ロックオンカメラ(VirtualCamera)のFollowに設定しているオブジェクトの正面をターゲットに向ける
-                m_followTransform.LookAt(m_targetList[m_targetIndex].transform);
+                if (m_targetList.Count != 0)
+                {
+                    // ロックオンカメラ(VirtualCamera)のFollowに設定しているオブジェクトの正面をターゲットに向ける
+                    m_followTransform.LookAt(m_targetList[m_targetIndex].transform);
+                }
 
                 // ロックオン可能な対象が二つ以上の時にロックオンの対象を切り替える
                 if (m_targetList.Count > 1)

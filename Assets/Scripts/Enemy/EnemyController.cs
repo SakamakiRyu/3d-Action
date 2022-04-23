@@ -9,19 +9,28 @@ using System.Collections;
 public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
 {
     EnemyController() { }
-    /// <summary>追跡対象</summary>
-    [SerializeField] Transform m_targetTransform = default;
-    /// <summary>追跡をはじめる距離</summary>
-    [SerializeField] float m_startChaseDistance = default;
-    /// <summary>最大HP</summary>
-    [SerializeField] int m_maxHP = default;
-    /// <summary>攻撃の当たり判定</summary>
-    [SerializeField] Collider m_attackCollider = default;
+
+    [SerializeField]
+    Transform m_targetTransform = default;
+
+    [SerializeField]
+    float m_startChaseDistance = default;
+
+    [SerializeField]
+    int m_maxHP = default;
+
+    [SerializeField]
+    Collider m_attackCollider = default;
+
+    [SerializeField]
+    HPUIController m_HPUIController = default;
 
     public bool IsGameEnd { get; private set; } = false;
     public bool IsDead => m_currentHP < 1;
 
     int m_currentHP = default;
+    public float GetUIValue => (float)m_currentHP / (float)m_maxHP;
+
     float m_distance = default;
 
     readonly int m_hashDizzy = Animator.StringToHash("Dizzy");
@@ -88,6 +97,7 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
     public void AddDamage(int damage)
     {
         m_currentHP--;
+        m_HPUIController.UpdateHPSlider(this);
 
         if (IsDead)
         {
@@ -120,13 +130,13 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
 
     public void Register()
     {
-        QuestManager.Instance.GameEnd += OnEnd;
+        Mission.Instance.GameEnd += OnEnd;
     }
 
     private void OnDestroy()
     {
-        QuestManager.Instance.GameEnd -= OnEnd;
-        QuestManager.Instance.GameUpdate();
+        Mission.Instance.GameEnd -= OnEnd;
+        Mission.Instance.GameUpdate();
     }
 
     float _Timer = 0f;
@@ -134,7 +144,7 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
     IEnumerator HitStopAcync()
     {
         _Timer = 0f;
-        Time.timeScale = 0;
+        Time.timeScale = 0.1f;
         while (_Timer < 0.2f)
         {
             _Timer += Time.unscaledDeltaTime;
