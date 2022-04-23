@@ -8,6 +8,15 @@ using System.Linq;
 [RequireComponent(typeof(SphereCollider))]
 public class CameraControl : MonoBehaviour
 {
+    /// <summary>カメラタイプ</summary>
+    enum CameraType
+    {
+        /// <summary>フリールック</summary>
+        FreeLookCamera,
+        /// <summary>ロックオン</summary>
+        LockonCamera
+    }
+
     [SerializeField] 
     PlayerInput m_pInput;
 
@@ -182,14 +191,7 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    /// <summary>カメラタイプ</summary>
-    enum CameraType
-    {
-        /// <summary>フリールック</summary>
-        FreeLookCamera,
-        /// <summary>ロックオン</summary>
-        LockonCamera
-    }
+    
 
 #if UNITY_EDITOR
     private void OnValidate()
