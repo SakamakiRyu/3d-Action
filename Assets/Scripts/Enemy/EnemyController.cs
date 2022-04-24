@@ -135,13 +135,13 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
 
     public void Register()
     {
-        Mission.Instance.GameEnd += OnEnd;
+        Mission.Instance.OnGameEnd += OnEnd;
     }
 
     private void OnDestroy()
     {
-        Mission.Instance.GameEnd -= OnEnd;
-        Mission.Instance.GameUpdate();
+        Mission.Instance.OnGameEnd -= OnEnd;
+        Mission.Instance.GameScoreUp();
     }
 
     float _Timer = 0f;

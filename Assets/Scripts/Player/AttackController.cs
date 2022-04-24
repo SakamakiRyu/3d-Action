@@ -6,7 +6,7 @@
 ///    武器などにColliderをつける事。
 ///    また、攻撃を受け取る側はIDamageableインターフェースを実装する事。
 /// </summary>
-public class AttackBehaviour : MonoBehaviour
+public class AttackController : MonoBehaviour
 {
     [SerializeField]
     private int m_attackPower;
@@ -15,7 +15,7 @@ public class AttackBehaviour : MonoBehaviour
     {
         other.TryGetComponent(out IDamageable go);
 
-        if (go is not null)
+        if (go != null)
         {
             // 後ほど攻撃力を設定
             go.AddDamage(m_attackPower);

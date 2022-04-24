@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     /// <summary>イベントに登録</summary>
     public void Register()
     {
-        Mission.Instance.GameEnd += OnEnd;
+        Mission.Instance.OnGameEnd += OnEnd;
     }
 
     /// <summary>AnimationEvent用関数</summary>

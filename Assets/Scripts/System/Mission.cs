@@ -11,42 +11,44 @@ interface IGameEnd
     void OnEnd();
 }
 
-public class Mission : MonoBehaviour
+public class Mission : Singleton<Mission>
 {
-    public static Mission Instance => m_instance;
-    static Mission m_instance;
-    private Mission() { }
-
     [Header("ゲームクリアに必要な敵の討伐数")]
-    [SerializeField] int m_needDefeatCount = default;
+    [SerializeField] 
+    int m_needDefeatCount = default;
+
     [Header("ゲームクリア時に表示するパネル")]
-    [SerializeField] GameObject m_gameClearWindow = default;
+    [SerializeField] 
+    GameObject m_gameClearWindow = default;
+
     [Header("ゲームクリア時に表示する画像の背景")]
-    [SerializeField] Image m_clearBackGroundImage = default;
+    [SerializeField] 
+    Image m_clearBackGroundImage = default;
+
     [Header("敗北時に表示するパネル")]
-    [SerializeField] GameObject m_gameoverWindow = default;
-    [SerializeField] Image m_contollerImage = default;
-    /// <summary>現在の討伐数</summary>
-    [SerializeField] int m_currentDefeatCount = 0;
+    [SerializeField] 
+    GameObject m_gameoverWindow = default;
+
+    [SerializeField] 
+    Image m_contollerImage = default;
+
+    [SerializeField] 
+    int m_currentDefeatCount = 0;
+
     /// <summary>ゲームクリアしているか</summary>
     public bool IsClear => m_currentDefeatCount >= m_needDefeatCount;
-    /// <summary>ゲーム終了時に呼ばれるイベント</summary>
-    public System.Action GameEnd;
 
     public bool IsGameover { get; set; } = false;
     bool m_isColorChenge = false;
- 
 
-    private void Awake()
-    {
-        m_instance = this;
-    }
+    /// <summary>ゲーム終了時に呼ばれるイベント</summary>
+    public System.Action OnGameEnd;
 
     private void Update()
     {
         if (IsGameover)
         {
-            GameEnd?.Invoke();
+            OnGameEnd?.Invoke();
             m_contollerImage.enabled = false;
             StartCoroutine(TitleLoad());
             return;
@@ -62,11 +64,14 @@ public class Mission : MonoBehaviour
             }
             StartCoroutine(TitleLoad());
             m_isColorChenge = true;
-            GameEnd?.Invoke();
+            OnGameEnd?.Invoke();
         }
     }
 
-    public void GameUpdate()
+    /// <summary>
+    /// ゲームスコアの加算
+    /// </summary>
+    public void GameScoreUp()
     {
         m_currentDefeatCount++;
     }
