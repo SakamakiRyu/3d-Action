@@ -11,6 +11,9 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
     EnemyController() { }
 
     [SerializeField]
+    NavMeshAgent m_nav = default;
+
+    [SerializeField]
     Transform m_targetTransform = default;
 
     [SerializeField]
@@ -29,16 +32,17 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
     public bool IsDead => m_currentHP < 1;
 
     int m_currentHP = default;
+    /// <summary>HPゲージの表示割合を返す</summary>
     public float GetUIValue => (float)m_currentHP / (float)m_maxHP;
-
+    /// <summary>Playerとの距離を格納する変数</summary>
     float m_distance = default;
 
+    // アニメーションのハッシュ
     readonly int m_hashDizzy = Animator.StringToHash("Dizzy");
     readonly int m_hashDie = Animator.StringToHash("Die");
 
     AudioSource m_source;
     Animator m_animator;
-    NavMeshAgent m_nav;
 
     private void Awake()
     {
@@ -81,6 +85,7 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
         m_animator.SetFloat("Distance", m_distance);
     }
 
+    // AnimationEvent用のフラグ
     public enum IsStop { True, False }
     public void OnChengeState(IsStop isStop)
     {
@@ -145,7 +150,7 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
     {
         _Timer = 0f;
         Time.timeScale = 0.1f;
-        while (_Timer < 0.2f)
+        while (_Timer < 0.4f)
         {
             _Timer += Time.unscaledDeltaTime;
             yield return null;

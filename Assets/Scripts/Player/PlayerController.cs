@@ -6,19 +6,38 @@ using UnityEngine.InputSystem;
 /// 移動はカメラを基準にの相対的な移動をする。(常にカメラ前方が正面になる)
 /// </summary>
 [RequireComponent(typeof(Rigidbody), typeof(AudioSource))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
     #region Serialize Field
-    [SerializeField] PlayerInput m_pInput = default;
-    [SerializeField] Rigidbody m_rigidBody = default;
-    [SerializeField] Animator m_animator = default;
-    [SerializeField] Transform m_groundCheckTrasnform = default;
-    [SerializeField] Collider m_attackCollider = default;
-    [SerializeField] TrailRenderer m_trail = default;
-    [SerializeField] int m_maxHP = default;
-    [SerializeField] float m_moveSpeed = default;
-    [SerializeField] float m_turnSpeed = default;
-    [SerializeField] float m_jumpPower = default;
+    [SerializeField]
+    PlayerInput m_pInput = default;
+
+    [SerializeField]
+    Rigidbody m_rigidBody = default;
+
+    [SerializeField]
+    Animator m_animator = default;
+
+    [SerializeField]
+    Transform m_groundCheckTrasnform = default;
+
+    [SerializeField]
+    Collider m_attackCollider = default;
+
+    [SerializeField]
+    TrailRenderer m_trail = default;
+
+    [SerializeField]
+    int m_maxHP = default;
+
+    [SerializeField]
+    float m_moveSpeed = default;
+
+    [SerializeField]
+    float m_turnSpeed = default;
+
+    [SerializeField]
+    float m_jumpPower = default;
     #endregion
 
     #region Private Field
@@ -26,11 +45,12 @@ public class PlayerController : MonoBehaviour
     bool m_isGrounded = false;
     bool m_isGameEnded = false;
     bool m_isMotionPlay = false;
+    /// <summary>生きているか</summary>
     public bool IsArive => m_currentHP > 0;
 
     // アニメーターのハッシュ
     readonly int m_hashDamaged = Animator.StringToHash("Damaged");
-    // インプットシステムのアクションの取得
+    // インプットシステムの入力の取得
     InputAction m_move, m_attack, m_jump;
 
     AudioSource m_source;
@@ -84,12 +104,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Public Function
-
-    public enum IsVisible
-    {
-        True,
-        False
-    }
+    // AnimationEvent用列挙
+    public enum IsVisible { True, False }
 
     public void OnBeginTrail(IsVisible isVisible)
     {
@@ -122,12 +138,13 @@ public class PlayerController : MonoBehaviour
         m_attackCollider.enabled = false;
     }
 
-    public void GetDamage()
+    public void AddDamage(int damage)
     {
-        // Animationをさせない為
+        // 既に死んでいたら下記の処理はしない。
         if (!IsArive) return;
 
         m_currentHP--;
+
         if (!IsArive)
         {
             m_animator.SetTrigger("Die");
@@ -138,16 +155,20 @@ public class PlayerController : MonoBehaviour
         m_animator.Play(m_hashDamaged);
     }
 
+    /// <summary>イベントに登録</summary>
     public void Register()
     {
         Mission.Instance.GameEnd += OnEnd;
     }
 
+    /// <summary>AnimationEvent用関数</summary>
     public void OnEnd()
     {
         m_isGameEnded = true;
     }
 
+    /// <summary>AnimationEvent用関数</summary>
+    /// <param name="clip"></param>
     public void OnPlaySound(AudioClip clip)
     {
         m_source.PlayOneShot(clip);

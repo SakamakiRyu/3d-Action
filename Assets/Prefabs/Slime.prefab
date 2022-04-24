@@ -932,6 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3758bea6ba40f4f89e78dd7de1ccff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_nav: {fileID: 8483864380714333812}
   m_targetTransform: {fileID: 0}
   m_startChaseDistance: 30
   m_maxHP: 3
