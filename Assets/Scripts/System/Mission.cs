@@ -3,14 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-interface IGameEnd
-{
-    /// <summary>イベントに登録する関数</summary>
-    void Register();
-    /// <summary>ゲームクリア時に呼ばれる関数</summary>
-    void OnEnd();
-}
-
 public class Mission : Singleton<Mission>
 {
     [Header("ゲームクリアに必要な敵の討伐数")]

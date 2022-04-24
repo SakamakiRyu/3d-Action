@@ -1,14 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 public class TitleManager : MonoBehaviour
 {
-    [SerializeField] float m_derayTime = default;
-    [SerializeField] AudioClip m_pressSE = default;
+    [SerializeField]
+    float m_derayTime = default;
+
+    [SerializeField]
+    AudioClip m_pressSE = default;
+
     Image[] m_images = default;
+
     AudioSource m_source = default;
 
     private void Start()
@@ -28,10 +32,13 @@ public class TitleManager : MonoBehaviour
     public void GameStart(string sceneName)
     {
         m_source.PlayOneShot(m_pressSE);
-        StartCoroutine(Fade(m_images, sceneName));
+        StartCoroutine(DoFade(m_images, sceneName));
     }
 
-    IEnumerator Fade(Image[] images, string sceneName)
+    /// <summary>
+    /// 画面フェード
+    /// </summary>
+    IEnumerator DoFade(Image[] images, string sceneName)
     {
         foreach (var item in images)
         {

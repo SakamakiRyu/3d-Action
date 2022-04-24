@@ -7,7 +7,6 @@ public class SoundManager : Singleton<SoundManager>
     public enum SEType
     {
         Sword1 = 0,
-        Sword2 = 1,
     }
 
     [SerializeField]
@@ -15,6 +14,9 @@ public class SoundManager : Singleton<SoundManager>
 
     [SerializeField]
     AudioSource m_seSource = default;
+
+    [SerializeField]
+    AudioClip[] m_bgmClips = default;
 
     [SerializeField]
     AudioClip[] m_seClips = default;

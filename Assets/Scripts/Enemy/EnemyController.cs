@@ -6,7 +6,7 @@ using System.Collections;
 /// 敵クラス。経路探索はNavmeshで行う
 /// </summary>
 [RequireComponent(typeof(AudioSource))]
-public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
+public class EnemyController : MonoBehaviour, IGame, IDamageable
 {
     EnemyController() { }
 
@@ -135,12 +135,12 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
 
     public void Register()
     {
-        Mission.Instance.OnGameEnd += OnEnd;
+        Mission.Instance.OnGameEnd += GameClear;
     }
 
     private void OnDestroy()
     {
-        Mission.Instance.OnGameEnd -= OnEnd;
+        Mission.Instance.OnGameEnd -= GameClear;
         Mission.Instance.GameScoreUp();
     }
 
@@ -159,7 +159,7 @@ public class EnemyController : MonoBehaviour, IGameEnd, IDamageable
         yield return null;
     }
 
-    public void OnEnd()
+    public void GameClear()
     {
         m_nav.isStopped = true;
         IsGameEnd = true;

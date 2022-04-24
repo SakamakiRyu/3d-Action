@@ -8,6 +8,13 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody), typeof(AudioSource))]
 public class PlayerController : MonoBehaviour, IDamageable
 {
+    enum MoveState 
+    {
+        Idle,
+        Run,
+        Attack
+    }
+
     #region Serialize Field
     [SerializeField]
     PlayerInput m_pInput = default;
@@ -45,9 +52,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     bool m_isGrounded = false;
     bool m_isGameEnded = false;
     bool m_isMotionPlay = false;
+
     /// <summary>生きているか</summary>
     public bool IsArive => m_currentHP > 0;
-
     // アニメーターのハッシュ
     readonly int m_hashDamaged = Animator.StringToHash("Damaged");
     // インプットシステムの入力の取得
