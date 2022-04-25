@@ -136,18 +136,18 @@ public class EnemyController : MonoBehaviour, IGame, IDamageable
 
     public void Subscribe()
     {
-        Mission.Instance.OnGameEnd += GameClear;
+        GameManager.Instance.OnGameEnd += GameClear;
     }
 
     public void Unsubscribe()
     {
-        Mission.Instance.OnGameEnd -= GameClear;
+        GameManager.Instance.OnGameEnd -= GameClear;
     }
 
     private void OnDestroy()
     {
         // Mission.Instance.OnGameEnd -= GameClear;
-        Mission.Instance.GameScoreUp();
+        GameManager.Instance.GameScoreUp();
     }
 
     float _Timer = 0f;

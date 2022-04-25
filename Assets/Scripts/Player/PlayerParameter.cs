@@ -5,33 +5,27 @@ using UnityEngine;
 /// </summary>
 public class PlayerParameter : MonoBehaviour
 {
+    #region Define
     public enum State
     {
         None,
         Arive,
         Death
     }
-
-    #region Serialized Field
-    [SerializeField]
-    private int m_maxHP;
-    #endregion
-
-    #region Private Field
-    private int m_currentHP;
-    private State m_currentState;
     #endregion
 
     #region Property
-    /// <summary>現在のHPを取得</summary>
-    public int GetCurrentHP => m_currentHP;
-    /// <summary>現在のステートを取得</summary>
-    public State GetCurrentState => m_currentState;
+    [SerializeField]
+    private int m_maxHP;
+
+    public int CurrentHP { get; private set; }
+    public State CurrentState { get; private set; }
     #endregion
 
+    #region Unity Function
     private void Awake()
     {
-        m_currentHP = m_maxHP;
+        CurrentHP = m_maxHP;
     }
 
     private void Start()
@@ -43,30 +37,14 @@ public class PlayerParameter : MonoBehaviour
     {
         StateUpdate();
     }
+    #endregion
 
-    /// <summary>
-    /// 体力を減らす
-    /// </summary>
-    public void ReduceHP()
-    {
-        var after = --m_currentHP;
-
-        if (after <= 0)
-        {
-            ChengeState(State.Death);
-            return;
-        }
-
-        m_currentHP = after;
-    }
-
+    #region Private Fucntion
     /// <summary>
     /// ステートの変更をする
     /// </summary>
     private void ChengeState(State next)
     {
-        var prev = m_currentState;
-
         switch (next)
         {
             case State.None:
@@ -76,11 +54,13 @@ public class PlayerParameter : MonoBehaviour
                 { }
                 break;
             case State.Death:
-                { }
+                {
+                    GameManager.Instance.RequestGameEnd();
+                }
                 break;
         }
 
-        m_currentState = next;
+        CurrentState = next;
     }
 
     /// <summary>
@@ -88,7 +68,7 @@ public class PlayerParameter : MonoBehaviour
     /// </summary>
     private void StateUpdate()
     {
-        switch (m_currentState)
+        switch (CurrentState)
         {
             case State.None:
                 { }
@@ -101,4 +81,23 @@ public class PlayerParameter : MonoBehaviour
                 break;
         }
     }
+    #endregion
+
+    #region Public Fucntion
+    /// <summary>
+    /// 体力を減らす
+    /// </summary>
+    public void ReduceHP()
+    {
+        var after = --CurrentHP;
+
+        if (after <= 0)
+        {
+            ChengeState(State.Death);
+            return;
+        }
+
+        CurrentHP = after;
+    }
+    #endregion
 }

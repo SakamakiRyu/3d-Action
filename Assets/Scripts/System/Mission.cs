@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Mission : Singleton<Mission>
+public class Mission : MonoBehaviour
 {
     [Header("ゲームクリアに必要な敵の討伐数")]
     [SerializeField] 
@@ -62,7 +62,7 @@ public class Mission : Singleton<Mission>
 
     public void GameEnd(PlayerParameter playerParam)
     {
-        if (playerParam.GetCurrentState == PlayerParameter.State.Death)
+        if (playerParam.CurrentState == PlayerParameter.State.Death)
         {
             OnGameEnd?.Invoke();
             m_contollerImage.enabled = false;

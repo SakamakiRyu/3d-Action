@@ -41513,6 +41513,7 @@ GameObject:
   - component: {fileID: 2021920663}
   - component: {fileID: 2021920664}
   - component: {fileID: 2021920665}
+  - component: {fileID: 2021920666}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -41552,7 +41553,6 @@ MonoBehaviour:
   m_clearBackGroundImage: {fileID: 1495298534}
   m_gameoverWindow: {fileID: 0}
   m_contollerImage: {fileID: 1951271935}
-  m_currentDefeatCount: 0
 --- !u!114 &2021920665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41572,6 +41572,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3523af57b353d1a48b2a43f980027bfb, type: 3}
   - {fileID: 21300000, guid: e923c53a02a65b14ca59a7567bf1b299, type: 3}
   - {fileID: 21300000, guid: bf9d1f63e2472854f8467f9c9aa9af43, type: 3}
+--- !u!114 &2021920666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021920661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0a0744a60283f4ba2d810a4840ebd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2033202006 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3563456030145959718, guid: 482af720c87f08d48b542f4ec13ef1d3,

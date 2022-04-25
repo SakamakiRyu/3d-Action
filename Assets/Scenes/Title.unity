@@ -2614,6 +2614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_bgmSource: {fileID: 0}
   m_seSource: {fileID: 0}
+  m_bgmClips: []
   m_seClips: []
 --- !u!4 &937909877
 Transform:
@@ -4507,6 +4508,7 @@ GameObject:
   - component: {fileID: 1957858415}
   - component: {fileID: 1957858416}
   - component: {fileID: 1957858417}
+  - component: {fileID: 1957858418}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -4639,6 +4641,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_derayTime: 0.05
   m_pressSE: {fileID: 8300000, guid: dcf7048eb6b486e409f4dd39fba1fe41, type: 3}
+--- !u!114 &1957858418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957858413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0a0744a60283f4ba2d810a4840ebd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2010023743
 GameObject:
   m_ObjectHideFlags: 0
