@@ -50,7 +50,7 @@ public class Mission : MonoBehaviour
     /// <summary>
     /// ゲームスコアの加算
     /// </summary>
-    public void GameScoreUp()
+    public void AddScore()
     {
         _currentDefeatCount++;
         CheckGameClear();
@@ -65,7 +65,7 @@ public class Mission : MonoBehaviour
         }
     }
 
-    void CheckGameClear()
+    private void CheckGameClear()
     {
         if (IsClear)
         {
@@ -80,7 +80,7 @@ public class Mission : MonoBehaviour
         }
     }
 
-    IEnumerator TitleLoad()
+    private IEnumerator TitleLoad()
     {
         yield return new WaitForSeconds(5f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Title");

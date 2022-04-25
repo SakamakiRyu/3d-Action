@@ -34,7 +34,9 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="type"></param>
     public void ChengeBGM(BGMType type)
     {
+        _bgmSource.Pause();
         _bgmSource.clip = _bgmClips[(int)type];
+        _bgmSource.Play();
     }
 
     /// <summary>SE‚ð‚È‚ç‚·</summary>

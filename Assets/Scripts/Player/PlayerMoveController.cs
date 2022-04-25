@@ -8,12 +8,16 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMoveController : MonoBehaviour, IDamageable
 {
+    #region Define
+    private PlayerMoveController() { }
+
     enum MoveState
     {
         Idle,
         Run,
         Attack
     }
+    #endregion
 
     #region Serialize Field
     [SerializeField]

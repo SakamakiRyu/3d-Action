@@ -1,3 +1,7 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
 public class GameManager : Singleton<GameManager>
 {
     #region Define
@@ -11,10 +15,12 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Property
+    [Header("フェードにかける時間")]
+    [SerializeField]
+    private float _fadeTime = default;
+
     /// <summary>現在のシーン</summary>
     public Scene CurrentScene { get; private set; } = Scene.None;
-    /// <summary>ゲーム(InGame)開始時に呼ばれる処理</summary>
-    public System.Action OnGameStart;
     /// <summary>ゲーム(InGame)終了時に呼ばれる処理</summary>
     public System.Action OnGameEnd;
     #endregion
@@ -22,6 +28,7 @@ public class GameManager : Singleton<GameManager>
     #region Unity Fucntion
     private void Awake()
     {
+        ChengeScene(Scene.Title);
     }
 
     private void Start()
@@ -43,12 +50,12 @@ public class GameManager : Singleton<GameManager>
     }
 
     /// <summary>
-    /// Button(UI)用の関数
+    /// タイトルのButton(UI)用
     /// </summary>
     /// <param name="scene"></param>
-    public void LoadButton(Scene scene)
+    public void StartButton()
     {
-        ChengeScene(scene);
+        ChengeScene(Scene.InGame);
     }
     #endregion
 
@@ -61,11 +68,13 @@ public class GameManager : Singleton<GameManager>
         switch (next)
         {
             case Scene.Title:
-                { }
+                {
+                    SoundManager.Instance.ChengeBGM(SoundManager.BGMType.Title);
+                }
                 break;
             case Scene.InGame:
                 {
-                    OnGameStart?.Invoke();
+                    SoundManager.Instance.ChengeBGM(SoundManager.BGMType.InGame);
                 }
                 break;
             case Scene.Result:
@@ -87,6 +96,14 @@ public class GameManager : Singleton<GameManager>
     private void SceneLoad(Scene nextScene)
     {
         UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int)nextScene);
+    }
+
+    /// <summary>
+    /// 画面フェードをする
+    /// </summary>
+    private IEnumerator DoFade(Image[] images, float time)
+    {
+        yield return null;
     }
     #endregion
 }

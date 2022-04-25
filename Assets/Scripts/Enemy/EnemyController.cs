@@ -8,37 +8,42 @@ using System.Collections;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour, IDamageable
 {
-    EnemyController() { }
+    private EnemyController() { }
 
     [SerializeField]
-    NavMeshAgent _nav = default;
+    private NavMeshAgent _nav = default;
 
     [SerializeField]
-    Animator _animator = default;
+    private Animator _animator = default;
 
     [SerializeField]
-    Transform _targetTransform = default;
+    private Transform _targetTransform = default;
 
     [SerializeField]
-    float _startChaseDistance = default;
+    private float _startChaseDistance = default;
 
     [SerializeField]
-    int _maxHP = default;
+    private int _maxHP = default;
 
     [SerializeField]
-    Collider _attackCollider = default;
+    private Collider _attackCollider = default;
 
     [SerializeField]
-    HPUIController _HPUIController = default;
+    private HPUIController _HPUIController = default;
+
+    [SerializeField]
+    private Mission _mission = default;
 
     public bool IsGameEnd { get; private set; } = false;
-    public bool IsDead => _currentHP < 1;
 
-    int _currentHP = default;
+    public bool IsDead => _currentHP <= 0;
+
+    private int _currentHP = default;
     /// <summary>HPゲージの表示割合を返す</summary>
     public float GetUIValue => (float)_currentHP / _maxHP;
+
     /// <summary>Playerとの距離を格納する変数</summary>
-    float _distance = default;
+    private float _distance = default;
 
     // アニメーションのハッシュ
     readonly int _hashDizzy = Animator.StringToHash("Dizzy");
@@ -101,18 +106,21 @@ public class EnemyController : MonoBehaviour, IDamageable
         _currentHP--;
         _HPUIController.UpdateHPSlider(this);
 
-        if (IsDead)
+        var check = AriveCheck();
+
+        if (!check)
         {
             _animator.Play(_hashDie);
+            _mission.AddScore();
             return;
         }
+
         StartCoroutine(HitStopAcync());
         _animator.Play(_hashDizzy);
     }
 
     public void PlayFootstep()
     {
-        // _source.PlayOneShot(clip);
         SoundManager.Instance.PlaySE(SoundManager.SEType.EnemyFootStep);
     }
 
@@ -126,30 +134,29 @@ public class EnemyController : MonoBehaviour, IDamageable
         _attackCollider.enabled = false;
     }
 
-    public void Destroy()
-    {
-        Destroy(this.gameObject);
-    }
-
     public void Subscribe()
     {
-        GameManager.Instance.OnGameEnd += GameClear;
+        GameManager.Instance.OnGameEnd += MoveStop;
+
     }
 
     public void Unsubscribe()
     {
-        GameManager.Instance.OnGameEnd -= GameClear;
+        GameManager.Instance.OnGameEnd -= MoveStop;
     }
 
-    private void OnDestroy()
+    /// <summary>
+    /// 生存しているか
+    /// true = 生存
+    /// </summary>
+    private bool AriveCheck()
     {
-        // Mission.Instance.OnGameEnd -= GameClear;
-        // GameManager.Instance.GameScoreUp();
+        return _currentHP > 0;
     }
 
-    float _Timer = 0f;
+    private float _Timer = 0f;
 
-    IEnumerator HitStopAcync()
+    private IEnumerator HitStopAcync()
     {
         _Timer = 0f;
         Time.timeScale = 0.1f;
@@ -162,18 +169,13 @@ public class EnemyController : MonoBehaviour, IDamageable
         yield return null;
     }
 
-    public void GameClear()
-    {
-        Unsubscribe();
-        MoveStop();
-        IsGameEnd = true;
-    }
-
     /// <summary>
     /// navメッシュの追跡をやめる
     /// </summary>
     private void MoveStop()
     {
+        Unsubscribe();
         _nav.isStopped = true;
+        IsGameEnd = true;
     }
 }
