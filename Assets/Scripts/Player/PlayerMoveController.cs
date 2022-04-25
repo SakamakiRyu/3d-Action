@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 /// InputSystemの入力でHumanoidModelを動かすコンポーネント
 /// 移動はカメラを基準にの相対的な移動をする。(常にカメラ前方が正面になる)
 /// </summary>
-[RequireComponent(typeof(Rigidbody), typeof(AudioSource))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMoveController : MonoBehaviour, IDamageable
 {
     enum MoveState
@@ -20,13 +20,13 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     PlayerInput m_input = default;
 
     [SerializeField]
-    PlayerParameter m_parameter = default;
+    PlayerParameter _parameter = default;
 
     [SerializeField]
-    Rigidbody m_rigidBody = default;
+    Rigidbody _rigidBody = default;
 
     [SerializeField]
-    Animator m_animator = default;
+    Animator _animator = default;
 
     [SerializeField]
     Transform m_groundCheckTrasnform = default;
@@ -58,35 +58,32 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     // アニメーターのハッシュ
     readonly int m_hashDamaged = Animator.StringToHash("Damaged");
     // インプットシステムの入力の取得
-    InputAction m_move, m_attack, m_jump;
+    InputAction _move, _attack, m_jump;
 
-    AudioSource m_source;
-    Vector2 m_v2;
+    Vector2 _v2;
     #endregion
 
     #region Unity Function
-
-    void Start()
+    private void Start()
     {
-        TryGetComponent(out m_source);
         SetInput();
     }
 
-    void Update()
+    private void Update()
     {
         StateUpdate();
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-        Vector3 v3 = m_rigidBody.velocity;
+        Vector3 v3 = _rigidBody.velocity;
         v3.y = 0;
-        m_animator.SetFloat("Speed", v3.magnitude);
-        m_animator.SetFloat("AnimationSpeed", m_v2.magnitude);
-        m_animator.SetBool("IsGrounded", m_isGrounded);
+        _animator.SetFloat("Speed", v3.magnitude);
+        _animator.SetFloat("AnimationSpeed", _v2.magnitude);
+        _animator.SetBool("IsGrounded", m_isGrounded);
     }
 
-    void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (!other.CompareTag("Player") && !other.CompareTag("MainCamera"))
         {
@@ -94,7 +91,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         }
     }
 
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player") && !other.CompareTag("MainCamera"))
         {
@@ -143,19 +140,18 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     public void AddDamage()
     {
         // 既に死んでいたら処理をしない。
-        if (m_parameter.GetCurrentState == PlayerParameter.State.Death) return;
+        if (_parameter.CurrentState == PlayerParameter.State.Death) return;
 
-        m_parameter.ReduceHP();
+        _parameter.ReduceHP();
 
-        HPCheck();
+        // StateCheck();
+        if (_parameter.CurrentState == PlayerParameter.State.Death)
+        {
+            _animator.SetTrigger("Die");
+            _rigidBody.isKinematic = true;
+        }
 
-        m_animator.Play(m_hashDamaged);
-    }
-
-    /// <summary>イベントに登録</summary>
-    public void Register()
-    {
-        Mission.Instance.OnGameEnd += OnEnd;
+        _animator.Play(m_hashDamaged);
     }
 
     /// <summary>AnimationEvent用関数</summary>
@@ -166,27 +162,40 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     /// <summary>AnimationEvent用関数</summary>
     /// <param name="clip"></param>
-    public void OnPlaySound(AudioClip clip)
+    public void PlayFootstep(AudioClip clip)
     {
-        m_source.PlayOneShot(clip);
+        SoundManager.Instance.PlaySE(SoundManager.SEType.PlayerFootStep);
     }
     #endregion
 
     #region Private Function
     /// <summary>インプットシステムの入力を取得</summary>
-    void SetInput()
+    private void SetInput()
     {
-        m_move = m_input.currentActionMap["Move"];
+        _move = m_input.currentActionMap["Move"];
         m_jump = m_input.currentActionMap["Jump"];
-        m_attack = m_input.currentActionMap["Attack1"];
+        _attack = m_input.currentActionMap["Attack1"];
+    }
+
+    /// <summary>イベントに登録</summary>
+    private void Subscribe()
+    {
+
+    }
+
+    /// <summary>イベントの登録解除</summary>
+    private void Unsubscribe()
+    {
+
     }
 
     /// <summary>ステート毎に毎フレーム呼ばれる処理</summary>
     void StateUpdate()
     {
-        switch (m_parameter.GetCurrentState)
+        switch (_parameter.CurrentState)
         {
             case PlayerParameter.State.None:
+                { }
                 break;
             case PlayerParameter.State.Arive:
                 {
@@ -202,43 +211,29 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         }
     }
 
-    /// <summary>
-    /// ステートの確認をして、それに応じた処理をする
-    /// </summary>
-    void HPCheck()
+    private void Attack()
     {
-        if (m_parameter.GetCurrentState == PlayerParameter.State.Death)
+        if (_attack.triggered)
         {
-            m_animator.SetTrigger("Die");
-            m_rigidBody.isKinematic = true;
-            Mission.Instance.GameEnd(this.m_parameter);
-            // Mission.Instance.IsGameover = true;
-        }
-    }
-
-    void Attack()
-    {
-        if (m_attack.triggered)
-        {
-            m_animator.SetTrigger("Attack1");
+            _animator.SetTrigger("Attack1");
         }
     }
 
     /// <summary>歩く</summary>
-    void Walk()
+    private void Walk()
     {
-        m_v2 = m_move.ReadValue<Vector2>();
-        Vector3 dir = Vector3.forward * m_v2.y + Vector3.right * m_v2.x;
+        _v2 = _move.ReadValue<Vector2>();
+        Vector3 dir = Vector3.forward * _v2.y + Vector3.right * _v2.x;
 
         if (dir == Vector3.zero)
         {
             if (m_isGrounded)
             {
-                m_rigidBody.velocity = new Vector3(0f, m_rigidBody.velocity.y, 0f);
+                _rigidBody.velocity = new Vector3(0f, _rigidBody.velocity.y, 0f);
             }
             else
             {
-                m_rigidBody.velocity = new Vector3(m_rigidBody.velocity.x, m_rigidBody.velocity.y, m_rigidBody.velocity.z);
+                _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _rigidBody.velocity.y, _rigidBody.velocity.z);
             }
         }
         else
@@ -258,38 +253,24 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
                 if (m_isMotionPlay)
                 {
-                    m_rigidBody.velocity = Vector3.zero;
+                    _rigidBody.velocity = Vector3.zero;
                 }
                 else
                 {
-                    velo.y = m_rigidBody.velocity.y;
-                    m_rigidBody.velocity = velo;
+                    velo.y = _rigidBody.velocity.y;
+                    _rigidBody.velocity = velo;
                 }
             }
         }
     }
 
     /// <summary>ジャンプ</summary>
-    void Jump()
+    private void Jump()
     {
         if (m_isGrounded && m_jump.triggered)
         {
-            m_rigidBody.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
+            _rigidBody.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
         }
     }
-    #endregion
-
-    #region Extend Editor 
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-
-    }
-
-    private void OnDrawGizmos()
-    {
-
-    }
-#endif
     #endregion
 }

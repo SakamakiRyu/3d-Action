@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class GameManager : Singleton<GameManager>
 {
     #region Define
@@ -15,9 +11,6 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Property
-    [SerializeField]
-    private Mission _mission;
-
     /// <summary>現在のシーン</summary>
     public Scene CurrentScene { get; private set; } = Scene.None;
     /// <summary>ゲーム(InGame)開始時に呼ばれる処理</summary>
@@ -42,11 +35,11 @@ public class GameManager : Singleton<GameManager>
 
     #region Public Fucntion
     /// <summary>
-    /// ゲームの終了通知を受け取る
+    /// ゲーム終了の通知を受け取る
     /// </summary>
     public void RequestGameEnd()
     {
-        _mission.OnGameEnd();
+        OnGameEnd?.Invoke();
     }
 
     /// <summary>
@@ -77,7 +70,7 @@ public class GameManager : Singleton<GameManager>
                 break;
             case Scene.Result:
                 {
-                   OnGameEnd?.Invoke();
+                    OnGameEnd?.Invoke();
                 }
                 break;
         }

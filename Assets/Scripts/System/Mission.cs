@@ -7,37 +7,33 @@ public class Mission : MonoBehaviour
 {
     [Header("ゲームクリアに必要な敵の討伐数")]
     [SerializeField] 
-    int m_needDefeatCount = default;
+    int _needDefeatCount = default;
 
     [Header("ゲームクリア時に表示するパネル")]
     [SerializeField] 
-    GameObject m_gameClearWindow = default;
+    GameObject _gameClearWindow = default;
 
     [Header("ゲームクリア時に表示する画像の背景")]
     [SerializeField] 
-    Image m_clearBackGroundImage = default;
+    Image _clearBackGroundImage = default;
 
     [Header("敗北時に表示するパネル")]
     [SerializeField] 
-    GameObject m_gameoverWindow = default;
+    GameObject _gameoverWindow = default;
 
     [SerializeField] 
-    Image m_contollerImage = default;
+    Image _contollerImage = default;
 
-    int m_currentDefeatCount = 0;
+    int _currentDefeatCount = 0;
 
     /// <summary>ゲームクリアしているか</summary>
-    public bool IsClear => m_currentDefeatCount >= m_needDefeatCount;
+    public bool IsClear => _currentDefeatCount >= _needDefeatCount;
 
-    public bool IsGameover { get; set; } = false;
-    bool m_isColorChenge = false;
-
-    /// <summary>ゲーム終了時に呼ばれるイベント</summary>
-    public System.Action OnGameEnd;
+    bool _isColorChenge = false;
 
     private void Start()
     {
-        m_currentDefeatCount = 0;
+        _currentDefeatCount = 0;
     }
 
     private void Update()
@@ -56,7 +52,7 @@ public class Mission : MonoBehaviour
     /// </summary>
     public void GameScoreUp()
     {
-        m_currentDefeatCount++;
+        _currentDefeatCount++;
         CheckGameClear();
     }
 
@@ -64,8 +60,7 @@ public class Mission : MonoBehaviour
     {
         if (playerParam.CurrentState == PlayerParameter.State.Death)
         {
-            OnGameEnd?.Invoke();
-            m_contollerImage.enabled = false;
+            _contollerImage.enabled = false;
             StartCoroutine(TitleLoad());
         }
     }
@@ -74,15 +69,14 @@ public class Mission : MonoBehaviour
     {
         if (IsClear)
         {
-            m_gameClearWindow.SetActive(true);
-            m_contollerImage.enabled = false;
-            if (!m_isColorChenge)
+            _gameClearWindow.SetActive(true);
+            _contollerImage.enabled = false;
+            if (!_isColorChenge)
             {
-                m_clearBackGroundImage.DOColor(new Color(1, 1, 1, 1), 4f);
+                _clearBackGroundImage.DOColor(new Color(1, 1, 1, 1), 4f);
             }
             StartCoroutine(TitleLoad());
-            m_isColorChenge = true;
-            OnGameEnd?.Invoke();
+            _isColorChenge = true;
         }
     }
 

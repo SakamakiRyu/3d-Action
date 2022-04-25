@@ -16,7 +16,7 @@ public class PlayerParameter : MonoBehaviour
 
     #region Property
     [SerializeField]
-    private int m_maxHP;
+    private int _maxHP;
 
     public int CurrentHP { get; private set; }
     public State CurrentState { get; private set; }
@@ -25,7 +25,7 @@ public class PlayerParameter : MonoBehaviour
     #region Unity Function
     private void Awake()
     {
-        CurrentHP = m_maxHP;
+        CurrentHP = _maxHP;
     }
 
     private void Start()
@@ -40,9 +40,7 @@ public class PlayerParameter : MonoBehaviour
     #endregion
 
     #region Private Fucntion
-    /// <summary>
-    /// ステートの変更をする
-    /// </summary>
+    /// <summary>ステートの変更をする</summary>
     private void ChengeState(State next)
     {
         switch (next)
@@ -63,9 +61,7 @@ public class PlayerParameter : MonoBehaviour
         CurrentState = next;
     }
 
-    /// <summary>
-    /// ステート毎に毎フレーム呼ばれる処理
-    /// </summary>
+    /// <summary>ステート毎に毎フレーム呼ばれる処理</summary>
     private void StateUpdate()
     {
         switch (CurrentState)
@@ -84,9 +80,7 @@ public class PlayerParameter : MonoBehaviour
     #endregion
 
     #region Public Fucntion
-    /// <summary>
-    /// 体力を減らす
-    /// </summary>
+    /// <summary>体力を減らす</summary>
     public void ReduceHP()
     {
         var after = --CurrentHP;

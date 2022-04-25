@@ -1,32 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// âπÇÃä«óùÉNÉâÉX
+/// </summary>
 public class SoundManager : Singleton<SoundManager>
 {
+    public enum BGMType
+    {
+        Title,
+        InGame
+    }
+
     public enum SEType
     {
-        Sword1 = 0,
+        Sword = 0,
+        EnemyFootStep,
+        PlayerFootStep
     }
 
     [SerializeField]
-    AudioSource m_bgmSource = default;
+    AudioSource _bgmSource = default;
 
     [SerializeField]
-    AudioSource m_seSource = default;
+    AudioSource _seSource = default;
 
     [SerializeField]
-    AudioClip[] m_bgmClips = default;
+    AudioClip[] _bgmClips = default;
 
     [SerializeField]
-    AudioClip[] m_seClips = default;
+    AudioClip[] _seClips = default;
 
-    /// <summary>
-    /// SEÇÇ»ÇÁÇ∑
-    /// </summary>
+    /// <summary>BGMÇïœÇ¶ÇÈ</summary>
+    /// <param name="type"></param>
+    public void ChengeBGM(BGMType type)
+    {
+        _bgmSource.clip = _bgmClips[(int)type];
+    }
+
+    /// <summary>SEÇÇ»ÇÁÇ∑</summary>
     /// <param name="type">ñ¬ÇÁÇ∑âπ</param>
     public void PlaySE(SEType type)
     {
-
+        _seSource.PlayOneShot(_seClips[(int)type]);
     }
 }

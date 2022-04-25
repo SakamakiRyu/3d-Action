@@ -4,21 +4,21 @@ using UnityEngine.UI;
 public class HPUIController : MonoBehaviour
 {
     [SerializeField] 
-    Slider m_slider = default;
+    Slider _slider = default;
 
     [SerializeField]
-    Canvas m_canvas = default;
+    Canvas _canvas = default;
 
     private void Start()
     {
-        if (m_slider != null)
+        if (_slider != null)
         {
-            m_slider.value = 1.0f;
+            _slider.value = 1.0f;
         }
 
-        if (m_canvas != null)
+        if (_canvas != null)
         {
-            m_canvas.enabled = false;
+            _canvas.enabled = false;
         }
     }
 
@@ -42,10 +42,10 @@ public class HPUIController : MonoBehaviour
     /// </summary>
     public void UpdateHPSlider(EnemyController enemyDate)
     {
-        if (m_canvas.enabled == false)
+        if (_canvas.enabled == false)
         {
-            m_canvas.enabled = true;
+            _canvas.enabled = true;
         }
-        m_slider.value = enemyDate.GetUIValue;
+        _slider.value = enemyDate.GetUIValue;
     }
 }
