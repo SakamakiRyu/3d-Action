@@ -26,13 +26,12 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Unity Fucntion
-    private void Awake()
-    {
-        ChengeScene(Scene.Title);
-    }
-
     private void Start()
     {
+        if (CurrentScene == Scene.None)
+        {
+            ChengeScene(Scene.Title);
+        }
     }
 
     private void Update()
@@ -75,18 +74,18 @@ public class GameManager : Singleton<GameManager>
             case Scene.InGame:
                 {
                     SoundManager.Instance.ChengeBGM(SoundManager.BGMType.InGame);
+                    SceneLoad(next);
                 }
                 break;
             case Scene.Result:
                 {
                     OnGameEnd?.Invoke();
+                    SceneLoad(next);
                 }
                 break;
         }
 
         CurrentScene = next;
-
-        SceneLoad(next);
     }
 
     /// <summary>
