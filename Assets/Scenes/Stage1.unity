@@ -171,7 +171,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.600541, y: 1}
+    m_SensorSize: {x: 1.5987842, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -634,7 +634,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.600541, y: 1}
+    m_SensorSize: {x: 1.5987842, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -23468,7 +23468,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.600541, y: 1}
+    m_SensorSize: {x: 1.5987842, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -37149,6 +37149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_bgmSource: {fileID: 0}
   m_seSource: {fileID: 0}
+  m_bgmClips: []
   m_seClips: []
 --- !u!4 &1346899496
 Transform:
@@ -37263,7 +37264,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.600541, y: 1}
+    m_SensorSize: {x: 1.5987842, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -38164,7 +38165,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.600541, y: 1}
+    m_SensorSize: {x: 1.5987842, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -39127,7 +39128,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.600541, y: 1}
+    m_SensorSize: {x: 1.5987842, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -41054,7 +41055,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.600541, y: 1}
+    m_SensorSize: {x: 1.5987842, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -41070,7 +41071,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913896458}
-  m_LocalRotation: {x: 0.1337808, y: 0.000000033020495, z: -0.000000004457578, w: 0.99101096}
+  m_LocalRotation: {x: 0.1337808, y: 0.00000003302049, z: -0.0000000044575774, w: 0.99101096}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -41577,6 +41578,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7422513066920060117}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2033202010 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5871572770389674951, guid: 482af720c87f08d48b542f4ec13ef1d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7422513066920060117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110663744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 918a58ef607e5b642b07d64762a01ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2039557968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43485,6 +43498,11 @@ PrefabInstance:
       propertyPath: _AttackPower
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5871572770389674951, guid: 482af720c87f08d48b542f4ec13ef1d3,
+        type: 3}
+      propertyPath: m_maxHP
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6036819723879020069, guid: 482af720c87f08d48b542f4ec13ef1d3,
         type: 3}
       propertyPath: m_Center.z
@@ -43532,6 +43550,11 @@ PrefabInstance:
       objectReference: {fileID: 1888844273}
     - target: {fileID: 7422513066178354852, guid: 482af720c87f08d48b542f4ec13ef1d3,
         type: 3}
+      propertyPath: m_input
+      value: 
+      objectReference: {fileID: 1273887609}
+    - target: {fileID: 7422513066178354852, guid: 482af720c87f08d48b542f4ec13ef1d3,
+        type: 3}
       propertyPath: m_maxHP
       value: 3
       objectReference: {fileID: 0}
@@ -43555,6 +43578,11 @@ PrefabInstance:
       propertyPath: m_moveSpeed
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 7422513066178354852, guid: 482af720c87f08d48b542f4ec13ef1d3,
+        type: 3}
+      propertyPath: m_parameter
+      value: 
+      objectReference: {fileID: 2033202010}
     - target: {fileID: 7422513066178354852, guid: 482af720c87f08d48b542f4ec13ef1d3,
         type: 3}
       propertyPath: m_rigidBody

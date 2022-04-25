@@ -6,9 +6,9 @@ using UnityEngine.InputSystem;
 /// 移動はカメラを基準にの相対的な移動をする。(常にカメラ前方が正面になる)
 /// </summary>
 [RequireComponent(typeof(Rigidbody), typeof(AudioSource))]
-public class PlayerController : MonoBehaviour, IDamageable
+public class PlayerMoveController : MonoBehaviour, IDamageable
 {
-    enum MoveState 
+    enum MoveState
     {
         Idle,
         Run,
@@ -17,7 +17,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     #region Serialize Field
     [SerializeField]
-    PlayerInput m_pInput = default;
+    PlayerInput m_input = default;
+
+    [SerializeField]
+    PlayerParameter m_parameter = default;
 
     [SerializeField]
     Rigidbody m_rigidBody = default;
@@ -48,13 +51,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     #endregion
 
     #region Private Field
-    int m_currentHP = default;
     bool m_isGrounded = false;
     bool m_isGameEnded = false;
     bool m_isMotionPlay = false;
 
-    /// <summary>生きているか</summary>
-    public bool IsArive => m_currentHP > 0;
     // アニメーターのハッシュ
     readonly int m_hashDamaged = Animator.StringToHash("Damaged");
     // インプットシステムの入力の取得
@@ -65,10 +65,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     #endregion
 
     #region Unity Function
-    void Awake()
-    {
-        m_currentHP = m_maxHP;
-    }
 
     void Start()
     {
@@ -78,10 +74,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if (!IsArive || m_isGameEnded) return;
-        Walk();
-        Jump();
-        Attack();
+        StateUpdate();
     }
 
     void LateUpdate()
@@ -113,8 +106,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     #region Public Function
     // AnimationEvent用列挙
     public enum IsVisible { True, False }
-
-    public void OnBeginTrail(IsVisible isVisible)
+    /// <summary>
+    /// 剣の軌跡を表示を操作する
+    /// </summary>
+    public void TrailSetting(IsVisible isVisible)
     {
         if (isVisible == IsVisible.False)
         {
@@ -145,20 +140,15 @@ public class PlayerController : MonoBehaviour, IDamageable
         m_attackCollider.enabled = false;
     }
 
-    public void AddDamage(int damage)
+    public void AddDamage()
     {
-        // 既に死んでいたら下記の処理はしない。
-        if (!IsArive) return;
+        // 既に死んでいたら処理をしない。
+        if (m_parameter.GetCurrentState == PlayerParameter.State.Death) return;
 
-        m_currentHP--;
+        m_parameter.ReduceHP();
 
-        if (!IsArive)
-        {
-            m_animator.SetTrigger("Die");
-            m_rigidBody.isKinematic = true;
-            Mission.Instance.IsGameover = true;
-            return;
-        }
+        HPCheck();
+
         m_animator.Play(m_hashDamaged);
     }
 
@@ -183,13 +173,47 @@ public class PlayerController : MonoBehaviour, IDamageable
     #endregion
 
     #region Private Function
-
     /// <summary>インプットシステムの入力を取得</summary>
     void SetInput()
     {
-        m_move = m_pInput.currentActionMap["Move"];
-        m_jump = m_pInput.currentActionMap["Jump"];
-        m_attack = m_pInput.currentActionMap["Attack1"];
+        m_move = m_input.currentActionMap["Move"];
+        m_jump = m_input.currentActionMap["Jump"];
+        m_attack = m_input.currentActionMap["Attack1"];
+    }
+
+    /// <summary>ステート毎に毎フレーム呼ばれる処理</summary>
+    void StateUpdate()
+    {
+        switch (m_parameter.GetCurrentState)
+        {
+            case PlayerParameter.State.None:
+                break;
+            case PlayerParameter.State.Arive:
+                {
+                    Walk();
+                    Jump();
+                    Attack();
+                }
+                break;
+            case PlayerParameter.State.Death:
+                {
+                }
+                break;
+        }
+    }
+
+    /// <summary>
+    /// ステートの確認をして、それに応じた処理をする
+    /// </summary>
+    void HPCheck()
+    {
+        if (m_parameter.GetCurrentState == PlayerParameter.State.Death)
+        {
+            m_animator.SetTrigger("Die");
+            m_rigidBody.isKinematic = true;
+            Mission.Instance.GameEnd(this.m_parameter);
+            // Mission.Instance.IsGameover = true;
+        }
     }
 
     void Attack()

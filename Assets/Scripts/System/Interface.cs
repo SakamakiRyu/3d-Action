@@ -6,8 +6,7 @@ public interface IDamageable
     /// <summary>
     /// ダメージを与える
     /// </summary>
-    /// <param name="damage">ダメージ</param>
-    public void AddDamage(int damage);
+    public void AddDamage();
 }
 
 /// <summary>
@@ -16,7 +15,7 @@ public interface IDamageable
 interface IGame
 {
     /// <summary>イベントに登録する関数</summary>
-    void Register();
+    void Subscribe();
     /// <summary>ゲームクリア時に呼ばれる関数</summary>
     void GameClear();
 }

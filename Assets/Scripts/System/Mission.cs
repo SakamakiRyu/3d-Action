@@ -24,7 +24,6 @@ public class Mission : Singleton<Mission>
     [SerializeField] 
     Image m_contollerImage = default;
 
-    [SerializeField] 
     int m_currentDefeatCount = 0;
 
     /// <summary>ゲームクリアしているか</summary>
@@ -36,16 +35,43 @@ public class Mission : Singleton<Mission>
     /// <summary>ゲーム終了時に呼ばれるイベント</summary>
     public System.Action OnGameEnd;
 
+    private void Start()
+    {
+        m_currentDefeatCount = 0;
+    }
+
     private void Update()
     {
-        if (IsGameover)
+        //if (IsGameover)
+        //{
+        //    OnGameEnd?.Invoke();
+        //    m_contollerImage.enabled = false;
+        //    StartCoroutine(TitleLoad());
+        //    return;
+        //}
+    }
+
+    /// <summary>
+    /// ゲームスコアの加算
+    /// </summary>
+    public void GameScoreUp()
+    {
+        m_currentDefeatCount++;
+        CheckGameClear();
+    }
+
+    public void GameEnd(PlayerParameter playerParam)
+    {
+        if (playerParam.GetCurrentState == PlayerParameter.State.Death)
         {
             OnGameEnd?.Invoke();
             m_contollerImage.enabled = false;
             StartCoroutine(TitleLoad());
-            return;
         }
+    }
 
+    void CheckGameClear()
+    {
         if (IsClear)
         {
             m_gameClearWindow.SetActive(true);
@@ -58,14 +84,6 @@ public class Mission : Singleton<Mission>
             m_isColorChenge = true;
             OnGameEnd?.Invoke();
         }
-    }
-
-    /// <summary>
-    /// ゲームスコアの加算
-    /// </summary>
-    public void GameScoreUp()
-    {
-        m_currentDefeatCount++;
     }
 
     IEnumerator TitleLoad()

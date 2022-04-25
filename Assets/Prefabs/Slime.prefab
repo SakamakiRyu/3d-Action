@@ -933,6 +933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_nav: {fileID: 8483864380714333812}
+  m_animator: {fileID: 8483864380714333810}
   m_targetTransform: {fileID: 0}
   m_startChaseDistance: 30
   m_maxHP: 3

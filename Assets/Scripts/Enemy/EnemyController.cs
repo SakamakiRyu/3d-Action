@@ -14,6 +14,9 @@ public class EnemyController : MonoBehaviour, IGame, IDamageable
     NavMeshAgent m_nav = default;
 
     [SerializeField]
+    Animator m_animator = default;
+
+    [SerializeField]
     Transform m_targetTransform = default;
 
     [SerializeField]
@@ -42,7 +45,6 @@ public class EnemyController : MonoBehaviour, IGame, IDamageable
     readonly int m_hashDie = Animator.StringToHash("Die");
 
     AudioSource m_source;
-    Animator m_animator;
 
     private void Awake()
     {
@@ -51,10 +53,9 @@ public class EnemyController : MonoBehaviour, IGame, IDamageable
 
     private void Start()
     {
-        Register();
+        Subscribe();
         m_source = GetComponent<AudioSource>();
         m_animator = GetComponent<Animator>();
-        m_nav = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
@@ -99,7 +100,7 @@ public class EnemyController : MonoBehaviour, IGame, IDamageable
         }
     }
 
-    public void AddDamage(int damage)
+    public void AddDamage()
     {
         m_currentHP--;
         m_HPUIController.UpdateHPSlider(this);
@@ -133,14 +134,19 @@ public class EnemyController : MonoBehaviour, IGame, IDamageable
         Destroy(this.gameObject);
     }
 
-    public void Register()
+    public void Subscribe()
     {
         Mission.Instance.OnGameEnd += GameClear;
     }
 
-    private void OnDestroy()
+    public void Unsubscribe()
     {
         Mission.Instance.OnGameEnd -= GameClear;
+    }
+
+    private void OnDestroy()
+    {
+        // Mission.Instance.OnGameEnd -= GameClear;
         Mission.Instance.GameScoreUp();
     }
 
@@ -161,7 +167,16 @@ public class EnemyController : MonoBehaviour, IGame, IDamageable
 
     public void GameClear()
     {
-        m_nav.isStopped = true;
+        Unsubscribe();
+        MoveStop();
         IsGameEnd = true;
+    }
+
+    /// <summary>
+    /// navメッシュの追跡をやめる
+    /// </summary>
+    private void MoveStop()
+    {
+        m_nav.isStopped = true;
     }
 }

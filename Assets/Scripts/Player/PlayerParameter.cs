@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// プレイヤーにパラメーターを付与するクラス
 /// </summary>
-public class PlayerParameter : MonoBehaviour, IDamageable
+public class PlayerParameter : MonoBehaviour
 {
     public enum State
     {
@@ -12,22 +12,26 @@ public class PlayerParameter : MonoBehaviour, IDamageable
         Death
     }
 
+    #region Serialized Field
     [SerializeField]
-    private int _MaxHP;
+    private int m_maxHP;
+    #endregion
 
-    /// <summary>現在のHP</summary>
-    private int _CurrentHP;
-    /// <summary>現在のステート</summary>
-    private State _CurrentState;
+    #region Private Field
+    private int m_currentHP;
+    private State m_currentState;
+    #endregion
 
+    #region Property
     /// <summary>現在のHPを取得</summary>
-    public int GetCurrentHP => _CurrentHP;
+    public int GetCurrentHP => m_currentHP;
     /// <summary>現在のステートを取得</summary>
-    public State GetCurrentState => _CurrentState;
+    public State GetCurrentState => m_currentState;
+    #endregion
 
     private void Awake()
     {
-        _CurrentHP = _MaxHP;
+        m_currentHP = m_maxHP;
     }
 
     private void Start()
@@ -35,9 +39,17 @@ public class PlayerParameter : MonoBehaviour, IDamageable
         ChengeState(State.Arive);
     }
 
-    public void AddDamage(int damage)
+    private void Update()
     {
-        var after = _CurrentHP - damage;
+        StateUpdate();
+    }
+
+    /// <summary>
+    /// 体力を減らす
+    /// </summary>
+    public void ReduceHP()
+    {
+        var after = --m_currentHP;
 
         if (after <= 0)
         {
@@ -45,7 +57,7 @@ public class PlayerParameter : MonoBehaviour, IDamageable
             return;
         }
 
-        _CurrentHP = after;
+        m_currentHP = after;
     }
 
     /// <summary>
@@ -53,7 +65,7 @@ public class PlayerParameter : MonoBehaviour, IDamageable
     /// </summary>
     private void ChengeState(State next)
     {
-        var prev = _CurrentState;
+        var prev = m_currentState;
 
         switch (next)
         {
@@ -68,6 +80,25 @@ public class PlayerParameter : MonoBehaviour, IDamageable
                 break;
         }
 
-        _CurrentState = next;
+        m_currentState = next;
+    }
+
+    /// <summary>
+    /// ステート毎に毎フレーム呼ばれる処理
+    /// </summary>
+    private void StateUpdate()
+    {
+        switch (m_currentState)
+        {
+            case State.None:
+                { }
+                break;
+            case State.Arive:
+                { }
+                break;
+            case State.Death:
+                { }
+                break;
+        }
     }
 }
