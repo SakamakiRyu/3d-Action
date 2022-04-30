@@ -137,12 +137,19 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void Subscribe()
     {
         GameManager.Instance.OnGameEnd += MoveStop;
-
     }
 
     public void Unsubscribe()
     {
         GameManager.Instance.OnGameEnd -= MoveStop;
+    }
+
+    /// <summary>
+    /// Animation用の関数
+    /// </summary>
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 
     /// <summary>

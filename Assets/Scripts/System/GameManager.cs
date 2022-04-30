@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,10 +16,6 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Property
-    [Header("フェードにかける時間")]
-    [SerializeField]
-    private float _fadeTime = default;
-
     /// <summary>現在のシーン</summary>
     public Scene CurrentScene { get; private set; } = Scene.None;
     /// <summary>ゲーム(InGame)終了時に呼ばれる処理</summary>
@@ -30,12 +27,13 @@ public class GameManager : Singleton<GameManager>
     {
         if (CurrentScene == Scene.None)
         {
-            ChengeScene(Scene.Title);
+            ChengeSceneState(Scene.Title);
         }
     }
 
     private void Update()
     {
+        UpdateState();
     }
     #endregion
 
@@ -54,15 +52,36 @@ public class GameManager : Singleton<GameManager>
     /// <param name="scene"></param>
     public void StartButton()
     {
-        ChengeScene(Scene.InGame);
+        ChengeSceneState(Scene.InGame);
     }
     #endregion
 
     #region Private Function
     /// <summary>
+    /// ステート毎に毎フレーム呼ばれる処理
+    /// </summary>
+    private void UpdateState()
+    {
+        switch (CurrentScene)
+        {
+            case Scene.None:
+                break;
+            case Scene.Title:
+                {
+                    
+                }
+                break;
+            case Scene.InGame:
+                break;
+            case Scene.Result:
+                break;
+        }
+    }
+
+    /// <summary>
     /// シーンステートの変更をする
     /// </summary>
-    private void ChengeScene(Scene next)
+    private void ChengeSceneState(Scene next)
     {
         switch (next)
         {
@@ -74,35 +93,18 @@ public class GameManager : Singleton<GameManager>
             case Scene.InGame:
                 {
                     SoundManager.Instance.ChengeBGM(SoundManager.BGMType.InGame);
-                    SceneLoad(next);
                 }
                 break;
             case Scene.Result:
                 {
                     OnGameEnd?.Invoke();
-                    SceneLoad(next);
                 }
                 break;
         }
 
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int)next);
+
         CurrentScene = next;
-    }
-
-    /// <summary>
-    /// 指定したシーンのロードをする
-    /// </summary>
-    /// <param name="nextScene">ロードするシーン</param>
-    private void SceneLoad(Scene nextScene)
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int)nextScene);
-    }
-
-    /// <summary>
-    /// 画面フェードをする
-    /// </summary>
-    private IEnumerator DoFade(Image[] images, float time)
-    {
-        yield return null;
     }
     #endregion
 }

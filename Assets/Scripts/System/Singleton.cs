@@ -1,49 +1,35 @@
 ﻿using UnityEngine;
 
 /// <summary>継承先のクラスをシングルトン化をするクラス</summary>
-public class Singleton<T> : MonoBehaviour where T : Singleton<T>
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static T Instance { get; private set; } = null;
+    private static T _Instance;
 
-    /// <summary>DestroyをGameObjectにするか</summary>
-    protected virtual bool m_DestroyTargetGameObject => false;
-
-    private void Awake()
+    public static T Instance
     {
-        if (Instance == null)
+        get
         {
-            Instance = this as T;
-            Instance.Init();
+            if (!_Instance)
+            {
+                _Instance = (T)FindObjectOfType(typeof(T));
+
+                if (!_Instance)
+                {
+                    Debug.LogError(typeof(T) + "がシーンに存在しません。");
+                }
+            }
+            return _Instance;
+        }
+    }
+
+
+    public virtual void Awake()
+    {
+        if (this != Instance)
+        {
+            Destroy(this.gameObject);
             return;
         }
-
-        if (m_DestroyTargetGameObject)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(this);
-        }
-    }
-
-    /// <summary>継承先でAwakeのタイミングで処理したい場合に利用するメソッド</summary>
-    public virtual void Init()
-    {
-
-    }
-
-    private void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
-    }
-
-    /// <summary>継承先でOnDestroyのタイミングで処理したい場合に利用するメソッド</summary>
-    public virtual void OnRelease()
-    {
-
+        DontDestroyOnLoad(this.gameObject);
     }
 }

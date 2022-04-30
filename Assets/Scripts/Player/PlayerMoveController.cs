@@ -11,60 +11,65 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     #region Define
     private PlayerMoveController() { }
 
-    enum MoveState
+    public enum ActionState
     {
+        None,
         Idle,
+        Walk,
         Run,
-        Attack
+        Jump,
+        Attack,
+        Die
     }
     #endregion
 
     #region Serialize Field
     [SerializeField]
-    PlayerInput m_input = default;
+    private PlayerInput m_input = default;
 
     [SerializeField]
-    PlayerParameter _parameter = default;
+    private PlayerParameter _parameter = default;
 
     [SerializeField]
-    Rigidbody _rigidBody = default;
+    private Rigidbody _rigidBody = default;
 
     [SerializeField]
-    Animator _animator = default;
+    private Animator _animator = default;
 
     [SerializeField]
-    Transform m_groundCheckTrasnform = default;
+    private Transform m_groundCheckTrasnform = default;
 
     [SerializeField]
-    Collider m_attackCollider = default;
+    private Collider m_attackCollider = default;
 
     [SerializeField]
-    TrailRenderer m_trail = default;
+    private TrailRenderer m_trail = default;
 
     [SerializeField]
-    int m_maxHP = default;
+    private float m_moveSpeed = default;
 
     [SerializeField]
-    float m_moveSpeed = default;
+    private float m_turnSpeed = default;
 
     [SerializeField]
-    float m_turnSpeed = default;
-
-    [SerializeField]
-    float m_jumpPower = default;
+    private float m_jumpPower = default;
     #endregion
 
     #region Private Field
-    bool m_isGrounded = false;
-    bool m_isGameEnded = false;
-    bool m_isMotionPlay = false;
+    private ActionState m_currentActionState = ActionState.Idle;
 
+    /// <summary>接地判定</summary>
+    private bool m_isGrounded = false;
+
+    private bool m_isGameEnded = false;
+
+    private bool m_isMotionPlay = false;
     // アニメーターのハッシュ
     readonly int m_hashDamaged = Animator.StringToHash("Damaged");
     // インプットシステムの入力の取得
-    InputAction _move, _attack, m_jump;
+    private InputAction _move, _attack, m_jump;
 
-    Vector2 _v2;
+    private Vector2 _v2;
     #endregion
 
     #region Unity Function
@@ -89,6 +94,8 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     private void OnTriggerStay(Collider other)
     {
+        if (m_isGrounded) return;
+
         if (!other.CompareTag("Player") && !other.CompareTag("MainCamera"))
         {
             m_isGrounded = true;
@@ -97,6 +104,8 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     private void OnTriggerExit(Collider other)
     {
+        if (!m_isGrounded) return;
+
         if (!other.CompareTag("Player") && !other.CompareTag("MainCamera"))
         {
             m_isGrounded = false;
@@ -121,6 +130,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
             m_trail.enabled = true;
         }
     }
+
     public void OnPlayMotion()
     {
         m_isMotionPlay = true;
@@ -148,7 +158,6 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
         _parameter.ReduceHP();
 
-        // StateCheck();
         if (_parameter.CurrentState == PlayerParameter.State.Death)
         {
             _animator.SetTrigger("Die");
@@ -193,8 +202,31 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     }
 
+    /// <summary>
+    /// アクションステートの変更をする
+    /// </summary>
+    private void ChengeActionState(ActionState next)
+    {
+        switch (next)
+        {
+            case ActionState.Idle:
+                break;
+            case ActionState.Walk:
+                break;
+            case ActionState.Run:
+                break;
+            case ActionState.Jump:
+                break;
+            case ActionState.Attack:
+                break;
+            case ActionState.Die:
+                break;
+        }
+        m_currentActionState = next;
+    }
+
     /// <summary>ステート毎に毎フレーム呼ばれる処理</summary>
-    void StateUpdate()
+    private void StateUpdate()
     {
         switch (_parameter.CurrentState)
         {
@@ -255,7 +287,14 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
                 Vector3 velo = dir * m_moveSpeed;
 
-                if (m_isMotionPlay)
+                //if (m_isMotionPlay)
+                //{
+                //    _rigidBody.velocity = Vector3.zero;
+                //}
+                var actState = m_currentActionState;
+
+                // 任意のアクションステート時は移動を停止する
+                if (actState == ActionState.Attack)
                 {
                     _rigidBody.velocity = Vector3.zero;
                 }
