@@ -6,30 +6,30 @@ using UnityEngine.UI;
 public class Mission : MonoBehaviour
 {
     [Header("ゲームクリアに必要な敵の討伐数")]
-    [SerializeField] 
-    int _needDefeatCount = default;
+    [SerializeField]
+    private int _needDefeatCount = default;
 
     [Header("ゲームクリア時に表示するパネル")]
-    [SerializeField] 
-    GameObject _gameClearWindow = default;
+    [SerializeField]
+    private GameObject _gameClearWindow = default;
 
     [Header("ゲームクリア時に表示する画像の背景")]
-    [SerializeField] 
-    Image _clearBackGroundImage = default;
+    [SerializeField]
+    private Image _clearBackGroundImage = default;
 
     [Header("敗北時に表示するパネル")]
-    [SerializeField] 
-    GameObject _gameoverWindow = default;
+    [SerializeField]
+    private GameObject _gameoverWindow = default;
 
-    [SerializeField] 
-    Image _contollerImage = default;
+    [SerializeField]
+    private Image _contollerImage = default;
 
-    int _currentDefeatCount = 0;
+    private int _currentDefeatCount = 0;
 
     /// <summary>ゲームクリアしているか</summary>
     public bool IsClear => _currentDefeatCount >= _needDefeatCount;
 
-    bool _isColorChenge = false;
+    private bool _isColorChenge = false;
 
     private void Start()
     {

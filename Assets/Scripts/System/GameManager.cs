@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
-
 public class GameManager : Singleton<GameManager>
 {
     #region Define
@@ -64,11 +59,8 @@ public class GameManager : Singleton<GameManager>
     {
         switch (CurrentScene)
         {
-            case Scene.None:
-                break;
             case Scene.Title:
                 {
-                    
                 }
                 break;
             case Scene.InGame:

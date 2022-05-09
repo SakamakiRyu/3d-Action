@@ -3,6 +3,8 @@
 /// </summary>
 interface IDamageable
 {
-    /// <summary>ダメージを与える</summary>
+    /// <summary>
+    /// ダメージを与える
+    /// </summary>
     public void AddDamage();
 }

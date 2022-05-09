@@ -3,11 +3,11 @@ using UnityEngine.UI;
 
 public class HPUIController : MonoBehaviour
 {
-    [SerializeField] 
-    Slider _slider = default;
+    [SerializeField]
+    private Slider _slider = default;
 
     [SerializeField]
-    Canvas _canvas = default;
+    private Canvas _canvas = default;
 
     private void Start()
     {
@@ -26,11 +26,11 @@ public class HPUIController : MonoBehaviour
     {
         Billboard();
     }
-    
+
     /// <summary>
-    /// UIのビルボード
+    /// UIをカメラに対して正面に表示する
     /// </summary>
-    void Billboard()
+    private void Billboard()
     {
         Vector3 p = Camera.main.transform.position;
         p.y = transform.position.y;
@@ -38,7 +38,7 @@ public class HPUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// HPのアップデート
+    /// スライダー表示の更新
     /// </summary>
     public void UpdateHPSlider(EnemyController enemyDate)
     {

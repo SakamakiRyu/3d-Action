@@ -14,8 +14,10 @@ public class SoundManager : Singleton<SoundManager>
     public enum SEType
     {
         Sword,
-        EnemyFootStep,
-        PlayerFootStep
+        SlimeFootStep,
+        PlayerFootStep,
+        Damaged,
+        Dive
     }
 
     [SerializeField]
@@ -35,6 +37,7 @@ public class SoundManager : Singleton<SoundManager>
     public void ChengeBGM(BGMType type)
     {
         _bgmSource.clip = _bgmClips[(int)type];
+        _bgmSource.Play();
     }
 
     /// <summary>SE‚ð‚È‚ç‚·</summary>

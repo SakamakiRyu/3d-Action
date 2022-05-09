@@ -121,7 +121,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void PlayFootstep()
     {
-        SoundManager.Instance.PlaySE(SoundManager.SEType.EnemyFootStep);
+        SoundManager.Instance.PlaySE(SoundManager.SEType.SlimeFootStep);
     }
 
     public void BeginAttack()

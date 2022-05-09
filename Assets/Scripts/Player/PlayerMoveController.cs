@@ -19,13 +19,14 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         Run,
         Jump,
         Attack,
-        Die
+        Die,
+        damaged
     }
     #endregion
 
     #region Serialize Field
     [SerializeField]
-    private PlayerInput m_input = default;
+    private PlayerInput _input = default;
 
     [SerializeField]
     private PlayerParameter _parameter = default;
@@ -37,37 +38,34 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     private Animator _animator = default;
 
     [SerializeField]
-    private Transform m_groundCheckTrasnform = default;
+    private Transform _groundCheckTrasnform = default;
 
     [SerializeField]
-    private Collider m_attackCollider = default;
+    private Collider _attackCollider = default;
 
     [SerializeField]
-    private TrailRenderer m_trail = default;
+    private TrailRenderer _trail = default;
 
     [SerializeField]
-    private float m_moveSpeed = default;
+    private float _moveSpeed = default;
 
     [SerializeField]
-    private float m_turnSpeed = default;
+    private float _turnSpeed = default;
 
     [SerializeField]
-    private float m_jumpPower = default;
+    private float _jumpPower = default;
     #endregion
 
     #region Private Field
-    private ActionState m_currentActionState = ActionState.Idle;
+    private ActionState _currentActionState = ActionState.Idle;
 
     /// <summary>接地判定</summary>
-    private bool m_isGrounded = false;
+    private bool _isGrounded = false;
 
-    private bool m_isGameEnded = false;
-
-    private bool m_isMotionPlay = false;
     // アニメーターのハッシュ
-    readonly int m_hashDamaged = Animator.StringToHash("Damaged");
+    readonly int _hashDamaged = Animator.StringToHash("Damaged");
     // インプットシステムの入力の取得
-    private InputAction _move, _attack, m_jump;
+    private InputAction _move, _attack, _jump;
 
     private Vector2 _v2;
     #endregion
@@ -85,70 +83,67 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     private void LateUpdate()
     {
-        Vector3 v3 = _rigidBody.velocity;
+        var v3 = _rigidBody.velocity;
         v3.y = 0;
         _animator.SetFloat("Speed", v3.magnitude);
         _animator.SetFloat("AnimationSpeed", _v2.magnitude);
-        _animator.SetBool("IsGrounded", m_isGrounded);
+        _animator.SetBool("IsGrounded", _isGrounded);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (m_isGrounded) return;
+        if (_isGrounded) return;
 
         if (!other.CompareTag("Player") && !other.CompareTag("MainCamera"))
         {
-            m_isGrounded = true;
+            _isGrounded = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!m_isGrounded) return;
+        if (!_isGrounded) return;
 
         if (!other.CompareTag("Player") && !other.CompareTag("MainCamera"))
         {
-            m_isGrounded = false;
+            _isGrounded = false;
         }
     }
     #endregion
 
     #region Public Function
     // AnimationEvent用列挙
-    public enum IsVisible { True, False }
+    public enum Boolean { True, False }
     /// <summary>
-    /// 剣の軌跡を表示を操作する
+    /// AnimationEvent用関数
+    /// 剣の軌跡表示の設定
     /// </summary>
-    public void TrailSetting(IsVisible isVisible)
+    public void TrailSetting(Boolean next)
     {
-        if (isVisible == IsVisible.False)
+        if (next == Boolean.False)
         {
-            m_trail.enabled = false;
+            _trail.enabled = false;
         }
         else
         {
-            m_trail.enabled = true;
+            _trail.enabled = true;
         }
     }
 
-    public void OnPlayMotion()
+    /// <summary>
+    /// AnimationEvent用関数
+    /// 攻撃に使用するコライダーの設定
+    /// </summary>
+    public void AttackColliderSetting(Boolean next)
     {
-        m_isMotionPlay = true;
-    }
-
-    public void OnEndMotion()
-    {
-        m_isMotionPlay = false;
-    }
-
-    public void BeginAttack()
-    {
-        m_attackCollider.enabled = true;
-    }
-
-    public void EndAttack()
-    {
-        m_attackCollider.enabled = false;
+        if (next == Boolean.True)
+        {
+            _attackCollider.enabled = true;
+        }
+        else
+        {
+            _attackCollider.enabled = false;
+        }
     }
 
     public void AddDamage()
@@ -164,39 +159,40 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
             _rigidBody.isKinematic = true;
         }
 
-        _animator.Play(m_hashDamaged);
+        _animator.Play(_hashDamaged);
     }
 
-    /// <summary>AnimationEvent用関数</summary>
-    public void OnEnd()
+    /// <summary>
+    /// AnimationEvent用関数
+    /// </summary>
+    public void PlaySound(SoundManager.SEType type)
     {
-        m_isGameEnded = true;
-    }
-
-    /// <summary>AnimationEvent用関数</summary>
-    /// <param name="clip"></param>
-    public void PlayFootstep(AudioClip clip)
-    {
-        SoundManager.Instance.PlaySE(SoundManager.SEType.PlayerFootStep);
+        SoundManager.Instance.PlaySE(type);
     }
     #endregion
 
     #region Private Function
-    /// <summary>インプットシステムの入力を取得</summary>
+    /// <summary>
+    /// インプットシステムの入力を取得
+    /// </summary>
     private void SetInput()
     {
-        _move = m_input.currentActionMap["Move"];
-        m_jump = m_input.currentActionMap["Jump"];
-        _attack = m_input.currentActionMap["Attack1"];
+        _move = _input.currentActionMap["Move"];
+        _jump = _input.currentActionMap["Jump"];
+        _attack = _input.currentActionMap["Attack1"];
     }
 
-    /// <summary>イベントに登録</summary>
+    /// <summary>
+    /// イベントに登録
+    /// </summary>
     private void Subscribe()
     {
 
     }
 
-    /// <summary>イベントの登録解除</summary>
+    /// <summary>
+    /// イベントの登録解除
+    /// </summary>
     private void Unsubscribe()
     {
 
@@ -221,11 +217,15 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
                 break;
             case ActionState.Die:
                 break;
+            case ActionState.damaged:
+                break;
         }
-        m_currentActionState = next;
+        _currentActionState = next;
     }
 
-    /// <summary>ステート毎に毎フレーム呼ばれる処理</summary>
+    /// <summary>
+    /// ステート毎に毎フレーム呼ばれる処理
+    /// </summary>
     private void StateUpdate()
     {
         switch (_parameter.CurrentState)
@@ -247,6 +247,9 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         }
     }
 
+    /// <summary>
+    /// 攻撃
+    /// </summary>
     private void Attack()
     {
         if (_attack.triggered)
@@ -255,7 +258,9 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         }
     }
 
-    /// <summary>歩く</summary>
+    /// <summary>
+    /// 歩く
+    /// </summary>
     private void Walk()
     {
         _v2 = _move.ReadValue<Vector2>();
@@ -263,7 +268,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
         if (dir == Vector3.zero)
         {
-            if (m_isGrounded)
+            if (_isGrounded)
             {
                 _rigidBody.velocity = new Vector3(0f, _rigidBody.velocity.y, 0f);
             }
@@ -275,7 +280,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         else
         {
             // 地面と接地していれば移動可能
-            if (m_isGrounded)
+            if (_isGrounded)
             {
                 //  カメラを基準に移動する
                 dir = Camera.main.transform.TransformDirection(dir);
@@ -283,18 +288,14 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
                 //  入力方向に滑らかに回転させる
                 Quaternion targetRotation = Quaternion.LookRotation(dir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * m_turnSpeed);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
 
-                Vector3 velo = dir * m_moveSpeed;
+                Vector3 velo = dir * _moveSpeed;
 
-                //if (m_isMotionPlay)
-                //{
-                //    _rigidBody.velocity = Vector3.zero;
-                //}
-                var actState = m_currentActionState;
+                var actState = _currentActionState;
 
-                // 任意のアクションステート時は移動を停止する
-                if (actState == ActionState.Attack)
+                // 任意のアクションステート時は止まる
+                if (actState == ActionState.Attack || actState == ActionState.damaged)
                 {
                     _rigidBody.velocity = Vector3.zero;
                 }
@@ -307,12 +308,14 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         }
     }
 
-    /// <summary>ジャンプ</summary>
+    /// <summary>
+    /// ジャンプ
+    /// </summary>
     private void Jump()
     {
-        if (m_isGrounded && m_jump.triggered)
+        if (_isGrounded && _jump.triggered)
         {
-            _rigidBody.AddForce(Vector3.up * m_jumpPower, ForceMode.Impulse);
+            _rigidBody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
         }
     }
     #endregion
