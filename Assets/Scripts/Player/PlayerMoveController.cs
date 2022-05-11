@@ -112,40 +112,6 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     #endregion
 
     #region Public Function
-    // AnimationEvent用列挙
-    public enum Boolean { True, False }
-    /// <summary>
-    /// AnimationEvent用関数
-    /// 剣の軌跡表示の設定
-    /// </summary>
-    public void TrailSetting(Boolean next)
-    {
-        if (next == Boolean.False)
-        {
-            _trail.enabled = false;
-        }
-        else
-        {
-            _trail.enabled = true;
-        }
-    }
-
-    /// <summary>
-    /// AnimationEvent用関数
-    /// 攻撃に使用するコライダーの設定
-    /// </summary>
-    public void AttackColliderSetting(Boolean next)
-    {
-        if (next == Boolean.True)
-        {
-            _attackCollider.enabled = true;
-        }
-        else
-        {
-            _attackCollider.enabled = false;
-        }
-    }
-
     public void AddDamage()
     {
         // 既に死んでいたら処理をしない。
@@ -161,14 +127,6 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
         _animator.Play(_hashDamaged);
     }
-
-    /// <summary>
-    /// AnimationEvent用関数
-    /// </summary>
-    public void PlaySound(SoundManager.SEType type)
-    {
-        SoundManager.Instance.PlaySE(type);
-    }
     #endregion
 
     #region Private Function
@@ -180,6 +138,46 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         _move = _input.currentActionMap["Move"];
         _jump = _input.currentActionMap["Jump"];
         _attack = _input.currentActionMap["Attack1"];
+    }
+
+    /// <summary>
+    /// AnimationEvent用関数
+    /// 剣の軌跡表示の設定
+    /// </summary>
+    private void TrailSetting(Define.Boolean next)
+    {
+        if (next == Define.Boolean.False)
+        {
+            _trail.enabled = false;
+        }
+        else
+        {
+            _trail.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// AnimationEvent用関数
+    /// 攻撃に使用するコライダーの設定
+    /// </summary>
+    private void AttackColliderSetting(Define.Boolean next)
+    {
+        if (next == Define.Boolean.True)
+        {
+            _attackCollider.enabled = true;
+        }
+        else
+        {
+            _attackCollider.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// AnimationEvent用関数
+    /// </summary>
+    private void PlaySound(SoundManager.SEType type)
+    {
+        SoundManager.Instance.PlaySE(type);
     }
 
     /// <summary>

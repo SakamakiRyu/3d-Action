@@ -88,10 +88,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     }
 
     // AnimationEvent用のフラグ
-    public enum IsStop { True, False }
-    public void OnChengeState(IsStop isStop)
+    public enum MovingState { Chaseing, Waiting }
+    public void ChengeState(MovingState isStop)
     {
-        if (isStop == IsStop.True)
+        if (isStop == MovingState.Chaseing)
         {
             _nav.isStopped = true;
         }
@@ -115,23 +115,8 @@ public class EnemyController : MonoBehaviour, IDamageable
             return;
         }
 
-        StartCoroutine(HitStopAcync());
+        EffectManager.Instance.PlayEffect(EffectManager.EffectType.HitStop);
         _animator.Play(_hashDizzy);
-    }
-
-    public void PlayFootstep()
-    {
-        SoundManager.Instance.PlaySE(SoundManager.SEType.SlimeFootStep);
-    }
-
-    public void BeginAttack()
-    {
-        _attackCollider.enabled = true;
-    }
-
-    public void EndAttack()
-    {
-        _attackCollider.enabled = false;
     }
 
     public void Subscribe()
@@ -147,9 +132,40 @@ public class EnemyController : MonoBehaviour, IDamageable
     /// <summary>
     /// Animation用の関数
     /// </summary>
-    public void Destroy()
+    private void Destroy()
     {
         Destroy(this.gameObject);
+    }
+
+    /// <summary>
+    /// AnimationEvent用関数
+    /// 音を鳴らす
+    /// </summary>
+    private void PlaySound(SoundManager.SEType type)
+    {
+        SoundManager.Instance.PlaySE(type);
+    }
+
+    /// <summary>
+    /// AnimationEvent用関数
+    /// 攻撃に使用するコライダーの設定
+    /// </summary>
+    /// <param name="next"></param>
+    private void AttackColliderSetting(Define.Boolean next)
+    {
+        switch (next)
+        {
+            case Define.Boolean.True:
+                {
+                    _attackCollider.enabled = true;
+                }
+                break;
+            case Define.Boolean.False:
+                {
+                    _attackCollider.enabled = false;
+                }
+                break;
+        }
     }
 
     /// <summary>
@@ -161,20 +177,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         return _currentHP > 0;
     }
 
-    private float _Timer = 0f;
-
-    private IEnumerator HitStopAcync()
-    {
-        _Timer = 0f;
-        Time.timeScale = 0.1f;
-        while (_Timer < 0.4f)
-        {
-            _Timer += Time.unscaledDeltaTime;
-            yield return null;
-        }
-        Time.timeScale = 1.0f;
-        yield return null;
-    }
+    
 
     /// <summary>
     /// navメッシュの追跡をやめる

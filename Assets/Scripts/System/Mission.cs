@@ -38,13 +38,6 @@ public class Mission : MonoBehaviour
 
     private void Update()
     {
-        //if (IsGameover)
-        //{
-        //    OnGameEnd?.Invoke();
-        //    m_contollerImage.enabled = false;
-        //    StartCoroutine(TitleLoad());
-        //    return;
-        //}
     }
 
     /// <summary>
