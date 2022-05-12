@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class GameManager : Singleton<GameManager>
 {
     #region Define
@@ -39,6 +41,7 @@ public class GameManager : Singleton<GameManager>
     public void RequestGameEnd()
     {
         OnGameEnd?.Invoke();
+        Debug.Log("Game End");
     }
 
     /// <summary>

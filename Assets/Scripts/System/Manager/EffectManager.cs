@@ -6,7 +6,9 @@ public class EffectManager : Singleton<EffectManager>
     public enum EffectType
     {
         /// <summary>ヒットストップ</summary>
-        HitStop
+        HitStop,
+        /// <summary>攻撃のエフェクト</summary>
+        HitEffect
     }
 
     /// <summary>

@@ -67,7 +67,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         // 死んでいたら何もしない
         if (IsDead) return;
 
-        // ナビメッシュに目的地を設定する
+        //
         if (_distance < _startChaseDistance)
         {
             _nav.SetDestination(_targetTransform.position);
@@ -176,8 +176,6 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         return _currentHP > 0;
     }
-
-    
 
     /// <summary>
     /// navメッシュの追跡をやめる
