@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     private HPUIController _HPUIController = default;
 
     [SerializeField]
-    private Mission _mission = default;
+    private MissionControl _mission = default;
 
     public bool IsGameEnd { get; private set; } = false;
 
@@ -41,7 +41,6 @@ public class EnemyController : MonoBehaviour, IDamageable
     private int _currentHP = default;
     /// <summary>HPゲージの表示割合を返す</summary>
     public float GetUIValue => (float)_currentHP / _maxHP;
-
     /// <summary>Playerとの距離を格納する変数</summary>
     private float _distance = default;
 
@@ -61,37 +60,23 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        if (IsGameEnd) return;
-
-        _distance = Vector3.Distance(this.transform.position, _targetTransform.position);
-        // 死んでいたら何もしない
-        if (IsDead) return;
-
-        //
-        if (_distance < _startChaseDistance)
-        {
-            _nav.SetDestination(_targetTransform.position);
-            return;
-        }
-        _nav.SetDestination(this.transform.position);
+        Move();
     }
 
     private void LateUpdate()
     {
-        if (IsGameEnd)
-        {
-            _animator.SetFloat("Distance", 100);
-            return;
-        }
-        _animator.SetFloat("Speed", _nav.velocity.magnitude);
-        _animator.SetFloat("Distance", _distance);
+        SendParameterForAnimator();
     }
 
-    // AnimationEvent用のフラグ
-    public enum MovingState { Chaseing, Waiting }
-    public void ChengeState(MovingState isStop)
+    private enum MovingState { Chaseing, Waiting }
+
+    /// <summary>
+    /// AnimationEvent用関数
+    /// ステートの切り替え
+    /// </summary>
+    private void ChengeState(MovingState state)
     {
-        if (isStop == MovingState.Chaseing)
+        if (state == MovingState.Chaseing)
         {
             _nav.isStopped = true;
         }
@@ -103,6 +88,8 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void AddDamage()
     {
+        if (IsDead) return;
+
         _currentHP--;
         _HPUIController.UpdateHPSlider(this);
 
@@ -119,14 +106,44 @@ public class EnemyController : MonoBehaviour, IDamageable
         _animator.Play(_hashDizzy);
     }
 
-    public void Subscribe()
+    private void Subscribe()
     {
-        GameManager.Instance.OnGameEnd += MoveStop;
+        
     }
 
-    public void Unsubscribe()
+    private void Unsubscribe()
     {
-        GameManager.Instance.OnGameEnd -= MoveStop;
+
+    }
+
+    private void Move()
+    {
+        if (IsGameEnd) return;
+
+        _distance = Vector3.Distance(this.transform.position, _targetTransform.position);
+        // 死んでいたら何もしない
+        if (IsDead) return;
+
+        if (_distance < _startChaseDistance)
+        {
+            _nav.SetDestination(_targetTransform.position);
+            return;
+        }
+        _nav.SetDestination(this.transform.position);
+    }
+
+    /// <summary>
+    /// アニメーターにパラメータを渡す
+    /// </summary>
+    private void SendParameterForAnimator()
+    {
+        if (IsGameEnd)
+        {
+            _animator.SetFloat("Distance", 100);
+            return;
+        }
+        _animator.SetFloat("Speed", _nav.velocity.magnitude);
+        _animator.SetFloat("Distance", _distance);
     }
 
     /// <summary>
@@ -134,6 +151,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     /// </summary>
     private void Destroy()
     {
+        Unsubscribe();
         Destroy(this.gameObject);
     }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -13,10 +14,13 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Property
+    [Header("タイトル遷移時にかかる遅延時間")]
+    [SerializeField]
+    private float _delayTimeOfTitleLoad;
     /// <summary>現在のシーン</summary>
     public Scene CurrentScene { get; private set; } = Scene.None;
     /// <summary>ゲーム(InGame)終了時に呼ばれる処理</summary>
-    public System.Action OnGameEnd;
+    public System.Action OnEndInGame;
     #endregion
 
     #region Unity Fucntion
@@ -26,6 +30,7 @@ public class GameManager : Singleton<GameManager>
         {
             ChengeSceneState(Scene.Title);
         }
+        OnEndInGame += GameEnd;
     }
 
     private void Update()
@@ -40,17 +45,24 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public void RequestGameEnd()
     {
-        OnGameEnd?.Invoke();
-        Debug.Log("Game End");
+        OnEndInGame?.Invoke();
     }
 
     /// <summary>
-    /// タイトルのButton(UI)用
+    /// InGameSceneのロードをする
     /// </summary>
     /// <param name="scene"></param>
-    public void StartButton()
+    public void LoadToInGameScene()
     {
         ChengeSceneState(Scene.InGame);
+    }
+
+    /// <summary>
+    /// TitleSceneのロードをする
+    /// </summary>
+    public void LoadToTitleScene()
+    {
+        ChengeSceneState(Scene.Title);
     }
     #endregion
 
@@ -63,8 +75,6 @@ public class GameManager : Singleton<GameManager>
         switch (CurrentScene)
         {
             case Scene.Title:
-                {
-                }
                 break;
             case Scene.InGame:
                 break;
@@ -78,28 +88,56 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     private void ChengeSceneState(Scene next)
     {
+        var sceneIndex = (int)next;
+
         switch (next)
         {
             case Scene.Title:
                 {
+                    LoadScene(sceneIndex);
                     SoundManager.Instance.ChengeBGM(SoundManager.BGMType.Title);
                 }
                 break;
             case Scene.InGame:
                 {
+                    LoadScene(sceneIndex);
                     SoundManager.Instance.ChengeBGM(SoundManager.BGMType.InGame);
                 }
                 break;
             case Scene.Result:
                 {
-                    OnGameEnd?.Invoke();
+                    LoadScene(sceneIndex, _delayTimeOfTitleLoad);
+                    SoundManager.Instance.ChengeBGM(SoundManager.BGMType.Title);
                 }
                 break;
         }
 
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int)next);
-
         CurrentScene = next;
+    }
+
+    /// <summary>
+    /// シーンのロードをする
+    /// </summary>
+    /// <param name="sceneIndex">SceneIndex</param>
+    /// <param name="delayTime">シーン遷移にかける時間</param>
+    private void LoadScene(int sceneIndex, float delayTime = 0f)
+    {
+        StartCoroutine(LoadSceneAsync(sceneIndex, delayTime));
+    }
+
+    private IEnumerator LoadSceneAsync(int sceneIndex, float delayTime = 0f)
+    {
+        yield return new WaitForSeconds(delayTime);
+
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneIndex);
+    }
+
+    /// <summary>
+    /// OnGameEndに呼ばれる関数
+    /// </summary>
+    private void GameEnd()
+    {
+        ChengeSceneState(Scene.Result);
     }
     #endregion
 }

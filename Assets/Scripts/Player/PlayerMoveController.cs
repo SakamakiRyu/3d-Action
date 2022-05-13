@@ -131,7 +131,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     #region Private Function
     /// <summary>
-    /// インプットシステムの入力を取得
+    /// インプットシステムの入力を紐づける
     /// </summary>
     private void SetInput()
     {
