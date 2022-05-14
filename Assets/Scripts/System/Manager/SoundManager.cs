@@ -46,4 +46,14 @@ public class SoundManager : Singleton<SoundManager>
     {
         _seSource.PlayOneShot(_seClips[(int)type]);
     }
+
+    public void ChengeBGMVolume(float value)
+    {
+        _bgmSource.volume = value;
+    }
+
+    public void ChengeSEVolume(float value)
+    {
+        _seSource.volume = value;
+    }
 }
