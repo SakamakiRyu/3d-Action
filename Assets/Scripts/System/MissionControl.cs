@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class MissionControl : MonoBehaviour
@@ -27,23 +26,11 @@ public class MissionControl : MonoBehaviour
         _currentDefeatCount = 0;
     }
 
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-    }
-
     /// <summary>
     /// ゲームスコアの加算
     /// </summary>
     public void AddScore()
     {
-#if UNITY_EDITOR
-        Debug.Log("スコア加算");
-#endif
         _currentDefeatCount++;
         IsGameClear();
     }

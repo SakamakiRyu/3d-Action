@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -18,18 +20,19 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     private float _delayTimeOfTitleLoad;
     /// <summary>現在のシーン</summary>
-    public Scene CurrentScene { get; private set; } = Scene.None;
+    public Scene CurrentScene { get; private set; } = Scene.Title;
     /// <summary>ゲーム(InGame)終了時に呼ばれる処理</summary>
-    public System.Action OnEndInGame;
+    public Action OnEndInGame;
     #endregion
 
     #region Unity Fucntion
     private void Start()
     {
-        if (CurrentScene == Scene.None)
+        if (CurrentScene.ToString() != SceneManager.GetActiveScene().name)
         {
             ChengeSceneState(Scene.Title);
         }
+
         OnEndInGame += GameEnd;
     }
 
@@ -100,7 +103,7 @@ public class GameManager : Singleton<GameManager>
                 break;
             case Scene.InGame:
                 {
-                    LoadScene(sceneIndex);
+                    LoadScene(sceneIndex, 2.0f);
                     SoundManager.Instance.ChengeBGM(SoundManager.BGMType.InGame);
                 }
                 break;
@@ -127,9 +130,29 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator LoadSceneAsync(int sceneIndex, float delayTime = 0f)
     {
-        yield return new WaitForSeconds(delayTime);
+        // フェードアウト
+        yield return FadeSystem.Instance.FadeOutAsync(2.0f);
 
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneIndex);
+        GC.Collect();
+
+        var async = SceneManager.LoadSceneAsync(sceneIndex);
+
+        async.allowSceneActivation = false;
+
+        yield return null;
+
+        // ロードが終わったらシーンを切り替える
+        while (async.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        async.allowSceneActivation = true;
+
+        // フェードイン
+        yield return FadeSystem.Instance.FadeInAsync(2.0f);
+
+        yield return null;
     }
 
     /// <summary>
