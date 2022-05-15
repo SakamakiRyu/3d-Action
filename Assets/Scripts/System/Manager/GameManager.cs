@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
@@ -16,9 +15,6 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Property
-    [Header("タイトル遷移時にかかる遅延時間")]
-    [SerializeField]
-    private float _delayTimeOfTitleLoad;
     /// <summary>現在のシーン</summary>
     public Scene CurrentScene { get; private set; } = Scene.Title;
     /// <summary>ゲーム(InGame)終了時に呼ばれる処理</summary>
@@ -103,13 +99,13 @@ public class GameManager : Singleton<GameManager>
                 break;
             case Scene.InGame:
                 {
-                    LoadScene(sceneIndex, 2.0f);
+                    LoadScene(sceneIndex);
                     SoundManager.Instance.ChengeBGM(SoundManager.BGMType.InGame);
                 }
                 break;
             case Scene.Result:
                 {
-                    LoadScene(sceneIndex, _delayTimeOfTitleLoad);
+                    LoadScene(sceneIndex);
                     SoundManager.Instance.ChengeBGM(SoundManager.BGMType.Title);
                 }
                 break;
@@ -123,15 +119,15 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     /// <param name="sceneIndex">SceneIndex</param>
     /// <param name="delayTime">シーン遷移にかける時間</param>
-    private void LoadScene(int sceneIndex, float delayTime = 0f)
+    private void LoadScene(int sceneIndex)
     {
-        StartCoroutine(LoadSceneAsync(sceneIndex, delayTime));
+        StartCoroutine(LoadSceneAsync(sceneIndex));
     }
 
-    private IEnumerator LoadSceneAsync(int sceneIndex, float delayTime = 0f)
+    private IEnumerator LoadSceneAsync(int sceneIndex)
     {
         // フェードアウト
-        yield return FadeSystem.Instance.FadeOutAsync(2.0f);
+        yield return FadeSystem.Instance.FadeOutAsync(1.5f);
 
         GC.Collect();
 
@@ -149,8 +145,10 @@ public class GameManager : Singleton<GameManager>
 
         async.allowSceneActivation = true;
 
+        yield return null;
+
         // フェードイン
-        yield return FadeSystem.Instance.FadeInAsync(2.0f);
+        yield return FadeSystem.Instance.FadeInAsync(1.5f);
 
         yield return null;
     }

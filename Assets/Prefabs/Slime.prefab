@@ -720,8 +720,8 @@ GameObject:
   - component: {fileID: 8483864380714333810}
   - component: {fileID: 8483864380714333811}
   - component: {fileID: 8483864380714333812}
-  - component: {fileID: 8483864380714333813}
   - component: {fileID: 8483864380714333814}
+  - component: {fileID: 55918525768499975}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -804,26 +804,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8483864380714333813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8483864380714333815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3758bea6ba40f4f89e78dd7de1ccff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nav: {fileID: 8483864380714333812}
-  _animator: {fileID: 8483864380714333810}
-  _targetTransform: {fileID: 0}
-  _startChaseDistance: 20
-  _maxHP: 3
-  _attackCollider: {fileID: 8483864379437098063}
-  _HPUIController: {fileID: 1140675945284743057}
-  _mission: {fileID: 0}
 --- !u!135 &8483864380714333814
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -837,6 +817,26 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0.47, z: 0}
+--- !u!114 &55918525768499975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8483864380714333815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3758bea6ba40f4f89e78dd7de1ccff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nav: {fileID: 8483864380714333812}
+  _animator: {fileID: 8483864380714333810}
+  _player: {fileID: 0}
+  _startChaseDistance: 0
+  _maxHP: 0
+  _attackCollider: {fileID: 8483864379437098063}
+  _HPUIController: {fileID: 1140675945284743057}
+  _mission: {fileID: 0}
 --- !u!1 &8483864380738685534
 GameObject:
   m_ObjectHideFlags: 0

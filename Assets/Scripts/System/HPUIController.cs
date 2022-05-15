@@ -40,7 +40,7 @@ public class HPUIController : MonoBehaviour
     /// <summary>
     /// スライダー表示の更新
     /// </summary>
-    public void UpdateHPSlider(EnemyController enemyDate)
+    public void UpdateHPSlider(SlimeController enemyDate)
     {
         if (_canvas.enabled == false)
         {

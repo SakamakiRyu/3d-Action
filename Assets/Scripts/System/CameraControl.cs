@@ -37,7 +37,7 @@ public class CameraControl : MonoBehaviour
 
     SphereCollider m_coll;
     InputAction m_chenge, m_chengeUP, m_chengeDown;
-    List<EnemyController> m_targetList = new List<EnemyController>();
+    List<SlimeController> m_targetList = new List<SlimeController>();
 
     /// <summary>現在のカメラタイプ</summary>
     CameraType m_currentCamType = CameraType.FreeLookCamera;
@@ -160,12 +160,12 @@ public class CameraControl : MonoBehaviour
         m_targetID = m_targetList[m_targetIndex].GetInstanceID();
     }
 
-    public void AddTarget(EnemyController enemy)
+    public void AddTarget(SlimeController enemy)
     {
         m_targetList.Add(enemy);
     }
 
-    public void RemoveTarget(EnemyController enemy)
+    public void RemoveTarget(SlimeController enemy)
     {
         m_targetList.Remove(enemy);
     }
@@ -174,7 +174,7 @@ public class CameraControl : MonoBehaviour
     {
         if (target.CompareTag("Enemy"))
         {
-            AddTarget(target.GetComponent<EnemyController>());
+            AddTarget(target.GetComponent<SlimeController>());
         }
     }
 
@@ -187,7 +187,7 @@ public class CameraControl : MonoBehaviour
             {
                 ChengeCamera();
             }
-            RemoveTarget(target.GetComponent<EnemyController>());
+            RemoveTarget(target.GetComponent<SlimeController>());
         }
     }
 

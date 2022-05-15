@@ -376,6 +376,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -10847,6 +10867,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -16811,6 +16851,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -22495,6 +22555,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -23502,6 +23582,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -23771,7 +23871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4f394c785ef7f4988327a8fc7440d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _needDefeatCount: 2
+  _needDefeatCount: 5
   _gameClearWindow: {fileID: 1888037292}
   _clearBackGroundImage: {fileID: 1495298534}
   _gameoverWindow: {fileID: 0}
@@ -24002,6 +24102,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -24188,6 +24308,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -29635,6 +29775,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -35590,6 +35750,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -35901,6 +36081,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -37083,6 +37283,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -37539,6 +37759,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -37726,6 +37966,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -37836,6 +38096,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -38319,6 +38599,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -39151,6 +39451,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -39811,8 +40131,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1754224111}
-  m_LocalRotation: {x: 0.14957564, y: 0.5038462, z: -0.08907449, w: 0.8460684}
-  m_LocalPosition: {x: 22.887018, y: 9.51, z: 54.3245}
+  m_LocalRotation: {x: -7.214477e-16, y: 0.9361028, z: -1.9200968e-15, w: -0.35172662}
+  m_LocalPosition: {x: 35.879997, y: 5.6, z: 0.01999998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -40015,6 +40335,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -41108,6 +41448,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -42210,12 +42570,12 @@ PrefabInstance:
     - target: {fileID: 5995801982037892510, guid: 5fcf65264119b49438597f79cb9d6bf4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 7.214477e-16
+      value: -7.214477e-16
       objectReference: {fileID: 0}
     - target: {fileID: 5995801982037892510, guid: 5fcf65264119b49438597f79cb9d6bf4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 1.9200968e-15
+      value: -1.9200968e-15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fcf65264119b49438597f79cb9d6bf4, type: 3}
@@ -43521,6 +43881,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7422513066920060117}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7422513066920060119 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7422513066178354852, guid: 482af720c87f08d48b542f4ec13ef1d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 7422513066920060117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110663744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45aa9504815a5764ba02f808186ab055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8483864379761641007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43528,6 +43900,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _maxHP
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 7422513066920060119}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _mission
+      value: 
+      objectReference: {fileID: 756661217}
+    - target: {fileID: 55918525768499975, guid: b5ace405b1682804895553781f672d88,
+        type: 3}
+      propertyPath: _startChaseDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4800003951936109200, guid: b5ace405b1682804895553781f672d88,
         type: 3}
       propertyPath: m_AnchorMax.x
