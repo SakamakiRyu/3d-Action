@@ -15,9 +15,8 @@ public class MissionControl : MonoBehaviour
     [SerializeField]
     private Image _clearBackGroundImage = default;
 
-    [Header("敗北時に表示するパネル")]
     [SerializeField]
-    private GameObject _gameoverWindow = default;
+    private TimerControl _timerCtrl;
 
     private int _currentDefeatCount = 0;
 
@@ -46,6 +45,7 @@ public class MissionControl : MonoBehaviour
         if (isClear)
         {
             _gameClearWindow.SetActive(true);
+            _timerCtrl.StopTimer();
             GameManager.Instance.RequestGameEnd();
         }
     }
