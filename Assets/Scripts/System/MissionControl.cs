@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class MissionControl : MonoBehaviour
 {
+    private MissionControl() { }
+
+    public static bool IsCleared { get; private set; } = false;
+
     [Header("ゲームクリアに必要な敵の討伐数")]
     [SerializeField]
     private int _needDefeatCount = default;
@@ -11,12 +14,8 @@ public class MissionControl : MonoBehaviour
     [SerializeField]
     private GameObject _gameClearWindow = default;
 
-    [Header("ゲームクリア時に表示する画像の背景")]
     [SerializeField]
-    private Image _clearBackGroundImage = default;
-
-    [SerializeField]
-    private TimerControl _timerCtrl;
+    private UnityEngine.UI.Image[] _images;
 
     private int _currentDefeatCount = 0;
 
@@ -25,17 +24,25 @@ public class MissionControl : MonoBehaviour
         _currentDefeatCount = 0;
     }
 
+    private void Start()
+    {
+        IsCleared = false;
+    }
+
     /// <summary>
     /// ゲームスコアの加算
     /// </summary>
     public void AddScore()
     {
+        var index = _currentDefeatCount;
+        _images[index].enabled = false;
         _currentDefeatCount++;
         IsGameClear();
     }
 
     /// <summary>
-    /// ゲームをクリアしたか
+    /// ゲームをクリアしたかの判定
+    /// クリアしていたら処理を行う
     /// </summary>
     private bool IsGameClear()
     {
@@ -44,8 +51,8 @@ public class MissionControl : MonoBehaviour
 
         if (isClear)
         {
+            IsCleared = true;
             _gameClearWindow.SetActive(true);
-
             GameManager.Instance.RequestGameEnd();
             return true;
         }

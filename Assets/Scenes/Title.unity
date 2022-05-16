@@ -291,9 +291,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1728542386}
-        m_TargetAssemblyTypeName: TitleButtonControl, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1728542390}
+        m_TargetAssemblyTypeName: RankingControl, Assembly-CSharp
+        m_MethodName: UpdateRankingList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2853,7 +2853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7d55e50f6dc684197b663d2a0b69bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rankingText: {fileID: 1321099501}
+  _rankingListText: {fileID: 2031893355}
 --- !u!1 &1892634694
 GameObject:
   m_ObjectHideFlags: 0
@@ -3280,7 +3280,7 @@ GameObject:
   - component: {fileID: 2031893356}
   - component: {fileID: 2031893355}
   m_Layer: 5
-  m_Name: RankingList
+  m_Name: RankingListText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

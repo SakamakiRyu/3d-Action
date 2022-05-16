@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class TimerControl : MonoBehaviour
 {
+    private TimerControl() { }
+
     #region Field
     [SerializeField]
     private UnityEngine.UI.Text _timerText;
@@ -70,6 +72,12 @@ public class TimerControl : MonoBehaviour
     public void StopTimer()
     {
         _isCountup = false;
+
+        if (MissionControl.IsCleared == false)
+        {
+            // ミッションを失敗していた時はクリアタイムを999にする
+            _timer = 999;
+        }
         InsertTime(_timer);
     }
     #endregion
@@ -104,11 +112,15 @@ public class TimerControl : MonoBehaviour
     /// </summary>
     private void InsertTime(float clearTime)
     {
+        if (clearTime == 999) return;
+
         // 少数第二位で切り捨て
         var time = Math.Floor(clearTime * Math.Pow(10, 2)) / Math.Pow(10, 2);
 
         Times.Add((float)time);
-        Times.OrderBy(x => x);
+
+        // 降順ソート
+        Times.OrderByDescending(x => x);
     }
     #endregion
 }

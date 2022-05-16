@@ -18,9 +18,16 @@ public class ResultTextControl : MonoBehaviour
     {
         var clearTime = TimerControl.GetTimer;
 
-        // 指定した小数点以下切り捨て
-        var text = System.Math.Floor(clearTime * System.Math.Pow(10, 2)) / System.Math.Pow(10, 2);
+        if (MissionControl.IsCleared)
+        {
+            // 指定した小数点以下切り捨て
+            var text = System.Math.Floor(clearTime * System.Math.Pow(10, 2)) / System.Math.Pow(10, 2);
 
-        _text.text = $"クリアタイム : {text}";
+            _text.text = $"クリアタイム : {text}";
+        }
+        else
+        {
+            _text.text = "ミッション失敗...";
+        }
     }
 }

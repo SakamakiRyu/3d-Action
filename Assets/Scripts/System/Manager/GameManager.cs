@@ -88,6 +88,7 @@ public class GameManager : Singleton<GameManager>
 
     /// <summary>
     /// シーンステートの変更をする
+    /// 変更時に一度だけ呼ばれる
     /// </summary>
     private void ChengeSceneState(Scene next)
     {
