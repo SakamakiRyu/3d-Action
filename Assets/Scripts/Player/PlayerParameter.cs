@@ -14,9 +14,12 @@ public class PlayerParameter : MonoBehaviour
     }
     #endregion
 
-    #region Property
+    #region Field
     [SerializeField]
     private int _maxHP;
+
+    [SerializeField]
+    private UnityEngine.UI.Image[] _lifeImages;
 
     public int CurrentHP { get; private set; }
     public State CurrentState { get; private set; }
@@ -83,7 +86,9 @@ public class PlayerParameter : MonoBehaviour
     /// <summary>‘Ì—Í‚ðŒ¸‚ç‚·</summary>
     public void ReduceHP()
     {
-        var after = --CurrentHP;
+        var after = CurrentHP--;
+
+        _lifeImages[after].enabled = false;
 
         if (after <= 0)
         {
