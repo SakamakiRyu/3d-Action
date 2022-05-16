@@ -9,4 +9,13 @@ public class TitleButtonControl : MonoBehaviour
     {
         GameManager.Instance.LoadToInGameScene();
     }
+
+    public void ShowRanking()
+    {
+        var times = TimerControl.GetTimers;
+        foreach (var item in times)
+        {
+            Debug.Log(item);
+        }
+    }
 }

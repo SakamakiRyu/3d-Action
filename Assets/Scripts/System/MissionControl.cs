@@ -37,7 +37,7 @@ public class MissionControl : MonoBehaviour
     /// <summary>
     /// ゲームをクリアしたか
     /// </summary>
-    private void IsGameClear()
+    private bool IsGameClear()
     {
         // 必要討伐数に到達したらミッションクリアとみなす
         var isClear = _currentDefeatCount >= _needDefeatCount;
@@ -45,8 +45,11 @@ public class MissionControl : MonoBehaviour
         if (isClear)
         {
             _gameClearWindow.SetActive(true);
-            _timerCtrl.StopTimer();
+
             GameManager.Instance.RequestGameEnd();
+            return true;
         }
+
+        return false;
     }
 }

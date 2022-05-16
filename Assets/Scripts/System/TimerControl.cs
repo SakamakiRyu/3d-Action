@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -6,16 +8,30 @@ using UnityEngine;
 /// </summary>
 public class TimerControl : MonoBehaviour
 {
+    #region Field
     [SerializeField]
     private UnityEngine.UI.Text _timerText;
 
-    private float _timer;
-    public float GetTimer => _timer;
+    private static float _timer = 0;
+    public static float GetTimer
+    {
+        get
+        {
+            // 小数点第三位以下を切り捨てした値を受け取る
+            return _timer;
+        }
+    }
+
+    private static List<float> Times = new List<float>(5);
+    public static List<float> GetTimers => Times;
 
     private bool _isCountup = false;
+    #endregion
 
+    #region Unity Func
     private void Start()
     {
+        GameManager.Instance.OnEndInGame += StopTimer;
         ResetTimer();
     }
 
@@ -24,34 +40,20 @@ public class TimerControl : MonoBehaviour
         CountUp();
     }
 
-    private void CountUp()
+    private void OnDestroy()
     {
-        if (_isCountup)
-        {
-            _timer += Time.deltaTime;
-            ShowText();
-        }
+        GameManager.Instance.OnEndInGame -= StopTimer;
     }
+    #endregion
 
-    /// <summary>
-    /// テキストにタイマーを反映させる
-    /// </summary>
-    private void ShowText()
-    {
-        if (_isCountup)
-        {
-            var time = Math.Floor(_timer);
-            _timerText.text = time.ToString();
-        }
-    }
-
+    #region Public Func
     /// <summary>
     /// タイマーのリセット
     /// </summary>
     public void ResetTimer()
     {
         _timer = 0;
-        ShowText();
+        ShowIngameText();
     }
 
     /// <summary>
@@ -68,5 +70,45 @@ public class TimerControl : MonoBehaviour
     public void StopTimer()
     {
         _isCountup = false;
+        InsertTime(_timer);
     }
+    #endregion
+
+    #region Private Func
+    /// <summary>
+    /// カウントアップ
+    /// </summary>
+    private void CountUp()
+    {
+        if (_isCountup)
+        {
+            _timer += Time.deltaTime;
+            ShowIngameText();
+        }
+    }
+
+    /// <summary>
+    /// インゲームのテキストにタイマーを反映させる
+    /// </summary>
+    private void ShowIngameText()
+    {
+        if (_isCountup)
+        {
+            var time = Math.Floor(_timer);
+            _timerText.text = time.ToString();
+        }
+    }
+
+    /// <summary>
+    /// クリアタイムを受け取り、ランキングを更新する
+    /// </summary>
+    private void InsertTime(float clearTime)
+    {
+        // 少数第二位で切り捨て
+        var time = Math.Floor(clearTime * Math.Pow(10, 2)) / Math.Pow(10, 2);
+
+        Times.Add((float)time);
+        Times.OrderBy(x => x);
+    }
+    #endregion
 }

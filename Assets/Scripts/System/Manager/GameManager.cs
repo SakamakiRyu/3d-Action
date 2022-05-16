@@ -24,7 +24,11 @@ public class GameManager : Singleton<GameManager>
     #region Unity Fucntion
     private void Start()
     {
-        if (CurrentScene.ToString() != SceneManager.GetActiveScene().name)
+        // ÉVÅ[Éìñº
+        var sceneName = CurrentScene.ToString();
+        var currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName != currentSceneName)
         {
             ChengeSceneState(Scene.Title);
         }
