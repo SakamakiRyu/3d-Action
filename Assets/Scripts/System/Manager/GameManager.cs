@@ -132,7 +132,7 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator LoadSceneAsync(int sceneIndex)
     {
         // フェードアウト
-        yield return FadeSystem.Instance.FadeOutAsync(1.5f);
+        yield return FadeSystem.Instance.FadeOutAsync(1f);
 
         GC.Collect();
 
@@ -153,7 +153,7 @@ public class GameManager : Singleton<GameManager>
         yield return null;
 
         // フェードイン
-        yield return FadeSystem.Instance.FadeInAsync(1.5f);
+        yield return FadeSystem.Instance.FadeInAsync(1f);
 
         yield return null;
     }

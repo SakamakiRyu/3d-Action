@@ -61,7 +61,6 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     /// <summary>接地判定</summary>
     private bool _isGrounded = false;
-
     // アニメーターのハッシュ
     readonly int _hashDamaged = Animator.StringToHash("Damaged");
     // インプットシステムの入力の取得

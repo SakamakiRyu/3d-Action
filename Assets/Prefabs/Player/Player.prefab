@@ -347,7 +347,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHP: 3
-  _lifeImages: []
+  _lifeImages:
+  - {fileID: 348155617771975569}
+  - {fileID: 2415070317637085516}
+  - {fileID: 587978859572955925}
 --- !u!95 &3563456030136613038
 Animator:
   serializedVersion: 3
