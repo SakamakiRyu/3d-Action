@@ -8,7 +8,8 @@ public class SoundManager : Singleton<SoundManager>
     public enum BGMType
     {
         Title,
-        InGame
+        InGame,
+        Result
     }
 
     public enum SEType

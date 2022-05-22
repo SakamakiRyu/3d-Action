@@ -111,7 +111,7 @@ public class GameManager : Singleton<GameManager>
             case Scene.Result:
                 {
                     LoadScene(sceneIndex);
-                    SoundManager.Instance.ChengeBGM(SoundManager.BGMType.Title);
+                    SoundManager.Instance.ChengeBGM(SoundManager.BGMType.Result);
                 }
                 break;
         }
