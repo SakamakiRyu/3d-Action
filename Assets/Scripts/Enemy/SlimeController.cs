@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
 
 /// <summary>
 /// 敵クラス。経路探索はNavmeshで行う
@@ -8,7 +7,15 @@ using System.Collections;
 [RequireComponent(typeof(NavMeshAgent))]
 public class SlimeController : MonoBehaviour, IDamageable
 {
-    private SlimeController() { }
+    public enum ActionState
+    {
+        None,
+        Idle,
+        Run,
+        Attack,
+        Dizzy,
+        Die
+    }
 
     [SerializeField]
     private NavMeshAgent _nav = default;
@@ -39,6 +46,8 @@ public class SlimeController : MonoBehaviour, IDamageable
 
     public bool IsDead => _currentHP <= 0;
 
+    private ActionState _currentState = ActionState.None;
+
     private int _currentHP = default;
     /// <summary>HPゲージの表示割合を返す</summary>
     public float GetUIValue => (float)_currentHP / _maxHP;
@@ -52,11 +61,7 @@ public class SlimeController : MonoBehaviour, IDamageable
     private void Awake()
     {
         _currentHP = _maxHP;
-    }
-
-    private void Start()
-    {
-        Subscribe();
+        _currentState = ActionState.Idle;
     }
 
     private void Update()
@@ -79,12 +84,19 @@ public class SlimeController : MonoBehaviour, IDamageable
     {
         if (state == MovingState.Chaseing)
         {
+            _nav.SetDestination(_player.transform.position);
             _nav.isStopped = true;
         }
         else
         {
+            _nav.SetDestination(this.transform.position);
             _nav.isStopped = false;
         }
+    }
+
+    private void ChengeActionState(ActionState next)
+    {
+
     }
 
     public void AddDamage()
@@ -107,22 +119,12 @@ public class SlimeController : MonoBehaviour, IDamageable
         _animator.Play(_hashDizzy);
     }
 
-    private void Subscribe()
-    {
-        
-    }
-
-    private void Unsubscribe()
-    {
-
-    }
-
     private void Move()
     {
         if (IsGameEnd) return;
 
         _distance = Vector3.Distance(this.transform.position, _player.transform.position);
-        // 死んでいたら何もしない
+
         if (IsDead) return;
 
         if (_distance < _startChaseDistance)
@@ -134,7 +136,7 @@ public class SlimeController : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// アニメーターにパラメータを渡す
+    /// アニメーターに任意のパラメータを渡す
     /// </summary>
     private void SendParameterForAnimator()
     {
@@ -152,7 +154,6 @@ public class SlimeController : MonoBehaviour, IDamageable
     /// </summary>
     private void Destroy()
     {
-        Unsubscribe();
         Destroy(this.gameObject);
     }
 
@@ -194,15 +195,5 @@ public class SlimeController : MonoBehaviour, IDamageable
     private bool AriveCheck()
     {
         return _currentHP > 0;
-    }
-
-    /// <summary>
-    /// navメッシュの追跡をやめる
-    /// </summary>
-    private void MoveStop()
-    {
-        Unsubscribe();
-        _nav.isStopped = true;
-        IsGameEnd = true;
     }
 }
