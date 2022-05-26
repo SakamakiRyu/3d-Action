@@ -1,15 +1,16 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FadeSystem : Singleton<FadeSystem>
 {
     [SerializeField]
-    private UnityEngine.UI.Image _image;
+    private Image _image;
 
     public IEnumerator FadeInAsync(float delayTime)
     {
-        float timer = delayTime;
+        var timer = delayTime;
         var alfa = _image.color;
         alfa.a = 1f;
         _image.color = alfa;
@@ -29,7 +30,7 @@ public class FadeSystem : Singleton<FadeSystem>
 
     public IEnumerator FadeOutAsync(float detayTime)
     {
-        float timer = 0;
+        var timer = 0f;
         var alfa = _image.color;
         alfa.a = 0;
         _image.color = alfa;

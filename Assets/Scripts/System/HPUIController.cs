@@ -32,9 +32,9 @@ public class HPUIController : MonoBehaviour
     /// </summary>
     private void Billboard()
     {
-        Vector3 p = Camera.main.transform.position;
+        var p = Camera.main.transform.position;
         p.y = transform.position.y;
-        transform.LookAt(p);
+        _canvas.transform.LookAt(p);
     }
 
     /// <summary>

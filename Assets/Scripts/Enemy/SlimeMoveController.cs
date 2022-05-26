@@ -43,12 +43,36 @@ public class SlimeMoveController : MonoBehaviour, IDamageable
 
     private void ChengeState(State next)
     {
+        switch (next)
+        {
+            case State.Idle:
+                {
 
+                }
+                break;
+            case State.Chase:
+                {
+                    _navMesh.SetDestination(_player.transform.position);
+                }
+                break;
+            case State.Attack:
+                { }
+                break;
+            case State.Dizzy:
+                { }
+                break;
+            case State.Die:
+                { }
+                break;
+        }
+
+        _currentState = next;
     }
 
     private void StateUpdate()
     {
-        
+        var distance = Vector3.Distance(this.transform.position, _player.transform.position);
+        if (distance < _chaseStartDistance) ChengeState(State.Chase);
     }
 
     private void Walk()

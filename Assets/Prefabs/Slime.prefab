@@ -176,7 +176,6 @@ GameObject:
   - component: {fileID: 5580907918863404256}
   - component: {fileID: 1024194448672545556}
   - component: {fileID: 7014463989936784018}
-  - component: {fileID: 1140675945284743057}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -265,20 +264,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1140675945284743057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7769370375413917037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3d63a4aca2fa574c9337af375cc3eaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _slider: {fileID: 7392707312480648271}
-  _canvas: {fileID: 5580907918863404256}
 --- !u!1 &8483864378968987898
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +707,7 @@ GameObject:
   - component: {fileID: 8483864380714333812}
   - component: {fileID: 8483864380714333814}
   - component: {fileID: 55918525768499975}
+  - component: {fileID: 7805747907645718501}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -832,11 +818,25 @@ MonoBehaviour:
   _nav: {fileID: 8483864380714333812}
   _animator: {fileID: 8483864380714333810}
   _player: {fileID: 0}
-  _startChaseDistance: 0
+  _startChaseDistance: 20
   _maxHP: 0
   _attackCollider: {fileID: 8483864379437098063}
-  _HPUIController: {fileID: 1140675945284743057}
+  _HPUIController: {fileID: 7805747907645718501}
   _mission: {fileID: 0}
+--- !u!114 &7805747907645718501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8483864380714333815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d63a4aca2fa574c9337af375cc3eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slider: {fileID: 7392707312480648271}
+  _canvas: {fileID: 5580907918863404256}
 --- !u!1 &8483864380738685534
 GameObject:
   m_ObjectHideFlags: 0

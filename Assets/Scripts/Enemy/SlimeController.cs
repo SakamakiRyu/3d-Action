@@ -7,6 +7,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class SlimeController : MonoBehaviour, IDamageable
 {
+    #region Define
     public enum ActionState
     {
         None,
@@ -16,14 +17,15 @@ public class SlimeController : MonoBehaviour, IDamageable
         Dizzy,
         Die
     }
+    #endregion
 
+    #region Field
     [SerializeField]
     private NavMeshAgent _nav = default;
 
     [SerializeField]
     private Animator _animator = default;
 
-    [Header("追跡対象")]
     [SerializeField]
     private PlayerMoveController _player = default;
 
@@ -57,7 +59,9 @@ public class SlimeController : MonoBehaviour, IDamageable
     // アニメーションのハッシュ
     readonly int _hashDizzy = Animator.StringToHash("Dizzy");
     readonly int _hashDie = Animator.StringToHash("Die");
+    #endregion
 
+    #region Unity Function
     private void Awake()
     {
         _currentHP = _maxHP;
@@ -73,6 +77,7 @@ public class SlimeController : MonoBehaviour, IDamageable
     {
         SendParameterForAnimator();
     }
+    #endregion
 
     private enum MovingState { Chaseing, Waiting }
 
@@ -96,7 +101,7 @@ public class SlimeController : MonoBehaviour, IDamageable
 
     private void ChengeActionState(ActionState next)
     {
-
+                    
     }
 
     public void AddDamage()
