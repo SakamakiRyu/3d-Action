@@ -88,7 +88,7 @@ public class PlayerParameter : MonoBehaviour
     {
         var after = CurrentHP--;
 
-        _lifeImages[after].enabled = false;
+        _lifeImages[after - 1].enabled = false;
 
         if (after <= 0)
         {

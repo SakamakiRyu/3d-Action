@@ -293,7 +293,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8483864380433586659}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 3.5763338, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.576334, y: -90, z: 0}
 --- !u!1 &8483864379152522764
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,8 +429,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0.35, z: 1.45}
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0.35, z: 1.25}
 --- !u!114 &8483864379437098097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,7 +692,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8483864380433586659}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 3.5763338, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.576334, y: -90, z: 0}
 --- !u!1 &8483864380714333815
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,8 +818,8 @@ MonoBehaviour:
   _nav: {fileID: 8483864380714333812}
   _animator: {fileID: 8483864380714333810}
   _player: {fileID: 0}
-  _startChaseDistance: 20
-  _maxHP: 0
+  _startChaseDistance: 30
+  _maxHP: 3
   _attackCollider: {fileID: 8483864379437098063}
   _HPUIController: {fileID: 7805747907645718501}
   _mission: {fileID: 0}
@@ -866,7 +866,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8483864379816766822}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 79.03938, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 61.03062, y: -90, z: 180}
 --- !u!1 &8658772724656683061
 GameObject:
   m_ObjectHideFlags: 0
