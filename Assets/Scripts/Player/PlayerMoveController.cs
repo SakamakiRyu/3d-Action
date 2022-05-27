@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// InputSystemの入力でHumanoidModelを動かすコンポーネント
-/// 移動はカメラを基準にの相対的な移動をする。(常にカメラ前方が正面になる)
+/// <para>移動はカメラを基準にの相対的な移動をする。(常にカメラの向いている方向が正面になる)</para>
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMoveController : MonoBehaviour, IDamageable
@@ -20,7 +20,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         Jump,
         Attack,
         Die,
-        damaged
+        Damaged
     }
     #endregion
 
@@ -36,9 +36,6 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     [SerializeField]
     private Animator _animator = default;
-
-    [SerializeField]
-    private Transform _groundCheckTrasnform = default;
 
     [SerializeField]
     private Collider _attackCollider = default;
@@ -61,9 +58,9 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
 
     /// <summary>接地判定</summary>
     private bool _isGrounded = false;
-    // アニメーターのハッシュ
+    /// <summary>アニメーターのハッシュ</summary>
     readonly int _hashDamaged = Animator.StringToHash("Damaged");
-    // インプットシステムの入力の取得
+    /// <summary>インプットシステムの入力の取得</summary>
     private InputAction _move, _attack, _jump;
 
     private Vector2 _v2;
@@ -107,24 +104,6 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         {
             _isGrounded = false;
         }
-    }
-    #endregion
-
-    #region Public Function
-    public void AddDamage()
-    {
-        // 既に死んでいたら処理をしない。
-        if (_parameter.CurrentState == PlayerParameter.State.Death) return;
-
-        _parameter.ReduceHP();
-
-        if (_parameter.CurrentState == PlayerParameter.State.Death)
-        {
-            _animator.SetTrigger("Die");
-            _rigidBody.isKinematic = true;
-        }
-
-        _animator.Play(_hashDamaged);
     }
     #endregion
 
@@ -180,22 +159,6 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// イベントに登録
-    /// </summary>
-    private void Subscribe()
-    {
-
-    }
-
-    /// <summary>
-    /// イベントの登録解除
-    /// </summary>
-    private void Unsubscribe()
-    {
-
-    }
-
-    /// <summary>
     /// アクションステートの変更をする
     /// </summary>
     private void ChengeActionState(ActionState next)
@@ -203,20 +166,28 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         switch (next)
         {
             case ActionState.Idle:
+                { }
                 break;
             case ActionState.Walk:
+                { }
                 break;
             case ActionState.Run:
+                { }
                 break;
             case ActionState.Jump:
+                { }
                 break;
             case ActionState.Attack:
+                { }
                 break;
             case ActionState.Die:
+                { }
                 break;
-            case ActionState.damaged:
+            case ActionState.Damaged:
+                { }
                 break;
         }
+
         _currentActionState = next;
     }
 
@@ -238,8 +209,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
                 }
                 break;
             case PlayerParameter.State.Death:
-                {
-                }
+                { }
                 break;
         }
     }
@@ -261,7 +231,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     private void Walk()
     {
         _v2 = _move.ReadValue<Vector2>();
-        Vector3 dir = Vector3.forward * _v2.y + Vector3.right * _v2.x;
+        var dir = Vector3.forward * _v2.y + Vector3.right * _v2.x;
 
         if (dir == Vector3.zero)
         {
@@ -292,7 +262,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
                 var actState = _currentActionState;
 
                 // 任意のアクションステート時は止まる
-                if (actState == ActionState.Attack || actState == ActionState.damaged)
+                if (actState == ActionState.Attack || actState == ActionState.Damaged)
                 {
                     _rigidBody.velocity = Vector3.zero;
                 }
@@ -314,6 +284,24 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         {
             _rigidBody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
         }
+    }
+    #endregion
+
+    #region Public Function
+    public void AddDamage()
+    {
+        // 既に死んでいたら処理をしない。
+        if (_parameter.CurrentState == PlayerParameter.State.Death) return;
+
+        _parameter.ReduceHP();
+
+        if (_parameter.CurrentState == PlayerParameter.State.Death)
+        {
+            _animator.SetTrigger("Die");
+            _rigidBody.isKinematic = true;
+        }
+
+        _animator.Play(_hashDamaged);
     }
     #endregion
 }

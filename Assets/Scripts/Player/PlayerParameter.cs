@@ -19,9 +19,10 @@ public class PlayerParameter : MonoBehaviour
     private int _maxHP;
 
     [SerializeField]
-    private UnityEngine.UI.Image[] _lifeImages;
+    private UnityEngine.UI.Slider _lifeGuage;
 
     public int CurrentHP { get; private set; }
+
     public State CurrentState { get; private set; }
     #endregion
 
@@ -43,7 +44,9 @@ public class PlayerParameter : MonoBehaviour
     #endregion
 
     #region Private Fucntion
-    /// <summary>ステートの変更をする</summary>
+    /// <summary>
+    /// ステートの変更をする
+    /// </summary>
     private void ChengeState(State next)
     {
         switch (next)
@@ -56,7 +59,7 @@ public class PlayerParameter : MonoBehaviour
                 break;
             case State.Death:
                 {
-                    GameManager.Instance.RequestGameEnd();
+                    GameManager.Instance.GameEndRequest();
                 }
                 break;
         }
@@ -64,7 +67,9 @@ public class PlayerParameter : MonoBehaviour
         CurrentState = next;
     }
 
-    /// <summary>ステート毎に毎フレーム呼ばれる処理</summary>
+    /// <summary>
+    /// ステート毎に毎フレーム呼ばれる処理
+    /// </summary>
     private void StateUpdate()
     {
         switch (CurrentState)
@@ -83,12 +88,17 @@ public class PlayerParameter : MonoBehaviour
     #endregion
 
     #region Public Fucntion
-    /// <summary>体力を減らす</summary>
+    /// <summary>
+    /// 体力を減らす
+    /// </summary>
     public void ReduceHP()
     {
         var after = CurrentHP--;
 
-        _lifeImages[after - 1].enabled = false;
+        if (_lifeGuage)
+        {
+            _lifeGuage.value = (float)after / _maxHP;
+        }
 
         if (after <= 0)
         {

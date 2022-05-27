@@ -707,7 +707,7 @@ GameObject:
   - component: {fileID: 8483864380714333812}
   - component: {fileID: 8483864380714333814}
   - component: {fileID: 55918525768499975}
-  - component: {fileID: 7805747907645718501}
+  - component: {fileID: 9203881886578988973}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -821,9 +821,9 @@ MonoBehaviour:
   _startChaseDistance: 30
   _maxHP: 3
   _attackCollider: {fileID: 8483864379437098063}
-  _HPUIController: {fileID: 7805747907645718501}
+  _HPUIController: {fileID: 0}
   _mission: {fileID: 0}
---- !u!114 &7805747907645718501
+--- !u!114 &9203881886578988973
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

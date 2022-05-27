@@ -67,6 +67,12 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 6369534058008264601, guid: 73ed6149fcc130f428cb4df214ad1dbf, type: 2}
     value: {fileID: 0}
+  - key: {fileID: 3466310278303956902, guid: 73ed6149fcc130f428cb4df214ad1dbf, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -8383851020904803756, guid: 73ed6149fcc130f428cb4df214ad1dbf, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -3650955334038268281, guid: 73ed6149fcc130f428cb4df214ad1dbf, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - ab7edddd5ebdf0844bbb0d7a98ebeeaa: {fileID: 5995801981456864795}
@@ -152,7 +158,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7784257, y: 1}
+    m_SensorSize: {x: 1.7775648, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -430,7 +436,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7784257, y: 1}
+    m_SensorSize: {x: 1.7775648, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

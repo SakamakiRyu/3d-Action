@@ -18,7 +18,7 @@ public class ResultTextControl : MonoBehaviour
     {
         var clearTime = TimerControl.GetTimer;
 
-        if (MissionControl.IsCleared)
+        if (MissionControl.IsMissionCleared)
         {
             // w’è‚µ‚½¬”“_ˆÈ‰ºØ‚èÌ‚Ä
             var text = System.Math.Floor(clearTime * System.Math.Pow(10, 2)) / System.Math.Pow(10, 2);

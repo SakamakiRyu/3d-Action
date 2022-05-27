@@ -73,7 +73,7 @@ public class TimerControl : MonoBehaviour
     {
         _isCountup = false;
 
-        if (MissionControl.IsCleared == false)
+        if (MissionControl.IsMissionCleared == false)
         {
             // ミッションを失敗していた時はクリアタイムを999にする
             _timer = 999;

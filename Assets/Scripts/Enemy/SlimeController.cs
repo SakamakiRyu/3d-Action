@@ -17,6 +17,12 @@ public class SlimeController : MonoBehaviour, IDamageable
         Dizzy,
         Die
     }
+
+    private enum MovingState
+    {
+        Chaseing,
+        Waiting
+    }
     #endregion
 
     #region Field
@@ -30,26 +36,25 @@ public class SlimeController : MonoBehaviour, IDamageable
     private PlayerMoveController _player = default;
 
     [SerializeField]
+    private Collider _attackCollider = default;
+
+    [SerializeField]
+    private EnemyHPUIController _HPUIController = default;
+
+    [SerializeField]
+    private MissionControl _mission = default;
+
+    [SerializeField]
     private float _startChaseDistance = default;
 
     [SerializeField]
     private int _maxHP = default;
 
-    [SerializeField]
-    private Collider _attackCollider = default;
-
-    [SerializeField]
-    private HPUIController _HPUIController = default;
-
-    [SerializeField]
-    private MissionControl _mission = default;
-
     public bool IsGameEnd { get; private set; } = false;
-
     public bool IsDead => _currentHP <= 0;
 
     private ActionState _currentState = ActionState.None;
-
+    /// <summary>現在のHP</summary>
     private int _currentHP = default;
     /// <summary>HPゲージの表示割合を返す</summary>
     public float GetUIValue => (float)_currentHP / _maxHP;
@@ -79,31 +84,7 @@ public class SlimeController : MonoBehaviour, IDamageable
     }
     #endregion
 
-    private enum MovingState { Chaseing, Waiting }
-
-    /// <summary>
-    /// AnimationEvent用関数
-    /// ステートの切り替え
-    /// </summary>
-    private void ChengeState(MovingState state)
-    {
-        if (state == MovingState.Chaseing)
-        {
-            _nav.SetDestination(_player.transform.position);
-            _nav.isStopped = true;
-        }
-        else
-        {
-            _nav.SetDestination(this.transform.position);
-            _nav.isStopped = false;
-        }
-    }
-
-    private void ChengeActionState(ActionState next)
-    {
-                    
-    }
-
+    #region Public Function
     public void AddDamage()
     {
         if (IsDead) return;
@@ -123,11 +104,34 @@ public class SlimeController : MonoBehaviour, IDamageable
         EffectManager.Instance.PlayEffect(EffectManager.EffectType.HitStop);
         _animator.Play(_hashDizzy);
     }
+    #endregion
 
+    #region Private Fucntion
+    /// <summary>
+    /// AnimationEvent用関数
+    /// ステートの切り替え
+    /// </summary>
+    private void ChengeState(MovingState state)
+    {
+        if (state == MovingState.Chaseing)
+        {
+            _nav.SetDestination(_player.transform.position);
+            _nav.isStopped = true;
+        }
+        else
+        {
+            _nav.SetDestination(this.transform.position);
+            _nav.isStopped = false;
+        }
+    }
+
+    /// <summary>
+    /// 動く
+    /// </summary>
     private void Move()
     {
-        if (IsGameEnd) return;
-
+        if (IsGameEnd || !_mission.IsPlayedMovie) return;
+        
         _distance = Vector3.Distance(this.transform.position, _player.transform.position);
 
         if (IsDead) return;
@@ -164,7 +168,7 @@ public class SlimeController : MonoBehaviour, IDamageable
 
     /// <summary>
     /// AnimationEvent用関数
-    /// 音を鳴らす
+    /// <para>音を鳴らす</para>
     /// </summary>
     private void PlaySound(SoundManager.SEType type)
     {
@@ -173,9 +177,8 @@ public class SlimeController : MonoBehaviour, IDamageable
 
     /// <summary>
     /// AnimationEvent用関数
-    /// 攻撃に使用するコライダーの設定
+    /// <para>攻撃に使用するコライダーの設定</para>
     /// </summary>
-    /// <param name="next"></param>
     private void AttackColliderSetting(Define.Boolean next)
     {
         switch (next)
@@ -201,4 +204,5 @@ public class SlimeController : MonoBehaviour, IDamageable
     {
         return _currentHP > 0;
     }
+    #endregion
 }

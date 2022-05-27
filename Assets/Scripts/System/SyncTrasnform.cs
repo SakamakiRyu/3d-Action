@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// 指定したオブジェクトとPositionを同期する
+/// </summary>
 public class SyncTrasnform : MonoBehaviour
 {
     [SerializeField]

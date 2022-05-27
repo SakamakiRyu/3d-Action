@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HPUIController : MonoBehaviour
+public class EnemyHPUIController : MonoBehaviour
 {
     [SerializeField]
     private Slider _slider = default;

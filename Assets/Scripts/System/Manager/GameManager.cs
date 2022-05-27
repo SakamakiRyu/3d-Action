@@ -46,7 +46,7 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     /// ゲーム終了の通知を受け取る
     /// </summary>
-    public void RequestGameEnd()
+    public void GameEndRequest()
     {
         OnEndInGame?.Invoke();
     }
@@ -143,14 +143,12 @@ public class GameManager : Singleton<GameManager>
         yield return null;
 
         // ロードが終わったらシーンを切り替える
-        while (async.progress < 0.9f)
+        while (async.progress < 0.7f)
         {
             yield return null;
         }
 
         async.allowSceneActivation = true;
-
-        yield return null;
 
         // フェードイン
         yield return FadeSystem.Instance.FadeInAsync(1f);
