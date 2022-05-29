@@ -138,12 +138,12 @@ public class MissionControl : MonoBehaviour
     /// </summary>
     public void AddScore()
     {
+        _currentDefeatCount++;
         // 現在の討伐数
         var index = _currentDefeatCount;
         // 討伐数を表す画像を非表示にする
         _images[index - 1].SetActive(false);
-
-        _currentDefeatCount++;
+        
         IsGameClear();
     }
 
