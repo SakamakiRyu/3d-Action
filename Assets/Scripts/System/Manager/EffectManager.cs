@@ -3,29 +3,30 @@ using UnityEngine;
 
 public class EffectManager : Singleton<EffectManager>
 {
+    [SerializeField]
+    private GameObject[] Effects;
+
     public enum EffectType
     {
-        /// <summary>ヒットストップ</summary>
-        HitStop,
-        /// <summary>攻撃のエフェクト</summary>
-        HitEffect
+        /// <summary>ヒットエフェクト</summary>
+        HitEffect = 0
     }
 
     /// <summary>
-    /// エフェクトの再生をする
+    /// ヒットストップをする
     /// </summary>
-    public void PlayEffect(EffectType type)
+    public void PlayHitStop()
     {
-        switch (type)
-        {
-            case EffectType.HitStop:
-                {
-                    StartCoroutine(HitStopAcync());
-                }
-                break;
-            default:
-                break;
-        }
+        StartCoroutine(HitStopAcync());
+    }
+
+    /// <summary>
+    /// ヒットエフェクトの再生
+    /// </summary>
+    /// <param name="generatePos"></param>
+    public void PlayHitEffect(EffectType effectType, Vector3 generatePos)
+    {
+        Instantiate(Effects[(int)effectType], generatePos, Quaternion.identity);
     }
 
     /// <summary>

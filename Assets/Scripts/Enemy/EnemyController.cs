@@ -5,7 +5,7 @@ using UnityEngine.AI;
 /// 敵クラス。経路探索はNavmeshで行う
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-public class SlimeController : MonoBehaviour, IDamageable
+public class EnemyController : MonoBehaviour, IDamageable
 {
     #region Define
     public enum ActionState
@@ -39,7 +39,7 @@ public class SlimeController : MonoBehaviour, IDamageable
     private Collider _attackCollider = default;
 
     [SerializeField]
-    private EnemyHPUIController _HPUIController = default;
+    private EnemyUIController _uiController = default;
 
     [SerializeField]
     private MissionControl _mission = default;
@@ -56,8 +56,6 @@ public class SlimeController : MonoBehaviour, IDamageable
     private ActionState _currentState = ActionState.None;
     /// <summary>現在のHP</summary>
     private int _currentHP = default;
-    /// <summary>HPゲージの表示割合を返す</summary>
-    public float GetUIValue => (float)_currentHP / _maxHP;
     /// <summary>Playerとの距離を格納する変数</summary>
     private float _distance = default;
 
@@ -90,7 +88,14 @@ public class SlimeController : MonoBehaviour, IDamageable
         if (IsDead) return;
 
         _currentHP--;
-        _HPUIController.UpdateHPSlider(this);
+
+        // HPゲージの更新
+        if (_uiController)
+        {
+            var current = (float)_currentHP;
+            var max = (float)_maxHP;
+            _uiController.UpdateHPGauge(current, max);
+        }
 
         var check = AriveCheck();
 
@@ -101,7 +106,7 @@ public class SlimeController : MonoBehaviour, IDamageable
             return;
         }
 
-        EffectManager.Instance.PlayEffect(EffectManager.EffectType.HitStop);
+        EffectManager.Instance.PlayHitStop();
         _animator.Play(_hashDizzy);
     }
     #endregion
@@ -131,7 +136,7 @@ public class SlimeController : MonoBehaviour, IDamageable
     private void Move()
     {
         if (IsGameEnd || !_mission.IsPlayedMovie) return;
-        
+
         _distance = Vector3.Distance(this.transform.position, _player.transform.position);
 
         if (IsDead) return;

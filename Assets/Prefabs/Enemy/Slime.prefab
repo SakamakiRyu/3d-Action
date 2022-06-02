@@ -818,11 +818,11 @@ MonoBehaviour:
   _nav: {fileID: 8483864380714333812}
   _animator: {fileID: 8483864380714333810}
   _player: {fileID: 0}
+  _attackCollider: {fileID: 8483864379437098063}
+  _uiController: {fileID: 9203881886578988973}
+  _mission: {fileID: 0}
   _startChaseDistance: 30
   _maxHP: 3
-  _attackCollider: {fileID: 8483864379437098063}
-  _HPUIController: {fileID: 0}
-  _mission: {fileID: 0}
 --- !u!114 &9203881886578988973
 MonoBehaviour:
   m_ObjectHideFlags: 0

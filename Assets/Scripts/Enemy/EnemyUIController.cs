@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHPUIController : MonoBehaviour
+public class EnemyUIController : MonoBehaviour
 {
+    private EnemyUIController() { }
+
     [SerializeField]
     private Slider _slider = default;
 
@@ -38,14 +40,14 @@ public class EnemyHPUIController : MonoBehaviour
     }
 
     /// <summary>
-    /// スライダー表示の更新
+    /// HPゲージの更新
     /// </summary>
-    public void UpdateHPSlider(SlimeController enemyDate)
+    public void UpdateHPGauge(float currentHP, float maxHP)
     {
         if (_canvas.enabled == false)
         {
             _canvas.enabled = true;
         }
-        _slider.value = enemyDate.GetUIValue;
+        _slider.value = currentHP / maxHP;
     }
 }

@@ -10,11 +10,19 @@ public class AttackController : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        other.TryGetComponent(out IDamageable go);
+        other.TryGetComponent(out IDamageable damageable);
+        other.TryGetComponent(out EnemyController enemy);
 
-        if (go != null)
+        if (damageable != null)
         {
-            go.AddDamage();
+            damageable.AddDamage();
+        }
+
+        // 当たった相手がEnemyだった場合の処理
+        if (enemy != null)
+        {
+            // エフェクトの再生
+            EffectManager.Instance.PlayHitEffect(EffectManager.EffectType.HitEffect, other.ClosestPointOnBounds(this.transform.position));
         }
     }
 }

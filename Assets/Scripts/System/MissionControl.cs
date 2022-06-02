@@ -37,7 +37,7 @@ public class MissionControl : MonoBehaviour
     private bool IsPaused = false;
     /// <summary>Ingame前のカットシーンが再生済みか</summary>
     public bool IsPlayedMovie { get; private set; } = false;
-    /// <summary>InputSystemの入力を受け取る</summary>
+    /// <summary>InputSystemの入力情報を受け取る</summary>
     private InputAction _pause = default;
     #endregion
 
@@ -79,7 +79,8 @@ public class MissionControl : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            _images[i] = Instantiate(_missionSprite, _parent.transform).GetComponent<GameObject>();
+            var sp = Instantiate(_missionSprite, _parent.transform);
+            _images[i] = sp;
         }
     }
 
@@ -143,14 +144,14 @@ public class MissionControl : MonoBehaviour
         var index = _currentDefeatCount;
         // 討伐数を表す画像を非表示にする
         _images[index - 1].SetActive(false);
-        
+
         IsGameClear();
     }
 
     /// <summary>
-    /// カットシーンの再生が終わったら呼ばれる
+    /// カットシーンの再生が終わった時に呼ばれる
     /// </summary>
-    public void OnEndedMovie(bool frag)
+    public void OnPlayedMovie(bool frag)
     {
         IsPlayedMovie = frag;
     }
