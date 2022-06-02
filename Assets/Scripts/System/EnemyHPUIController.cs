@@ -32,9 +32,9 @@ public class EnemyHPUIController : MonoBehaviour
     /// </summary>
     private void Billboard()
     {
-        var p = Camera.main.transform.position;
-        p.y = transform.position.y;
-        _canvas.transform.LookAt(p);
+        var comPos = Camera.main.transform.position;
+        comPos.y = transform.position.y;
+        _canvas.transform.LookAt(comPos);
     }
 
     /// <summary>
