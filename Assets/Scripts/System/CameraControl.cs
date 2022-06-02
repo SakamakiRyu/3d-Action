@@ -17,6 +17,7 @@ public class CameraControl : MonoBehaviour
         LockonCamera
     }
 
+    #region Field
     [SerializeField]
     private PlayerInput _pInput;
 
@@ -45,7 +46,9 @@ public class CameraControl : MonoBehaviour
     private int _targetIndex = 0;
     /// <summary>ロックオンしている敵のID</summary>
     private int _targetID;
+    #endregion
 
+    #region Unity Function
     private void Start()
     {
         Init();
@@ -58,6 +61,29 @@ public class CameraControl : MonoBehaviour
         ControlCamera();
     }
 
+    private void OnTriggerEnter(Collider target)
+    {
+        if (target.CompareTag("Enemy"))
+        {
+            AddTarget(target.GetComponent<EnemyController>());
+        }
+    }
+
+    private void OnTriggerExit(Collider target)
+    {
+        if (target.CompareTag("Enemy"))
+        {
+            // ロックオン範囲外に出た敵がロックオン対象だった場合、自動的にカメラを切り替える
+            if (target.GetInstanceID() == _targetID)
+            {
+                ChengeCamera();
+            }
+            RemoveTarget(target.GetComponent<EnemyController>());
+        }
+    }
+    #endregion
+
+    #region Private Function
     private void Init()
     {
         if (!_pInput)
@@ -175,29 +201,7 @@ public class CameraControl : MonoBehaviour
     {
         TargetList.Remove(enemy);
     }
-
-    private void OnTriggerEnter(Collider target)
-    {
-        if (target.CompareTag("Enemy"))
-        {
-            AddTarget(target.GetComponent<EnemyController>());
-        }
-    }
-
-    private void OnTriggerExit(Collider target)
-    {
-        if (target.CompareTag("Enemy"))
-        {
-            // ロックオン範囲外に出た敵がロックオン対象だった場合、自動的にカメラを切り替える
-            if (target.GetInstanceID() == _targetID)
-            {
-                ChengeCamera();
-            }
-            RemoveTarget(target.GetComponent<EnemyController>());
-        }
-    }
-
-
+    #endregion
 
 #if UNITY_EDITOR
     private void OnValidate()

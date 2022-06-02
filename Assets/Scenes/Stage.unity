@@ -36320,7 +36320,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: bd197b38-4c26-4f9c-a0c6-92d403aa2943
     m_ActionName: Game/Option[/Keyboard/escape]
-  m_NeverAutoSwitchControlSchemes: 1
+  m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Game
   m_SplitScreenIndex: -1
@@ -40240,8 +40240,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1754224111}
-  m_LocalRotation: {x: 0.14957564, y: 0.5038462, z: -0.08907449, w: 0.8460684}
-  m_LocalPosition: {x: 22.887018, y: 9.51, z: 54.3245}
+  m_LocalRotation: {x: 0, y: 0.9361028, z: 1e-45, w: -0.35172665}
+  m_LocalPosition: {x: 35.879997, y: 5.6, z: 0.01999998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -41381,7 +41381,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913896458}
-  m_LocalRotation: {x: 0.1337808, y: 0.00000003302049, z: -0.0000000044575774, w: 0.99101096}
+  m_LocalRotation: {x: 0.1337808, y: 0.000000033020495, z: -0.000000004457578, w: 0.99101096}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

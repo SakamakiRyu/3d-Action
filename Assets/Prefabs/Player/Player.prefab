@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 3563456030145959718}
   - component: {fileID: 7422513066178354852}
   - component: {fileID: 5871572770389674951}
+  - component: {fileID: 293630509143850065}
   - component: {fileID: 3563456030136613038}
   - component: {fileID: 8150911150585711102}
   - component: {fileID: 7284010605288422061}
@@ -147,7 +148,6 @@ MonoBehaviour:
   _parameter: {fileID: 5871572770389674951}
   _rigidBody: {fileID: 7422513066178354855}
   _animator: {fileID: 3563456030136613038}
-  _groundCheckTrasnform: {fileID: 0}
   _attackCollider: {fileID: 6036819723879020069}
   _trail: {fileID: 7404498230644595269}
   _moveSpeed: 10
@@ -166,7 +166,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHP: 3
-  _lifeGuage: {fileID: 0}
+  _uiCtrl: {fileID: 293630509143850065}
+--- !u!114 &293630509143850065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3563456030146120390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed692740cf8b2540af405e5eb5e2188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hpGauge: {fileID: 3984118389512613062}
 --- !u!95 &3563456030136613038
 Animator:
   serializedVersion: 3

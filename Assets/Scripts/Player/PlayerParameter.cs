@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// プレイヤーにパラメーターを付与するクラス
@@ -19,7 +20,7 @@ public class PlayerParameter : MonoBehaviour
     private int _maxHP;
 
     [SerializeField]
-    private UnityEngine.UI.Slider _lifeGuage;
+    private PlayerUIController _uiCtrl;
 
     public int CurrentHP { get; private set; }
 
@@ -93,20 +94,19 @@ public class PlayerParameter : MonoBehaviour
     /// </summary>
     public void ReduceHP()
     {
-        var after = CurrentHP--;
+        CurrentHP--;
 
-        if (_lifeGuage)
+        if (_uiCtrl)
         {
-            _lifeGuage.value = (float)after / _maxHP;
+            // HPゲージの更新
+            _uiCtrl.UpdateHPGauge(CurrentHP, _maxHP);
         }
 
-        if (after <= 0)
+        if (CurrentHP <= 0)
         {
             ChengeState(State.Death);
             return;
         }
-
-        CurrentHP = after;
     }
     #endregion
 }

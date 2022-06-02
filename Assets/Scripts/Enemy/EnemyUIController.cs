@@ -5,12 +5,15 @@ public class EnemyUIController : MonoBehaviour
 {
     private EnemyUIController() { }
 
+    #region Field
     [SerializeField]
     private Slider _slider = default;
 
     [SerializeField]
     private Canvas _canvas = default;
+    #endregion
 
+    #region Unity Fucntion
     private void Start()
     {
         if (_slider != null)
@@ -28,17 +31,9 @@ public class EnemyUIController : MonoBehaviour
     {
         Billboard();
     }
+    #endregion
 
-    /// <summary>
-    /// UIをカメラに対して正面に表示する
-    /// </summary>
-    private void Billboard()
-    {
-        var comPos = Camera.main.transform.position;
-        comPos.y = transform.position.y;
-        _canvas.transform.LookAt(comPos);
-    }
-
+    #region Private Fucntion
     /// <summary>
     /// HPゲージの更新
     /// </summary>
@@ -50,4 +45,17 @@ public class EnemyUIController : MonoBehaviour
         }
         _slider.value = currentHP / maxHP;
     }
+    #endregion
+
+    #region Private Fucntion
+    /// <summary>
+    /// UIをカメラに対して正面に表示する
+    /// </summary>
+    private void Billboard()
+    {
+        var comPos = Camera.main.transform.position;
+        comPos.y = transform.position.y;
+        _canvas.transform.LookAt(comPos);
+    }
+    #endregion
 }

@@ -44,7 +44,7 @@ public class GameManager : Singleton<GameManager>
 
     #region Public Fucntion
     /// <summary>
-    /// ゲーム終了の通知を受け取る
+    /// ゲーム終了を通知をする
     /// </summary>
     public void GameEndRequest()
     {
