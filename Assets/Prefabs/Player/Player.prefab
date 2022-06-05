@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpGauge: {fileID: 3984118389512613062}
+  _fillImage: {fileID: 5588606340130834138}
 --- !u!95 &3563456030136613038
 Animator:
   serializedVersion: 3

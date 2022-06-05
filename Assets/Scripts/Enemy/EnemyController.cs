@@ -8,20 +8,13 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour, IDamageable
 {
     #region Define
-    public enum ActionState
+    public enum MovingState
     {
         None,
-        Idle,
-        Run,
-        Attack,
-        Dizzy,
-        Die
-    }
-
-    private enum MovingState
-    {
-        Chaseing,
-        Waiting
+        Idling,
+        Chasing,
+        Attacking,
+        Dead
     }
     #endregion
 
@@ -44,8 +37,9 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField]
     private MissionControl _mission = default;
 
+    [Header("追跡を始める距離")]
     [SerializeField]
-    private float _startChaseDistance = default;
+    private float _chaseStartDistance = default;
 
     [SerializeField]
     private int _maxHP = default;
@@ -53,7 +47,6 @@ public class EnemyController : MonoBehaviour, IDamageable
     public bool IsGameEnd { get; private set; } = false;
     public bool IsDead => _currentHP <= 0;
 
-    private ActionState _currentState = ActionState.None;
     /// <summary>現在のHP</summary>
     private int _currentHP = default;
     /// <summary>Playerとの距離を格納する変数</summary>
@@ -62,18 +55,25 @@ public class EnemyController : MonoBehaviour, IDamageable
     // アニメーションのハッシュ
     readonly int _hashDizzy = Animator.StringToHash("Dizzy");
     readonly int _hashDie = Animator.StringToHash("Die");
+
+    private MovingState _currentMovingState = MovingState.None;
     #endregion
 
     #region Unity Function
     private void Awake()
     {
         _currentHP = _maxHP;
-        _currentState = ActionState.Idle;
+    }
+
+    private void Start()
+    {
+        ChengeMovingState(MovingState.Idling);
     }
 
     private void Update()
     {
-        Move();
+        _distance = Vector3.Distance(this.transform.position, _player.transform.position);
+        StateUpdate();
     }
 
     private void LateUpdate()
@@ -89,17 +89,15 @@ public class EnemyController : MonoBehaviour, IDamageable
 
         _currentHP--;
 
-        // HPゲージの更新
         if (_uiController)
         {
             var current = (float)_currentHP;
             var max = (float)_maxHP;
+            // HPゲージの更新
             _uiController.UpdateHPGauge(current, max);
         }
 
-        var check = AriveCheck();
-
-        if (!check)
+        if (_currentHP <= 0)
         {
             _animator.Play(_hashDie);
             _mission.AddScore();
@@ -113,40 +111,62 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     #region Private Fucntion
     /// <summary>
-    /// AnimationEvent用関数
-    /// ステートの切り替え
+    /// ステート毎に呼ばれる処理
     /// </summary>
-    private void ChengeState(MovingState state)
+    private void StateUpdate()
     {
-        if (state == MovingState.Chaseing)
+        switch (_currentMovingState)
         {
-            _nav.SetDestination(_player.transform.position);
-            _nav.isStopped = true;
-        }
-        else
-        {
-            _nav.SetDestination(this.transform.position);
-            _nav.isStopped = false;
+            case MovingState.Idling:
+                {
+                    if (_distance < _chaseStartDistance)
+                    {
+                        ChengeMovingState(MovingState.Chasing);
+                    }
+                }
+                break;
+            case MovingState.Chasing:
+                { }
+                break;
+            case MovingState.Attacking:
+                { }
+                break;
+            case MovingState.Dead:
+                { }
+                break;
         }
     }
 
     /// <summary>
-    /// 動く
+    /// ステートの切り替えをする
     /// </summary>
-    private void Move()
+    private void ChengeMovingState(MovingState next)
     {
-        if (IsGameEnd || !_mission.IsPlayedMovie) return;
-
-        _distance = Vector3.Distance(this.transform.position, _player.transform.position);
-
-        if (IsDead) return;
-
-        if (_distance < _startChaseDistance)
+        switch (next)
         {
-            _nav.SetDestination(_player.transform.position);
-            return;
+            case MovingState.Idling:
+                {
+                    _nav.SetDestination(this.transform.position);
+                }
+                break;
+            case MovingState.Chasing:
+                {
+                    _nav.SetDestination(_player.transform.position);
+                }
+                break;
+            case MovingState.Attacking:
+                {
+                    _nav.SetDestination(this.transform.position);
+                }
+                break;
+            case MovingState.Dead:
+                {
+                    _nav.SetDestination(this.transform.position);
+                }
+                break;
         }
-        _nav.SetDestination(this.transform.position);
+
+        _currentMovingState = next;
     }
 
     /// <summary>
@@ -154,7 +174,8 @@ public class EnemyController : MonoBehaviour, IDamageable
     /// </summary>
     private void SendParameterForAnimator()
     {
-        if (IsGameEnd)
+        // カットシーン再生中
+        if (_mission.IsPlayedMovie == false)
         {
             _animator.SetFloat("Distance", 100);
             return;
@@ -199,15 +220,6 @@ public class EnemyController : MonoBehaviour, IDamageable
                 }
                 break;
         }
-    }
-
-    /// <summary>
-    /// 生存しているか
-    /// true = 生存
-    /// </summary>
-    private bool AriveCheck()
-    {
-        return _currentHP > 0;
     }
     #endregion
 }

@@ -18,7 +18,7 @@ public class AttackController : MonoBehaviour
             damageable.AddDamage();
         }
 
-        // 当たった相手がEnemyだった場合の処理
+        // プレイヤーの攻撃が当たった相手が敵だった場合の処理
         if (enemy != null)
         {
             // エフェクトの再生

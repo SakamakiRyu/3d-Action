@@ -13,7 +13,8 @@ public class SyncTrasnform : MonoBehaviour
     {
         if (_target)
         {
-            Vector3 v3 = new Vector3(_target.transform.position.x, this.transform.position.y, _target.transform.position.z);
+            var v3 = new Vector3(_target.transform.position.x, this.transform.position.y, _target.transform.position.z);
+
             this.transform.position = v3;
         }
     }
