@@ -293,6 +293,12 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
         // 既に死んでいたら処理をしない。
         if (_parameter.CurrentState == PlayerParameter.State.Death) return;
 
+        //　攻撃のコライダーが有効だった場合
+        if (_attackCollider.enabled)
+        {
+            _attackCollider.enabled = false;
+        }
+
         _parameter.ReduceHP();
 
         if (_parameter.CurrentState == PlayerParameter.State.Death)

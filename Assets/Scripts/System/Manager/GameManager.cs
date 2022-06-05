@@ -150,8 +150,6 @@ public class GameManager : Singleton<GameManager>
 
         async.allowSceneActivation = true;
 
-        yield return null;
-
         // フェードイン
         yield return FadeSystem.Instance.FadeInAsync(1f);
 

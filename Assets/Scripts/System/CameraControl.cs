@@ -160,7 +160,7 @@ public class CameraControl : MonoBehaviour
                 }
 
                 // ロックオン可能な対象が二つ以上の時にロックオンの対象を切り替える
-                if (TargetList.Count > 1)
+                if (TargetList.Count >= 2)
                 {
                     if (_chengeUP.triggered)
                     {
