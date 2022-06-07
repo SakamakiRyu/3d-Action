@@ -9,7 +9,7 @@ using System.Linq;
 public class CameraControl : MonoBehaviour
 {
     /// <summary>カメラタイプ</summary>
-    enum CameraType
+    private enum CameraType
     {
         /// <summary>フリールック</summary>
         FreeLookCamera,
@@ -28,15 +28,14 @@ public class CameraControl : MonoBehaviour
     private CinemachineFreeLook _freeCam;
 
     [SerializeField]
-    private Transform _followTransform;
+    private Transform _followTarget;
 
     [SerializeField]
     private Image _crosshairImage = default;
 
     [SerializeField]
-    private float _radius = default;
+    private float _targetAreaSize = default;
 
-    private SphereCollider _coll;
     private InputAction _chenge, _chengeUP, _chengeDown;
     private List<EnemyController> TargetList = new List<EnemyController>();
 
@@ -57,7 +56,7 @@ public class CameraControl : MonoBehaviour
     private void Update()
     {
         //　カメラコントローラーの座標をFollowと同期する
-        this.transform.position = _followTransform.position;
+        this.transform.position = _followTarget.position;
         ControlCamera();
     }
 
@@ -156,7 +155,7 @@ public class CameraControl : MonoBehaviour
                 if (TargetList.Count != 0)
                 {
                     // ロックオンカメラ(VirtualCamera)のFollowに設定しているオブジェクトの正面をターゲットに向ける
-                    _followTransform.LookAt(TargetList[_targetIndex].transform);
+                    _followTarget.LookAt(TargetList[_targetIndex].transform);
                 }
 
                 // ロックオン可能な対象が二つ以上の時にロックオンの対象を切り替える
@@ -173,8 +172,6 @@ public class CameraControl : MonoBehaviour
                         SetTarget();
                     }
                 }
-                break;
-            default:
                 break;
         }
     }
@@ -202,24 +199,4 @@ public class CameraControl : MonoBehaviour
         TargetList.Remove(enemy);
     }
     #endregion
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        if (!_coll)
-        {
-            _coll = GetComponent<SphereCollider>();
-        }
-        _coll.radius = _radius;
-        if (_freeCam && _followTransform)
-        {
-            _freeCam.Follow = _followTransform;
-            _freeCam.LookAt = _followTransform;
-        }
-        if (_lockonCam && _followTransform)
-        {
-            _freeCam.Follow = _followTransform;
-        }
-    }
-#endif
 }
