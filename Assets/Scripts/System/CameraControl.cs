@@ -64,7 +64,7 @@ public class CameraControl : MonoBehaviour
     {
         if (target.CompareTag("Enemy"))
         {
-            AddTarget(target.GetComponent<EnemyController>());
+            AddTargetToList(target.GetComponent<EnemyController>());
         }
     }
 
@@ -77,12 +77,15 @@ public class CameraControl : MonoBehaviour
             {
                 ChengeCamera();
             }
-            RemoveTarget(target.GetComponent<EnemyController>());
+            RemoveTargetToList(target.GetComponent<EnemyController>());
         }
     }
     #endregion
 
     #region Private Function
+    /// <summary>
+    /// 初期化
+    /// </summary>
     private void Init()
     {
         if (!_pInput)
@@ -94,44 +97,9 @@ public class CameraControl : MonoBehaviour
         _chengeDown = _pInput.currentActionMap["L1"];
     }
 
-    /// <summary>カメラを切り替える</summary>
-    private void ChengeCamera()
-    {
-        switch (_currentCamType)
-        {
-            case CameraType.FreeLookCamera:
-                {
-                    _crosshairImage.enabled = true;
-                    _lockonCam.Priority = _freeCam.Priority + 1;
-                    _freeCam.Priority = 0;
-                    _lockonCam.Priority = 1;
-                    _lockonCam.enabled = true;
-                    _freeCam.enabled = false;
-                    _currentCamType = CameraType.LockonCamera;
-                }
-                break;
-            case CameraType.LockonCamera:
-                {
-                    _crosshairImage.enabled = false;
-                    _targetIndex = 0;
-                    _targetID = 0;
-                    SortingTarget();
-                    CinemachineVirtualCameraBase oldCamera = _lockonCam;
-                    _freeCam.Priority = _lockonCam.Priority + 1;
-                    _lockonCam.Priority = 0;
-                    _freeCam.Priority = 1;
-                    _lockonCam.enabled = false;
-                    _freeCam.enabled = true;
-                    _freeCam.ChangeToFreeLook(oldCamera);
-                    _currentCamType = CameraType.FreeLookCamera;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    /// <summary>カメラの機能制御</summary>
+    /// <summary>
+    /// カメラの機能制御
+    /// </summary>
     private void ControlCamera()
     {
         switch (_currentCamType)
@@ -176,25 +144,76 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    /// <summary>TargetListの整理</summary>
+    /// <summary>
+    /// カメラを切り替える
+    /// </summary>
+    private void ChengeCamera()
+    {
+        switch (_currentCamType)
+        {
+            case CameraType.FreeLookCamera:
+                {
+                    _crosshairImage.enabled = true;
+                    _lockonCam.Priority = _freeCam.Priority + 1;
+                    _freeCam.Priority = 0;
+                    _lockonCam.Priority = 1;
+                    _lockonCam.enabled = true;
+                    _freeCam.enabled = false;
+                    _currentCamType = CameraType.LockonCamera;
+                }
+                break;
+            case CameraType.LockonCamera:
+                {
+                    _crosshairImage.enabled = false;
+                    _targetIndex = 0;
+                    _targetID = 0;
+                    SortingTarget();
+                    CinemachineVirtualCameraBase oldCamera = _lockonCam;
+                    _freeCam.Priority = _lockonCam.Priority + 1;
+                    _lockonCam.Priority = 0;
+                    _freeCam.Priority = 1;
+                    _lockonCam.enabled = false;
+                    _freeCam.enabled = true;
+                    _freeCam.ChangeToFreeLook(oldCamera);
+                    _currentCamType = CameraType.FreeLookCamera;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// TargetListの整理
+    /// </summary>
     private void SortingTarget()
     {
         TargetList = TargetList.Where(x => !x.IsDead).ToList();
     }
 
-    /// <summary>TargetCamera(VirtualCamera)のLookAtにロックオン対象を設定し、_targetIDを上書きする</summary>
+    /// <summary>
+    /// TargetCamera(VirtualCamera)のLookAtにロックオン対象を設定し、_targetIDを上書きする
+    /// </summary>
     private void SetTarget()
     {
         _lockonCam.LookAt = TargetList[_targetIndex].transform;
         _targetID = TargetList[_targetIndex].GetInstanceID();
     }
 
-    private void AddTarget(EnemyController enemy)
+    /// <summary>
+    /// リストに対象を追加する
+    /// </summary>
+    /// <param name="enemy">敵</param>
+    private void AddTargetToList(EnemyController enemy)
     {
         TargetList.Add(enemy);
     }
 
-    private void RemoveTarget(EnemyController enemy)
+    /// <summary>
+    /// リストから対象を外す
+    /// </summary>
+    /// <param name="enemy">敵</param>
+    private void RemoveTargetToList(EnemyController enemy)
     {
         TargetList.Remove(enemy);
     }
