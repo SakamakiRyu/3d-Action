@@ -59,7 +59,7 @@ public class PlayerMoveController : MonoBehaviour, IDamageable
     /// <summary>接地判定</summary>
     private bool _isGrounded = false;
     /// <summary>アニメーターのハッシュ</summary>
-    readonly int _hashDamaged = Animator.StringToHash("Damaged");
+    private readonly int _hashDamaged = Animator.StringToHash("Damaged");
     /// <summary>インプットシステムの入力の取得</summary>
     private InputAction _move, _attack, _jump;
 
